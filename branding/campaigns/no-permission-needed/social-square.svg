@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080" role="img" aria-labelledby="title desc">
+<title id="title">MOONSHIPS — Your Infrastructure. Your Rules.</title><desc id="desc">Square campaign graphic with a dark orbital motif and the No Permission Needed message.</desc>
+<defs><radialGradient id="orb"><stop stop-color="#9B8CFF" stop-opacity=".75"/><stop offset="1" stop-color="#090B10" stop-opacity="0"/></radialGradient><pattern id="grain" width="64" height="64" patternUnits="userSpaceOnUse"><circle cx="9" cy="11" r="1" fill="#FFFDF7" opacity=".15"/><circle cx="42" cy="49" r="1" fill="#FFFDF7" opacity=".12"/></pattern></defs>
+<rect width="1080" height="1080" fill="#090B10"/><circle cx="825" cy="290" r="370" fill="url(#orb)"/><rect width="1080" height="1080" fill="url(#grain)"/>
+<g fill="none" stroke="#9B8CFF"><ellipse cx="820" cy="300" rx="370" ry="130" transform="rotate(-26 820 300)" stroke-width="5"/><ellipse cx="820" cy="300" rx="420" ry="170" transform="rotate(-26 820 300)" stroke-width="2"/></g>
+<circle cx="820" cy="300" r="140" fill="#F4F1E8"/><circle cx="775" cy="265" r="26" fill="#9299A6" opacity=".45"/><circle cx="870" cy="340" r="38" fill="#9299A6" opacity=".35"/>
+<text x="72" y="110" fill="#FFFDF7" font-family="Arial,sans-serif" font-size="42" font-weight="900">◉ MOONSHIPS</text>
+<text x="72" y="500" fill="#FFFDF7" font-family="Arial Black,Arial,sans-serif" font-size="106" font-weight="900">NO</text>
+<text x="72" y="620" fill="#C7F464" font-family="Arial Black,Arial,sans-serif" font-size="106" font-weight="900">PERMISSION</text>
+<text x="72" y="740" fill="#C7F464" font-family="Arial Black,Arial,sans-serif" font-size="106" font-weight="900">NEEDED.</text>
+<path d="M74 790 H650" stroke="#9B8CFF" stroke-width="6"/>
+<text x="76" y="870" fill="#FFFDF7" font-family="Arial,sans-serif" font-size="30">YOUR INFRASTRUCTURE. YOUR RULES.</text>
+<text x="76" y="940" fill="#9299A6" font-family="monospace" font-size="19">OPEN SOURCE / SELF-HOSTED / MOONSHIPS</text>
+</svg>

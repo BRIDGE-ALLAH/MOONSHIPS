@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1350" viewBox="0 0 1080 1350" role="img" aria-labelledby="title desc">
+<title id="title">MOONSHIPS — No Permission Needed</title><desc id="desc">Space Punk campaign poster with orbital rings, a moon, and the MOONSHIPS master tagline.</desc>
+<defs>
+ <linearGradient id="bg" x2="1" y2="1"><stop stop-color="#090B10"/><stop offset="1" stop-color="#151922"/></linearGradient>
+ <radialGradient id="moon"><stop stop-color="#FFFDF7"/><stop offset=".72" stop-color="#9299A6"/><stop offset="1" stop-color="#303640"/></radialGradient>
+ <pattern id="grain" width="90" height="90" patternUnits="userSpaceOnUse"><circle cx="8" cy="12" r="1" fill="#FFFDF7" opacity=".18"/><circle cx="48" cy="32" r=".8" fill="#FFFDF7" opacity=".12"/><circle cx="72" cy="76" r="1.1" fill="#FFFDF7" opacity=".1"/></pattern>
+</defs>
+<rect width="1080" height="1350" fill="url(#bg)"/><rect width="1080" height="1350" fill="url(#grain)"/>
+<g fill="none" stroke="#9B8CFF" opacity=".8"><ellipse cx="785" cy="490" rx="390" ry="145" transform="rotate(-28 785 490)" stroke-width="5"/><ellipse cx="785" cy="490" rx="455" ry="190" transform="rotate(-28 785 490)" stroke-width="1.5"/></g>
+<circle cx="785" cy="450" r="208" fill="url(#moon)"/>
+<g fill="#090B10" opacity=".22"><circle cx="705" cy="385" r="34"/><circle cx="845" cy="500" r="48"/><circle cx="755" cy="560" r="20"/><circle cx="900" cy="360" r="17"/></g>
+<path d="M0 850 L1080 790 L1080 1350 L0 1350Z" fill="#090B10" opacity=".92"/>
+<g fill="#FFFDF7" font-family="Arial,sans-serif" font-weight="900"><text x="78" y="110" font-size="46" letter-spacing="2">◉ MOONSHIPS</text><text x="82" y="250" font-size="30" letter-spacing="8" fill="#C7F464">OPEN SOURCE  /  SELF-HOSTED</text></g>
+<g font-family="Arial Black,Arial,sans-serif" font-weight="900">
+ <text x="72" y="430" font-size="112" fill="#FFFDF7" letter-spacing="-5">NO</text>
+ <text x="72" y="555" font-size="112" fill="#C7F464" letter-spacing="-6">PERMISSION</text>
+ <text x="72" y="680" font-size="112" fill="#C7F464" letter-spacing="-5">NEEDED.</text>
+</g>
+<path d="M78 720 L665 720" stroke="#C7F464" stroke-width="8"/>
+<text x="82" y="815" fill="#FFFDF7" font-family="Arial,sans-serif" font-size="32">YOUR INFRASTRUCTURE. YOUR RULES.</text>
+<text x="82" y="890" fill="#9299A6" font-family="monospace" font-size="23">OPEN-SOURCE SELF-HOSTED CONTROL PLANE</text>
+<text x="82" y="930" fill="#9299A6" font-family="monospace" font-size="23">FOR APPLICATIONS · CONTAINERS · DATABASES · SERVERS</text>
+<g transform="translate(82 1060)"><rect width="370" height="88" rx="4" fill="#C7F464"/><text x="28" y="57" fill="#090B10" font-family="Arial,sans-serif" font-size="30" font-weight="900">EXPLORE MOONSHIPS ↗</text></g>
+<text x="82" y="1240" fill="#FFFDF7" font-family="monospace" font-size="20">GITHUB.COM/BRIDGE-ALLAH/MOONSHIPS</text>
+<g fill="#FFFDF7"><circle cx="980" cy="180" r="4"/><circle cx="950" cy="250" r="3"/><circle cx="1000" cy="720" r="5"/><circle cx="890" cy="960" r="3"/></g>
+</svg>

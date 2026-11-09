@@ -1,7 +1,7 @@
-# MOONSHIPS Brand Book v1.0
+# MOONSHIPS Brand Book v1.1
 ## Space Punk / Underground Future
 
-**Status:** Canonical brand direction  
+**Status:** Canonical brand direction — v1.1 messaging alignment  
 **Applies to:** Product UI, website and launch copy, documentation, repository, community, and social communication  
 **Master tagline:** **Your Infrastructure. Your Rules.**  
 **Campaign line:** **No Permission Needed.**  
@@ -270,3 +270,40 @@ Your next idea deserves infrastructure you control.
 - [ ] Contrast, keyboard focus, reduced motion, and responsive behavior are preserved.
 - [ ] No legacy runtime identifier is renamed without a dedicated compatibility migration.
 - [ ] No forced slang, unsupported superlatives, or misleading cost/security claims.
+
+
+## 14. Brand experience and message governance (v1.1)
+
+### Experience principle
+
+MOONSHIPS should feel rebellious in its point of view and dependable in its execution. The public website may use expressive composition, orbital graphics, print-inspired texture, and campaign language. The authenticated control plane must prioritize clarity, predictability, and operational confidence.
+
+### Three-layer message hierarchy
+
+1. **Identity:** Your Infrastructure. Your Rules.
+2. **Campaign:** No Permission Needed.
+3. **Product explanation:** An open-source, self-hosted control plane for applications, containers, databases, and servers.
+
+Never use the campaign line as the only explanation of what the product does. Every first-contact surface must pair attitude with a concrete product descriptor.
+
+### Channel rules
+
+- **Authentication:** Lead with the master tagline. Keep the form task, security instructions, and error states literal and calm.
+- **Dashboard:** Use concise operational labels. Brand voice belongs in the shell identity and occasional empty-state encouragement, never in warnings or destructive confirmations.
+- **Landing page:** Lead with the user tension, explain the control-plane category in the first viewport, then prove the promise with shipped capabilities.
+- **README and technical docs:** Product descriptor first, installation truth second, brand attitude third.
+- **Social:** One idea per post. Use a real capability or project action as proof. Avoid generic hype.
+- **Release notes:** Explain what changed, who is affected, compatibility implications, and any action required. No campaign copy in migration warnings.
+
+### Claim discipline
+
+Use capability-specific verbs: deploy, manage, connect, configure, back up, inspect, and roll back. Qualify capabilities that depend on connected servers, configuration, providers, or deployment mode. Do not imply that MOONSHIPS removes the need to operate or secure the underlying infrastructure.
+
+### Experience acceptance checklist
+
+- [ ] Authentication surfaces display the master tagline in every supported locale.
+- [ ] Public surfaces explain the product category without relying on campaign language.
+- [ ] Every marketing capability statement maps to a shipped feature.
+- [ ] Operational warnings and destructive actions remain plain, specific, and unambiguous.
+- [ ] The public brand is expressive; dense operational UI remains calm and legible.
+- [ ] Copy uses MOONSHIPS consistently and never promotes legacy runtime names as the product brand.

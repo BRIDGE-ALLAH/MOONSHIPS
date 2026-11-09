@@ -121,7 +121,7 @@ mod tests {
         assert!(login.contains("Sign in"));
         assert!(login.contains("Two-factor authentication"));
         // Tagline comes from the auth_base.html parent layout.
-        assert!(login.contains("Deploy Anything. Own Everything."));
+        assert!(login.contains("Your Infrastructure. Your Rules."));
 
         let setup = env
             .get_template("setup.html")

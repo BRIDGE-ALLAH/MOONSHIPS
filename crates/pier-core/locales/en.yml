@@ -110,7 +110,7 @@ dashboard:
 
 # Shared auth-page chrome (auth_base.html).
 auth:
-  tagline: Deploy Anything. Own Everything.
+  tagline: Your Infrastructure. Your Rules.
 
 # First-run admin setup (setup.html).
 setup:

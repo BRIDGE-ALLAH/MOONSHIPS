@@ -103,7 +103,7 @@ dashboard:
 
 # Shared auth-page chrome (auth_base.html).
 auth:
-  tagline: Despliega cualquier cosa. Sé dueño de todo.
+  tagline: Tu infraestructura. Tus reglas.
 
 # First-run admin setup (setup.html).
 setup:
