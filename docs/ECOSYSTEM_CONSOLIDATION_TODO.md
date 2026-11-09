@@ -357,3 +357,11 @@ A repository may be marked archive-eligible only after every retained capability
 - Added structural validation and six unit tests. The contract requires explicit tenant scope, rejects self-approval, requires an idempotency key of at least eight characters, pins stable enum serialization and rejects unknown scope fields.
 - This is additive and does not modify existing authentication/session semantics, API routes, database schema, authorization decisions or production data. It does not claim signature verification or policy enforcement.
 - CI/build result for the new head is pending verification. If it fails, fix before expanding the integration surface.
+
+## 2026-11-10 tenant foundation migration
+
+- Added SQLite migration 73: `tenants`, `tenant_members`, and `project_tenants`.
+- Backfills existing users and projects into the explicit `legacy-default` tenant; user tenant roles are mapped from the existing typed global roles. Project mapping provenance is recorded as `legacy_backfill`.
+- Migration is additive and idempotent; it does not rewrite/delete existing account or project records and does not change current route authorization.
+- Added three focused SQLite tests for role/project backfill, repeat application, and empty installation.
+- Remaining before enforcement: explicit tenant assignment API/CLI, tenant propagation in authenticated principal, tenant-scoped SQL predicates, migration/restore rehearsal, and cross-tenant negative tests. Legacy single-tenant mapping is not evidence of prior isolation.
