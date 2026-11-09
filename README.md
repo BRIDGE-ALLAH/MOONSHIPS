@@ -33,6 +33,8 @@ The consolidation is being tracked in:
 - [Priority recursive source-tree audit (2026-11-09)](docs/ECOSYSTEM_PRIORITY_SOURCE_TREE_AUDIT_2026-11-09.md)
 - [Proposed ecosystem architecture decisions ADR-0001–0009 (2026-11-09)](docs/ECOSYSTEM_ARCHITECTURE_DECISIONS_2026-11-09.md)
 - [Ecosystem migration matrix and acceptance gates (2026-11-09)](docs/ECOSYSTEM_MIGRATION_MATRIX_2026-11-09.md)
+- [ARSY capability parity matrix and tenant/security gates (2026-11-10)](docs/ARSY_CAPABILITY_PARITY_MATRIX_2026-11-10.md)
+- [Repository metadata API snapshot (2026-11-10)](docs/ecosystem/inventory/github-repository-metadata-2026-11-10.json)
 - [Machine-readable GitHub repository inventory snapshot (2026-11-09)](docs/ecosystem/inventory/github-repository-search-2026-11-09.json)
 - [Complete public bjo163 repository index](docs/ECOSYSTEM_PUBLIC_REPOSITORY_INDEX.md)
 
