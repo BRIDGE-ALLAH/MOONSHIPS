@@ -85,3 +85,30 @@ class BrandSystemTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+    def test_auth_tagline_is_canonical_in_all_locales(self) -> None:
+        expected = {
+            "en.yml": "Your Infrastructure. Your Rules.",
+            "es.yml": "Tu infraestructura. Tus reglas.",
+            "zh-CN.yml": "你的基础设施，由你做主。",
+        }
+        for filename, tagline in expected.items():
+            with self.subTest(locale=filename):
+                locale = (ROOT / "crates/pier-core/locales" / filename).read_text(encoding="utf-8")
+                self.assertIn(f"tagline: {tagline}", locale)
+
+    def test_brand_messaging_guide_covers_core_narrative(self) -> None:
+        guide = (ROOT / "docs/BRAND-MESSAGING.md").read_text(encoding="utf-8")
+        for phrase in (
+            "Your Infrastructure. Your Rules.",
+            "No Permission Needed.",
+            "self-hosted control plane",
+            "GRUNGE",
+            "RIOT",
+            "FUNKY",
+            "GEN-Z",
+            "Proof before promise",
+        ):
+            with self.subTest(phrase=phrase):
+                self.assertIn(phrase, guide)
