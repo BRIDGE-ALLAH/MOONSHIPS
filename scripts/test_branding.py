@@ -71,7 +71,7 @@ class BrandingGateTests(unittest.TestCase):
             path.write_text(json.dumps({
                 "schema_version": 1,
                 "brand": {"name": "MOONSHIPS"},
-                "allowlist": [{"path": "**", "pattern": "(?i)pier", "reason": "too broad"}],
+                "allowlist": [{"path": "**", "pattern": "(?i)pier", "reason": "too broad", "owner": "test"}],
             }), encoding="utf-8")
             with self.assertRaises(ValueError):
                 load_inventory(path)

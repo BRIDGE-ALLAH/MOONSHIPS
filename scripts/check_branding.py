@@ -160,13 +160,13 @@ def run_checks(inventory: dict) -> dict:
 
     archived_prefixes = ("UPSTREAM-PIER-", "docs/i18n/UPSTREAM-PIER-")
     legacy_public_urls = (
-        re.compile(r"(?i)https?://(?:www\\.)?pier\\.team(?:/install)?"),
-        re.compile(r"(?i)https?://github\\.com/joveptesg/pier"),
-        re.compile(r"(?i)https?://raw\\.githubusercontent\\.com/joveptesg/pier"),
-        re.compile(r"(?i)https?://pier\\.example\\.com"),
-        re.compile(r"(?i)https?://pier-b\\.example\\.com"),
+        re.compile(r"(?i)https?://(?:www\.)?pier\.team(?:/install)?"),
+        re.compile(r"(?i)https?://github\.com/joveptesg/pier"),
+        re.compile(r"(?i)https?://raw\.githubusercontent\.com/joveptesg/pier"),
+        re.compile(r"(?i)https?://pier\.example\.com"),
+        re.compile(r"(?i)https?://pier-b\.example\.com"),
         re.compile(r"(?i)YOUR-PIER-HOST"),
-        re.compile(r"(?i)pier@example\\.com"),
+        re.compile(r"(?i)pier@example\.com"),
     )
     for file_path in expand_targets(inventory["scan_targets"]):
         rel = file_path.relative_to(ROOT).as_posix()
