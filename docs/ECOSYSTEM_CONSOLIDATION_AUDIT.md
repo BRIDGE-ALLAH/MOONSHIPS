@@ -188,7 +188,7 @@ Do **not** bulk replace MOONSHIPS product name or Pier compatibility identifiers
 
 ## 8. Audit limitations and next evidence
 
-The first pass confirms the public repository search returned 142 `bjo163` repositories across two result pages, plus one separately accessible private repository. The BRIDGE-ALLAH organization listing returned 20 repositories at the time of inspection. This is a search-visible inventory, not a guarantee that all private, transferred, deleted, or inaccessible repositories have been enumerated.
+The first pass confirms repository search returned 142 `bjo163` records across two result pages. Metadata confirms `bjo163/arah-saas-development` is private and is already one of those 142 records, not an additional repository. The BRIDGE-ALLAH organization listing returned 20 repositories at the time of inspection. This is a search-visible inventory, not a guarantee that all private, transferred, deleted, or inaccessible repositories have been enumerated.
 
 The next audit pass must:
 - Capture complete metadata and README for all 142 public repositories.
