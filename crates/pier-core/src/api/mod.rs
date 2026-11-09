@@ -229,11 +229,6 @@ pub fn api_router(state: SharedState) -> Router<SharedState> {
             "/projects/{id}/members/{user_id}",
             put(project_members::update_role).delete(project_members::remove),
         )
-        // Security settings (delete confirmation, etc.) — self-owned.
-        .route(
-            "/security/settings",
-            get(security::get_settings).put(security::update_settings),
-        )
         // Projects — list filters by membership, get/update/delete gated
         // per-project in the handler. Create is Admin-only via inline check.
         .route("/projects", get(projects::list).post(projects::create))
@@ -530,6 +525,12 @@ pub fn api_router(state: SharedState) -> Router<SharedState> {
     //     mutations, S3 storages, sources, registries, alerts, audit log,
     //     server mutations) moves here so non-Admin users can't reach it.
     let admin_only = Router::new()
+        // Global security policy changes require a local Global Admin/Owner.
+        // The handlers additionally reject peer-token identities.
+        .route(
+            "/security/settings",
+            get(security::get_settings).put(security::update_settings),
+        )
         .route("/users", get(users::list))
         .route("/users/invite", post(users::invite))
         .route("/users/{id}", put(users::update).delete(users::remove))

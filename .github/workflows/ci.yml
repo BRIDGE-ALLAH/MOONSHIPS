@@ -35,6 +35,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cargo-ci-
 
+      - name: Test release gate policy
+        run: python3 -m unittest discover -s scripts -p 'test_release_gate.py'
+
       - name: Check shell syntax
         run: bash -n scripts/bootstrap.sh scripts/install.sh scripts/pier-update.sh
 
@@ -46,3 +49,12 @@ jobs:
 
       - name: Run core binary tests
         run: cargo test -p pier-core --bin pier --locked
+
+  docker:
+    name: Docker image build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Build image from clean checkout
+        run: docker build --pull --no-cache --tag moonships-ci:${{ github.sha }} .
