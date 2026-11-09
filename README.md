@@ -45,7 +45,7 @@ These documents distinguish verified implementation from prototypes, plans, lega
 Requirements: Linux, Docker Engine, Docker Compose plugin, Git, curl, and Rust 1.93+.
 
     git clone https://github.com/BRIDGE-ALLAH/MW.git
-    cd MOONSHIPS
+    cd MW
     cargo build --release --package pier-core
     sudo bash scripts/install.sh --binary target/release/pier
 
