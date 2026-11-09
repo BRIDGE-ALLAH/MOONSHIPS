@@ -365,3 +365,5 @@ A repository may be marked archive-eligible only after every retained capability
 - Migration is additive and idempotent; it does not rewrite/delete existing account or project records and does not change current route authorization.
 - Added three focused SQLite tests for role/project backfill, repeat application, and empty installation.
 - Remaining before enforcement: explicit tenant assignment API/CLI, tenant propagation in authenticated principal, tenant-scoped SQL predicates, migration/restore rehearsal, and cross-tenant negative tests. Legacy single-tenant mapping is not evidence of prior isolation.
+
+- Extended `mw-arsy-contracts` with typed Tenant, TenantMembership, TenantRole, TenantStatus and ProjectTenantMapping; explicit legacy global-role conversion fails closed on unknown role values. Two additional unit tests added.
