@@ -49,7 +49,7 @@ nav:
 
 # Shared chrome rendered by base.html.
 layout:
-  support_pier: Support MOONSHIPS
+  support_moonships: Support MOONSHIPS
   deploy_in_progress: In Progress
   # Deploy badge count: "N deployment(s)". JS picks singular/plural by count.
   deployment_one: deployment
@@ -331,7 +331,7 @@ servers_list:
   meshed_only_hint: Only meshed servers actually inject; non-mesh peers are silently skipped at deploy time.
   port_label: Port
   federation_tokens: Federation Tokens
-  fed_tokens_empty: No tokens issued. Mint one to let a remote primary pier-core deploy stacks here.
+  fed_tokens_empty: No tokens issued. Mint one to let a remote primary MOONSHIPS core deploy stacks here.
   fed_tokens_count: token(s) issued
   new_token_plus: + New Token
   never_used: never used
@@ -341,7 +341,7 @@ servers_list:
   label_hint: Any identifier for the primary that will use this token.
   token_for: Token for
   reveal_warning: Copy this now — MOONSHIPS never shows it again. After closing this dialog only the prefix is visible.
-  reveal_instructions: 'On the primary pier-core: go to <span class="font-mono">/servers</span> → this peer''s row → paste this value into the <strong>Federation token</strong> field.'
+  reveal_instructions: 'On the primary MOONSHIPS core: go to <span class="font-mono">/servers</span> → this peer''s row → paste this value into the <strong>Federation token</strong> field.'
   copied_confirm: I've copied it
   mesh_settings: Mesh settings
   mesh_settings_desc: Only editable while mesh is disabled — changing subnet on a live mesh would orphan every assigned IP.
@@ -366,7 +366,7 @@ servers_list:
   kind_agent: Agent
   kind_agent_desc: Lightweight worker, metadata stays here
   kind_peer: Peer core
-  kind_peer_desc: Autonomous pier-core with own DB
+  kind_peer_desc: Autonomous MOONSHIPS core with own DB
   name_placeholder: Production Server
   peer_token_instructions: "On the target server: Settings → External Access → Issue Token, then paste the token below."
   peer_token_label: Peer Token
@@ -432,15 +432,15 @@ servers_detail:
   open_panel: Open panel
   promote_to_standalone: Promote to standalone
   remove: Remove
-  promote_modal_title: "Promote agent → standalone pier-core"
+  promote_modal_title: "Promote agent → standalone MOONSHIPS core"
   promote_modal_desc_pre: "Exports a bundle with all services, domains, environment variables, backup schedules and global configuration currently associated with "
   promote_modal_desc_post: ". Apply it on that server so it can run as a full MOONSHIPS panel instead of a lightweight agent."
   promote_heads_up: Heads up
-  promote_warn_core: Target server must run pier-core (same major version). If it only has pier-agent, install pier-core first.
+  promote_warn_core: Target server must run MOONSHIPS core (same major version). If it only has pier-agent, install MOONSHIPS core first.
   promote_warn_empty_db: Target database must be empty (no existing services). The import refuses to overwrite.
   promote_warn_secrets: "Users / sessions / secrets from this panel are <em>not</em> exported — create an admin on the new panel when it starts."
   promote_automatic_title: Automatic (recommended)
-  promote_automatic_desc: Core pushes the bundle to the agent, which downloads pier-core, imports the bundle, installs a systemd unit, stops itself and starts the new pier-core. You watch the log on the target.
+  promote_automatic_desc: Core pushes the bundle to the agent, which downloads MOONSHIPS core, imports the bundle, installs a systemd unit, stops itself and starts the new MOONSHIPS core. You watch the log on the target.
   promote_detach_label: Remove this server from my panel after the agent accepts the promotion
   promoting: Promoting...
   promote_now: Promote now
@@ -505,8 +505,8 @@ servers_detail:
   err_fetch_metrics: Could not fetch metrics
   toast_renamed: Server renamed
   toast_agent_online: Agent is online
-  confirm_promote: "Promote %{name} to standalone pier-core?"
-  confirm_promote_detail: The agent will stop itself and pier-core will take over on the remote host.
+  confirm_promote: "Promote %{name} to standalone MOONSHIPS core?"
+  confirm_promote_detail: The agent will stop itself and MOONSHIPS core will take over on the remote host.
   toast_promotion_started: Promotion started on target server
   err_bundle_export: Bundle export failed
   toast_bundle_downloaded: Bundle downloaded
@@ -1503,7 +1503,7 @@ proxy_settings:
   platform_domain_label: Platform Domain
   active: Active
   not_loaded: Not loaded — save to apply
-  platform_domain_note: "Custom domain for MOONSHIPS itself — routes to this panel with SSL. Enter without <code>https://</code> (e.g. <code>pier.example.com</code>)."
+  platform_domain_note: "Custom domain for MOONSHIPS itself — routes to this panel with SSL. Enter without <code>https://</code> (e.g. <code>moonships.example.com</code>)."
   acme_email_label: ACME Email
   acme_email_placeholder: "admin@example.com"
   acme_email_note: Email for Let's Encrypt certificate notifications
@@ -1725,19 +1725,19 @@ settings_index:
   parallel_build_one: ' parallel build'
   parallel_build_other: ' parallel builds'
   max_parallel_builds: Max parallel builds
-  saved_value_range: 'Saved value (applied on next pier-core restart). Range:'
+  saved_value_range: 'Saved value (applied on next MOONSHIPS core restart). Range:'
   saving: Saving…
   save: Save
-  env_override_notice: '<strong>Managed by environment variable.</strong> <code class="text-[11px]">PIER_RAILPACK_MAX_PARALLEL_BUILDS</code> is set in the systemd unit, so the saved value is ignored. Unset the env var and restart pier-core to use the UI value.'
+  env_override_notice: '<strong>Managed by environment variable.</strong> <code class="text-[11px]">PIER_RAILPACK_MAX_PARALLEL_BUILDS</code> is set in the systemd unit, so the saved value is ignored. Unset the env var and restart MOONSHIPS core to use the UI value.'
   restart_required: Restart required.
   restart_required_saved: Saved value
   restart_required_differs: differs from the live runtime value
   restart_required_run: Run
   restart_required_take_effect: on the host for the change to take effect.
   what_is_this: What is this?
-  federation_intro: 'Federation works in two directions. This tab is about the <strong>incoming</strong> direction — giving another pier-core the right to control this one.'
+  federation_intro: 'Federation works in two directions. This tab is about the <strong>incoming</strong> direction — giving another MOONSHIPS core the right to control this one.'
   federation_outgoing: '<strong>Outgoing</strong> (controlling other servers from here) is managed on the <a href="/servers" class="text-blue-500 hover:underline">Servers</a> page via the "Peer core" kind.'
-  federation_incoming: '<strong>Incoming</strong> is here: you issue a token and hand it to the operator of another pier-core. They paste it into their own "Add Server → Peer core" form, and their panel gains admin-equivalent access to yours over REST.'
+  federation_incoming: '<strong>Incoming</strong> is here: you issue a token and hand it to the operator of another MOONSHIPS core. They paste it into their own "Add Server → Peer core" form, and their panel gains admin-equivalent access to yours over REST.'
   tokens_grant_admin: Tokens grant full admin rights — revoke any time; this core keeps working autonomously either way.
   protocol_note: 'Protocol: requests authenticated with the <code class="font-mono bg-gray-100 dark:bg-gray-800 px-1 rounded">X-MOONSHIPS-Peer-Token</code> header match a row in <code class="font-mono bg-gray-100 dark:bg-gray-800 px-1 rounded">peer_grants</code> and are treated as an admin session for that call.'
   issued_tokens: Issued tokens
@@ -1752,7 +1752,7 @@ settings_index:
   revoke: Revoke
   no_tokens: No tokens issued yet.
   issue_peer_token: Issue peer token
-  issue_peer_token_desc: Generate a long-lived token that authorizes another pier-core to manage this panel via its API.
+  issue_peer_token_desc: Generate a long-lived token that authorizes another MOONSHIPS core to manage this panel via its API.
   name_placeholder: HQ panel
   generate: Generate
   token_issued: Token issued
@@ -2636,7 +2636,7 @@ errors:
     test_failed: "S3 test failed: %{v}"
   promote:
     server_not_found: Server %{v} not found
-    local_server_full_core: Cannot promote the local server (this is already a full pier-core)
+    local_server_full_core: Cannot promote the local server (this is already a full MOONSHIPS core)
     local_server: Cannot promote the local server
     agent_unreachable: "agent unreachable: %{v}"
     agent_rejected: "agent: %{v}"

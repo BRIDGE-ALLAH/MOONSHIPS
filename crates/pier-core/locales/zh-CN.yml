@@ -42,7 +42,7 @@ nav:
 
 # Shared chrome rendered by base.html.
 layout:
-  support_pier: 支持 MOONSHIPS
+  support_moonships: 支持 MOONSHIPS
   deploy_in_progress: 进行中
   # Deploy badge count: "N deployment(s)". JS picks singular/plural by count.
   deployment_one: 次部署
@@ -322,7 +322,7 @@ servers_list:
   meshed_only_hint: 只有已加入 mesh 的服务器才会实际注入；非 mesh 的 peer 在部署时会被静默跳过。
   port_label: 端口
   federation_tokens: 联邦令牌
-  fed_tokens_empty: 尚未签发任何令牌。生成一个，让远程的主 pier-core 能够在此处部署 stack。
+  fed_tokens_empty: 尚未签发任何令牌。生成一个，让远程的主 MOONSHIPS core 能够在此处部署 stack。
   fed_tokens_count: 个令牌已签发
   new_token_plus: + 新建令牌
   never_used: 从未使用
@@ -332,7 +332,7 @@ servers_list:
   label_hint: 将使用此令牌的主端的任意标识符。
   token_for: 令牌用于
   reveal_warning: 立即复制 —— MOONSHIPS 不会再次显示它。关闭此对话框后只能看到前缀。
-  reveal_instructions: '在主 pier-core 上：进入 <span class="font-mono">/servers</span> → 此 peer 所在行 → 将此值粘贴到<strong>联邦令牌</strong>字段中。'
+  reveal_instructions: '在主 MOONSHIPS core 上：进入 <span class="font-mono">/servers</span> → 此 peer 所在行 → 将此值粘贴到<strong>联邦令牌</strong>字段中。'
   copied_confirm: 我已复制
   mesh_settings: Mesh(网格)设置
   mesh_settings_desc: 仅在 mesh 禁用时可编辑 —— 在运行中的 mesh 上更改子网会使每个已分配的 IP 失效。
@@ -357,7 +357,7 @@ servers_list:
   kind_agent: 代理
   kind_agent_desc: 轻量级工作节点，元数据保留在此处
   kind_peer: Peer 核心
-  kind_peer_desc: 拥有自己数据库的自治 pier-core
+  kind_peer_desc: 拥有自己数据库的自治 MOONSHIPS core
   name_placeholder: 生产服务器
   peer_token_instructions: "在目标服务器上：设置 → 外部访问 → 签发令牌，然后将令牌粘贴到下方。"
   peer_token_label: Peer 令牌
@@ -423,15 +423,15 @@ servers_detail:
   open_panel: 打开面板
   promote_to_standalone: 升级为独立核心
   remove: 移除
-  promote_modal_title: "将代理升级 → 独立 pier-core"
+  promote_modal_title: "将代理升级 → 独立 MOONSHIPS core"
   promote_modal_desc_pre: "导出一个捆绑包，包含当前与该服务器关联的所有服务、域名、环境变量、备份计划和全局配置 "
   promote_modal_desc_post: "。在该服务器上应用它，使其能够作为完整的 MOONSHIPS 面板运行，而不再是轻量级代理。"
   promote_heads_up: 注意
-  promote_warn_core: 目标服务器必须运行 pier-core（相同主版本）。如果它只有 pier-agent，请先安装 pier-core。
+  promote_warn_core: 目标服务器必须运行 MOONSHIPS core（相同主版本）。如果它只有 pier-agent，请先安装 MOONSHIPS core。
   promote_warn_empty_db: 目标数据库必须为空（不存在任何服务）。导入会拒绝覆盖。
   promote_warn_secrets: "此面板的用户 / 会话 / 密钥<em>不会</em>被导出 —— 新面板启动时请在其上创建一个管理员。"
   promote_automatic_title: 自动（推荐）
-  promote_automatic_desc: 核心将捆绑包推送给代理，代理下载 pier-core、导入捆绑包、安装 systemd 单元、停止自身并启动新的 pier-core。你可在目标端观察日志。
+  promote_automatic_desc: 核心将捆绑包推送给代理，代理下载 MOONSHIPS core、导入捆绑包、安装 systemd 单元、停止自身并启动新的 MOONSHIPS core。你可在目标端观察日志。
   promote_detach_label: 在代理接受升级后，从我的面板中移除此服务器
   promoting: 升级中...
   promote_now: 立即升级
@@ -496,8 +496,8 @@ servers_detail:
   err_fetch_metrics: 无法获取指标
   toast_renamed: 服务器已重命名
   toast_agent_online: 代理已上线
-  confirm_promote: "将 %{name} 升级为独立 pier-core？"
-  confirm_promote_detail: 代理将停止自身，pier-core 将在远程主机上接管。
+  confirm_promote: "将 %{name} 升级为独立 MOONSHIPS core？"
+  confirm_promote_detail: 代理将停止自身，MOONSHIPS core 将在远程主机上接管。
   toast_promotion_started: 升级已在目标服务器上启动
   err_bundle_export: 捆绑包导出失败
   toast_bundle_downloaded: 捆绑包已下载
@@ -1476,7 +1476,7 @@ proxy_settings:
   platform_domain_label: 平台域名
   active: 已激活
   not_loaded: 未加载 —— 保存以应用
-  platform_domain_note: "MOONSHIPS 自身的自定义域名 —— 通过 SSL 路由到此面板。请勿包含 <code>https://</code>（例如 <code>pier.example.com</code>）。"
+  platform_domain_note: "MOONSHIPS 自身的自定义域名 —— 通过 SSL 路由到此面板。请勿包含 <code>https://</code>（例如 <code>moonships.example.com</code>）。"
   acme_email_label: ACME 邮箱
   acme_email_placeholder: "admin@example.com"
   acme_email_note: 用于接收 Let's Encrypt 证书通知的邮箱
@@ -1697,19 +1697,19 @@ settings_index:
   parallel_build_one: ' 个并行构建'
   parallel_build_other: ' 个并行构建'
   max_parallel_builds: 最大并行构建数
-  saved_value_range: '已保存的值（在下次 pier-core 重启时应用）。范围：'
+  saved_value_range: '已保存的值（在下次 MOONSHIPS core 重启时应用）。范围：'
   saving: 保存中…
   save: 保存
-  env_override_notice: '<strong>由环境变量管理。</strong> <code class="text-[11px]">PIER_RAILPACK_MAX_PARALLEL_BUILDS</code> 已在 systemd 单元中设置，因此已保存的值会被忽略。取消设置该环境变量并重启 pier-core 即可使用 UI 中的值。'
+  env_override_notice: '<strong>由环境变量管理。</strong> <code class="text-[11px]">PIER_RAILPACK_MAX_PARALLEL_BUILDS</code> 已在 systemd 单元中设置，因此已保存的值会被忽略。取消设置该环境变量并重启 MOONSHIPS core 即可使用 UI 中的值。'
   restart_required: 需要重启。
   restart_required_saved: 已保存的值
   restart_required_differs: 与实时运行时的值不同
   restart_required_run: 运行
   restart_required_take_effect: 在主机上以使更改生效。
   what_is_this: 这是什么？
-  federation_intro: '联邦在两个方向上工作。此选项卡涉及<strong>入站</strong>方向 —— 授予另一个 pier-core 控制此实例的权限。'
+  federation_intro: '联邦在两个方向上工作。此选项卡涉及<strong>入站</strong>方向 —— 授予另一个 MOONSHIPS core 控制此实例的权限。'
   federation_outgoing: '<strong>出站</strong>（从此处控制其他服务器）通过 <a href="/servers" class="text-blue-500 hover:underline">服务器</a>页面以“Peer core”类型进行管理。'
-  federation_incoming: '<strong>入站</strong>在此处：你签发一个令牌并交给另一个 pier-core 的操作员。他们将其粘贴到自己的“添加服务器 → Peer core”表单中，其面板即可通过 REST 获得对你实例的管理员等效访问权限。'
+  federation_incoming: '<strong>入站</strong>在此处：你签发一个令牌并交给另一个 MOONSHIPS core 的操作员。他们将其粘贴到自己的“添加服务器 → Peer core”表单中，其面板即可通过 REST 获得对你实例的管理员等效访问权限。'
   tokens_grant_admin: 令牌授予完整的管理员权限 —— 可随时撤销；无论哪种方式，此实例都将继续自主运行。
   protocol_note: '协议：使用 <code class="font-mono bg-gray-100 dark:bg-gray-800 px-1 rounded">X-MOONSHIPS-Peer-Token</code> 头进行身份验证的请求会匹配 <code class="font-mono bg-gray-100 dark:bg-gray-800 px-1 rounded">peer_grants</code> 中的一行，并在该次调用中被视为管理员会话。'
   issued_tokens: 已签发的令牌
@@ -1724,7 +1724,7 @@ settings_index:
   revoke: 撤销
   no_tokens: 尚未签发任何令牌。
   issue_peer_token: 签发对等令牌
-  issue_peer_token_desc: 生成一个长期有效的令牌，授权另一个 pier-core 通过其 API 管理此面板。
+  issue_peer_token_desc: 生成一个长期有效的令牌，授权另一个 MOONSHIPS core 通过其 API 管理此面板。
   name_placeholder: 总部面板
   generate: 生成
   token_issued: 令牌已签发
@@ -2599,7 +2599,7 @@ errors:
     test_failed: "S3 测试失败：%{v}"
   promote:
     server_not_found: 未找到服务器 %{v}
-    local_server_full_core: 无法提升本地服务器（它已经是完整的 pier-core）
+    local_server_full_core: 无法提升本地服务器（它已经是完整的 MOONSHIPS core）
     local_server: 无法提升本地服务器
     agent_unreachable: "无法访问 agent：%{v}"
     agent_rejected: "agent：%{v}"

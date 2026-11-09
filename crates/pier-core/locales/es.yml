@@ -42,7 +42,7 @@ nav:
 
 # Shared chrome rendered by base.html.
 layout:
-  support_pier: Apoyar a MOONSHIPS
+  support_moonships: Apoyar a MOONSHIPS
   deploy_in_progress: En curso
   # Deploy badge count: "N deployment(s)". JS picks singular/plural by count.
   deployment_one: despliegue
@@ -322,7 +322,7 @@ servers_list:
   meshed_only_hint: Solo los servidores en mesh inyectan realmente; los peers fuera del mesh se omiten silenciosamente al desplegar.
   port_label: Puerto
   federation_tokens: Tokens de federación
-  fed_tokens_empty: No se han emitido tokens. Genera uno para permitir que un pier-core primario remoto despliegue stacks aquí.
+  fed_tokens_empty: No se han emitido tokens. Genera uno para permitir que un MOONSHIPS core primario remoto despliegue stacks aquí.
   fed_tokens_count: token(s) emitido(s)
   new_token_plus: + Nuevo token
   never_used: nunca usado
@@ -332,7 +332,7 @@ servers_list:
   label_hint: Cualquier identificador para el primario que usará este token.
   token_for: Token para
   reveal_warning: Cópialo ahora — MOONSHIPS nunca volverá a mostrarlo. Tras cerrar este diálogo solo el prefijo será visible.
-  reveal_instructions: 'En el pier-core primario: ve a <span class="font-mono">/servers</span> → la fila de este peer → pega este valor en el campo <strong>Token de federación</strong>.'
+  reveal_instructions: 'En el MOONSHIPS core primario: ve a <span class="font-mono">/servers</span> → la fila de este peer → pega este valor en el campo <strong>Token de federación</strong>.'
   copied_confirm: Lo he copiado
   mesh_settings: Ajustes del mesh
   mesh_settings_desc: Solo editable mientras el mesh está deshabilitado — cambiar la subred en un mesh activo dejaría huérfana cada IP asignada.
@@ -357,7 +357,7 @@ servers_list:
   kind_agent: Agente
   kind_agent_desc: Trabajador ligero, los metadatos permanecen aquí
   kind_peer: Núcleo peer
-  kind_peer_desc: pier-core autónomo con su propia base de datos
+  kind_peer_desc: MOONSHIPS core autónomo con su propia base de datos
   name_placeholder: Servidor de producción
   peer_token_instructions: "En el servidor de destino: Ajustes → Acceso externo → Emitir token, luego pega el token abajo."
   peer_token_label: Token de peer
@@ -423,15 +423,15 @@ servers_detail:
   open_panel: Abrir panel
   promote_to_standalone: Promover a independiente
   remove: Quitar
-  promote_modal_title: "Promover agente → pier-core independiente"
+  promote_modal_title: "Promover agente → MOONSHIPS core independiente"
   promote_modal_desc_pre: "Exporta un paquete con todos los servicios, dominios, variables de entorno, programaciones de copias de seguridad y la configuración global actualmente asociada a "
   promote_modal_desc_post: ". Aplícalo en ese servidor para que pueda funcionar como un panel MOONSHIPS completo en lugar de un agente ligero."
   promote_heads_up: Aviso
-  promote_warn_core: El servidor de destino debe ejecutar pier-core (misma versión mayor). Si solo tiene pier-agent, instala pier-core primero.
+  promote_warn_core: El servidor de destino debe ejecutar MOONSHIPS core (misma versión mayor). Si solo tiene pier-agent, instala MOONSHIPS core primero.
   promote_warn_empty_db: La base de datos de destino debe estar vacía (sin servicios existentes). La importación se niega a sobrescribir.
   promote_warn_secrets: "Los usuarios / sesiones / secretos de este panel <em>no</em> se exportan — crea un administrador en el nuevo panel cuando arranque."
   promote_automatic_title: Automático (recomendado)
-  promote_automatic_desc: El núcleo envía el paquete al agente, que descarga pier-core, importa el paquete, instala una unidad de systemd, se detiene a sí mismo e inicia el nuevo pier-core. Observas el registro en el destino.
+  promote_automatic_desc: El núcleo envía el paquete al agente, que descarga MOONSHIPS core, importa el paquete, instala una unidad de systemd, se detiene a sí mismo e inicia el nuevo MOONSHIPS core. Observas el registro en el destino.
   promote_detach_label: Quitar este servidor de mi panel después de que el agente acepte la promoción
   promoting: Promoviendo...
   promote_now: Promover ahora
@@ -496,8 +496,8 @@ servers_detail:
   err_fetch_metrics: No se pudieron obtener las métricas
   toast_renamed: Servidor renombrado
   toast_agent_online: El agente está en línea
-  confirm_promote: "¿Promover %{name} a pier-core independiente?"
-  confirm_promote_detail: El agente se detendrá a sí mismo y pier-core tomará el control en el host remoto.
+  confirm_promote: "¿Promover %{name} a MOONSHIPS core independiente?"
+  confirm_promote_detail: El agente se detendrá a sí mismo y MOONSHIPS core tomará el control en el host remoto.
   toast_promotion_started: Promoción iniciada en el servidor de destino
   err_bundle_export: La exportación del paquete falló
   toast_bundle_downloaded: Paquete descargado
@@ -1475,7 +1475,7 @@ proxy_settings:
   platform_domain_label: Dominio de la plataforma
   active: Activo
   not_loaded: No cargado — guarda para aplicar
-  platform_domain_note: "Dominio personalizado para el propio MOONSHIPS — enruta a este panel con SSL. Introdúcelo sin <code>https://</code> (p. ej. <code>pier.example.com</code>)."
+  platform_domain_note: "Dominio personalizado para el propio MOONSHIPS — enruta a este panel con SSL. Introdúcelo sin <code>https://</code> (p. ej. <code>moonships.example.com</code>)."
   acme_email_label: Correo de ACME
   acme_email_placeholder: "admin@example.com"
   acme_email_note: Correo para las notificaciones de certificados de Let's Encrypt
@@ -1696,19 +1696,19 @@ settings_index:
   parallel_build_one: ' compilación en paralelo'
   parallel_build_other: ' compilaciones en paralelo'
   max_parallel_builds: Máximo de compilaciones en paralelo
-  saved_value_range: 'Valor guardado (aplicado en el próximo reinicio de pier-core). Rango:'
+  saved_value_range: 'Valor guardado (aplicado en el próximo reinicio de MOONSHIPS core). Rango:'
   saving: Guardando…
   save: Guardar
-  env_override_notice: '<strong>Gestionado por variable de entorno.</strong> <code class="text-[11px]">PIER_RAILPACK_MAX_PARALLEL_BUILDS</code> está definida en la unidad systemd, por lo que el valor guardado se ignora. Elimina la variable de entorno y reinicia pier-core para usar el valor de la interfaz.'
+  env_override_notice: '<strong>Gestionado por variable de entorno.</strong> <code class="text-[11px]">PIER_RAILPACK_MAX_PARALLEL_BUILDS</code> está definida en la unidad systemd, por lo que el valor guardado se ignora. Elimina la variable de entorno y reinicia MOONSHIPS core para usar el valor de la interfaz.'
   restart_required: Se requiere reinicio.
   restart_required_saved: El valor guardado
   restart_required_differs: difiere del valor en tiempo de ejecución activo
   restart_required_run: Ejecuta
   restart_required_take_effect: en el host para que el cambio surta efecto.
   what_is_this: ¿Qué es esto?
-  federation_intro: 'La federación funciona en dos direcciones. Esta pestaña trata sobre la dirección <strong>entrante</strong> — otorgar a otro pier-core el derecho a controlar este.'
+  federation_intro: 'La federación funciona en dos direcciones. Esta pestaña trata sobre la dirección <strong>entrante</strong> — otorgar a otro MOONSHIPS core el derecho a controlar este.'
   federation_outgoing: 'La <strong>saliente</strong> (controlar otros servidores desde aquí) se gestiona en la página <a href="/servers" class="text-blue-500 hover:underline">Servidores</a> mediante el tipo "Peer core".'
-  federation_incoming: 'La <strong>entrante</strong> está aquí: emites un token y se lo entregas al operador de otro pier-core. Lo pega en su propio formulario "Añadir servidor → Peer core", y su panel obtiene acceso equivalente al de administrador del tuyo a través de REST.'
+  federation_incoming: 'La <strong>entrante</strong> está aquí: emites un token y se lo entregas al operador de otro MOONSHIPS core. Lo pega en su propio formulario "Añadir servidor → Peer core", y su panel obtiene acceso equivalente al de administrador del tuyo a través de REST.'
   tokens_grant_admin: Los tokens otorgan derechos completos de administrador — revócalos en cualquier momento; este core sigue funcionando de forma autónoma en cualquier caso.
   protocol_note: 'Protocolo: las solicitudes autenticadas con la cabecera <code class="font-mono bg-gray-100 dark:bg-gray-800 px-1 rounded">X-MOONSHIPS-Peer-Token</code> coinciden con una fila en <code class="font-mono bg-gray-100 dark:bg-gray-800 px-1 rounded">peer_grants</code> y se tratan como una sesión de administrador para esa llamada.'
   issued_tokens: Tokens emitidos
@@ -1723,7 +1723,7 @@ settings_index:
   revoke: Revocar
   no_tokens: Aún no se ha emitido ningún token.
   issue_peer_token: Emitir token de peer
-  issue_peer_token_desc: Genera un token de larga duración que autoriza a otro pier-core a gestionar este panel a través de su API.
+  issue_peer_token_desc: Genera un token de larga duración que autoriza a otro MOONSHIPS core a gestionar este panel a través de su API.
   name_placeholder: Panel central
   generate: Generar
   token_issued: Token emitido
@@ -2598,7 +2598,7 @@ errors:
     test_failed: "Falló la prueba de S3: %{v}"
   promote:
     server_not_found: No se encontró el servidor %{v}
-    local_server_full_core: No se puede promover el servidor local (este ya es un pier-core completo)
+    local_server_full_core: No se puede promover el servidor local (este ya es un MOONSHIPS core completo)
     local_server: No se puede promover el servidor local
     agent_unreachable: "agente inaccesible: %{v}"
     agent_rejected: "agente: %{v}"
