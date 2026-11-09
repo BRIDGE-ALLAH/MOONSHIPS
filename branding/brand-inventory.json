@@ -76,6 +76,7 @@
     {"path": "CONTRIBUTING.md", "pattern": "(?i)Pier codebase|UPSTREAM-PIER", "reason": "One nominative lineage statement identifies the upstream codebase and distinguishes it from the MOONSHIPS product brand."},
     {"path": "SECURITY.md", "pattern": "(?i)Pier-named", "reason": "The security scope explicitly distinguishes retained legacy runtime identifiers from the public product name."},
     {"path": "UPSTREAM-PIER-*.md", "pattern": "(?i)pier", "reason": "These renamed files preserve upstream legal texts for historical attribution only; the header explicitly states they are not MOONSHIPS policy or agreements."},
+    {"path": "docs/i18n/UPSTREAM-PIER-README.*.md", "pattern": "(?i)pier", "reason": "These archived translated READMEs are inherited upstream documents; their leading notice points readers to current MOONSHIPS documentation."},
     {"path": "Cargo.toml", "pattern": "(?i)pier", "reason": "Cargo workspace member names and source comments are compatibility identifiers and are not public-facing product labels."},
     {"path": "crates/pier-*/Cargo.toml", "pattern": "(?i)pier", "reason": "Crate and executable package names remain unchanged to preserve existing build and runtime contracts."},
     {"path": ".github/workflows/ci.yml", "pattern": "(?i)scripts/pier-update\\.sh", "reason": "CI invokes the legacy-named updater script for shell syntax validation; the filename is a preserved runtime compatibility interface."},

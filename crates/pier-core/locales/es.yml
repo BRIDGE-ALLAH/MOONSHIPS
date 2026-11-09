@@ -414,6 +414,7 @@ servers_list:
   toast_mesh_settings_saved: Ajustes del mesh guardados
 
 # Server detail (servers/detail.html).
+  helper_permission_denied: helper no disponible — permisos del socket
 servers_detail:
   title: Detalle del servidor
   rename_hint: Doble clic para renombrar
@@ -1128,6 +1129,20 @@ resources_detail:
   confirm_rollback: ¿Revertir a la versión anterior?
   toast_rollback_started: Reversión iniciada
 
+  inject_init: Proceso init (PID 1)
+  inject_init_desc: Ejecuta un proceso init como PID 1 para que la aplicación recoja procesos huérfanos y se detenga correctamente al recibir SIGTERM. Desactívalo para imágenes que deban ejecutarse como PID 1.
+  th_privileges: Privilegios
+  privilege_createrole: Puede crear roles
+  privilege_createdb: Puede crear bases de datos
+  privileges_label: Privilegios del usuario
+  privileges_hint: "Los privilegios pertenecen al usuario: se aplican a todas las bases de datos que posee. Son necesarios cuando las migraciones de la aplicación crean sus propios roles."
+  privilege_toggle_title: Haz clic para activar o desactivar
+  action_history: Historial de acciones
+  no_deployments_yet: Aún no hay implementaciones
+  no_deployments_hint: Las acciones de implementar, detener y reiniciar aparecerán aquí.
+  view_log: Ver registro
+  hide_log: Ocultar registro
+  toast_privileges_updated: Privilegios de %{name} actualizados
 sources_list:
   title: Fuentes
   heading: Fuentes
@@ -1991,6 +2006,7 @@ settings_updates:
   save_settings_failed: Error al guardar los ajustes
   save_failed: 'Error al guardar: %{error}'
 
+  helper_unreachable_title: Helper privilegiado no disponible — las actualizaciones fallarán
 account_security:
   title: Seguridad
   heading: Seguridad
@@ -2328,6 +2344,7 @@ errors:
     network_not_found: No se encontró la red %{name}
     name_invalid_chars: El nombre solo debe contener letras minúsculas, números y guiones
     no_compose_content_for_service: No se encontró contenido de compose para este servicio
+    webhook_secret_too_short: El secreto del webhook debe tener al menos %{min} caracteres. Déjalo en blanco para generar uno seguro.
   projects:
     not_found: No se encontró el proyecto %{id}
     name_required: El nombre del proyecto es obligatorio
@@ -2375,6 +2392,9 @@ errors:
     password_required: La contraseña es obligatoria
     owner_not_found: No se pudo encontrar el propietario de la base de datos %{name}
     container_not_found: "El contenedor '%{name}' no se encontró. Asegúrate de que el servicio esté en ejecución."
+    command_failed: "Error al ejecutar el comando de base de datos: %{error}"
+    privileges_unsupported_engine: Los privilegios de usuario solo se pueden administrar para PostgreSQL
+    privileges_superuser: "%{name} es un superusuario; sus privilegios no se administran aquí"
   domains:
     domain_required: El dominio es obligatorio
     domain_not_found: No se encontró el dominio %{name}
@@ -2680,3 +2700,9 @@ errors:
     task_run_not_found: no se encontró la ejecución de la tarea
     task_already_status: la tarea ya está %{v}
 
+# Test-only fixtures exercised by the src/i18n unit tests. Not referenced by any
+# template; kept here because the unit tests share this compiled-in catalog and
+# need a stable `%{name}` interpolation sample (no section-1 screen has one yet).
+test_fixtures:
+  plain: Spike works
+  interp: "Hello, %{name}"

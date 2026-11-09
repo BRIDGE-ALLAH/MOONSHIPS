@@ -414,6 +414,7 @@ servers_list:
   toast_mesh_settings_saved: Mesh 设置已保存
 
 # Server detail (servers/detail.html).
+  helper_permission_denied: 辅助程序不可用 — 套接字权限问题
 servers_detail:
   title: 服务器详情
   rename_hint: 双击以重命名
@@ -1128,6 +1129,20 @@ resources_detail:
   confirm_rollback: 回滚到上一个版本？
   toast_rollback_started: 回滚已启动
 
+  inject_init: Init 进程（PID 1）
+  inject_init_desc: 以 PID 1 运行 init 进程，使应用能够回收孤儿进程，并在收到 SIGTERM 时正常停止。对于必须自行作为 PID 1 运行的镜像，请关闭此选项。
+  th_privileges: 权限
+  privilege_createrole: 可以创建角色
+  privilege_createdb: 可以创建数据库
+  privileges_label: 用户权限
+  privileges_hint: "权限属于用户，并适用于该用户拥有的所有数据库。当应用迁移需要创建自己的角色时，这些权限是必需的。"
+  privilege_toggle_title: 点击以启用或关闭
+  action_history: 操作历史
+  no_deployments_yet: 暂无部署记录
+  no_deployments_hint: 部署、停止和重启操作将在此处显示。
+  view_log: 查看日志
+  hide_log: 隐藏日志
+  toast_privileges_updated: "%{name} 的权限已更新"
 sources_list:
   title: 来源
   heading: 来源
@@ -1992,6 +2007,7 @@ settings_updates:
   save_settings_failed: 保存设置失败
   save_failed: '保存失败：%{error}'
 
+  helper_unreachable_title: 特权辅助程序不可用 — 更新将失败
 account_security:
   title: 安全
   heading: 安全
@@ -2329,6 +2345,7 @@ errors:
     network_not_found: 未找到网络 %{name}
     name_invalid_chars: 名称只能包含小写字母、数字和连字符
     no_compose_content_for_service: 未找到此服务的 compose 内容
+    webhook_secret_too_short: Webhook 密钥至少需要 %{min} 个字符。留空可生成强随机密钥。
   projects:
     not_found: 未找到项目 %{id}
     name_required: 项目名称为必填项
@@ -2376,6 +2393,9 @@ errors:
     password_required: 密码为必填项
     owner_not_found: 找不到数据库 %{name} 的所有者
     container_not_found: "未找到容器 '%{name}'。请确保服务正在运行。"
+    command_failed: "数据库命令执行失败：%{error}"
+    privileges_unsupported_engine: 仅支持管理 PostgreSQL 用户权限
+    privileges_superuser: "%{name} 是超级用户；此处不会管理其权限"
   domains:
     domain_required: 域名为必填项
     domain_not_found: 未找到域名 %{name}
@@ -2681,3 +2701,9 @@ errors:
     task_run_not_found: 未找到任务运行
     task_already_status: 任务已经是 %{v}
 
+# Test-only fixtures exercised by the src/i18n unit tests. Not referenced by any
+# template; kept here because the unit tests share this compiled-in catalog and
+# need a stable `%{name}` interpolation sample (no section-1 screen has one yet).
+test_fixtures:
+  plain: Spike works
+  interp: "Hello, %{name}"
