@@ -1779,7 +1779,6 @@ pub fn run_migrations(conn: &Connection) -> Result<()> {
     Ok(())
 }
 
-
 #[cfg(test)]
 mod arsy_tenant_migration_tests {
     use super::*;
@@ -1819,7 +1818,11 @@ mod arsy_tenant_migration_tests {
             .expect("apply tenant migration");
 
         let tenant_count: i64 = db
-            .query_row("SELECT COUNT(*) FROM tenants WHERE id = 'legacy-default'", [], |r| r.get(0))
+            .query_row(
+                "SELECT COUNT(*) FROM tenants WHERE id = 'legacy-default'",
+                [],
+                |r| r.get(0),
+            )
             .expect("tenant count");
         let member_count: i64 = db
             .query_row("SELECT COUNT(*) FROM tenant_members", [], |r| r.get(0))
