@@ -60,6 +60,98 @@ impl Scope {
     }
 }
 
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum TenantRole {
+    Owner,
+    Admin,
+    Member,
+}
+
+impl TenantRole {
+    /// Map the existing MW global role into the additive legacy tenant role.
+    /// Unknown role values fail closed instead of silently becoming members.
+    pub fn from_legacy_global_role(value: &str) -> Result<Self, ContractError> {
+        match value {
+            "owner" => Ok(Self::Owner),
+            "admin" => Ok(Self::Admin),
+            "user" => Ok(Self::Member),
+            _ => Err(ContractError::InvalidField("global_role")),
+        }
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum TenantStatus {
+    Active,
+    Suspended,
+    Archived,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Tenant {
+    pub tenant_id: String,
+    pub slug: String,
+    pub name: String,
+    pub status: TenantStatus,
+    pub created_at: String,
+    pub updated_at: String,
+}
+
+impl Tenant {
+    pub fn validate(&self) -> Result<(), ContractError> {
+        required("tenant_id", &self.tenant_id)?;
+        required("slug", &self.slug)?;
+        required("name", &self.name)?;
+        required("created_at", &self.created_at)?;
+        required("updated_at", &self.updated_at)
+    }
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct TenantMembership {
+    pub tenant_id: String,
+    pub user_id: String,
+    pub role: TenantRole,
+    pub created_at: String,
+}
+
+impl TenantMembership {
+    pub fn validate(&self) -> Result<(), ContractError> {
+        required("tenant_id", &self.tenant_id)?;
+        required("user_id", &self.user_id)?;
+        required("created_at", &self.created_at)
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "snake_case")]
+pub enum TenantMappingSource {
+    LegacyBackfill,
+    OperatorAssignment,
+    Migration,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct ProjectTenantMapping {
+    pub project_id: String,
+    pub tenant_id: String,
+    pub source: TenantMappingSource,
+    pub created_at: String,
+}
+
+impl ProjectTenantMapping {
+    pub fn validate(&self) -> Result<(), ContractError> {
+        required("project_id", &self.project_id)?;
+        required("tenant_id", &self.tenant_id)?;
+        required("created_at", &self.created_at)
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields)]
 pub struct ResourceRef {
@@ -426,6 +518,28 @@ mod tests {
             updated_at: "2026-11-10T00:00:00Z".into(),
         };
         assert_eq!(operation.validate(), Err(ContractError::InvalidField("idempotency_key")));
+    }
+
+    #[test]
+    fn legacy_global_roles_map_explicitly_and_unknown_roles_fail_closed() {
+        assert_eq!(TenantRole::from_legacy_global_role("owner"), Ok(TenantRole::Owner));
+        assert_eq!(TenantRole::from_legacy_global_role("admin"), Ok(TenantRole::Admin));
+        assert_eq!(TenantRole::from_legacy_global_role("user"), Ok(TenantRole::Member));
+        assert_eq!(
+            TenantRole::from_legacy_global_role("superuser"),
+            Err(ContractError::InvalidField("global_role"))
+        );
+    }
+
+    #[test]
+    fn project_tenant_mapping_requires_both_sides() {
+        let mapping = ProjectTenantMapping {
+            project_id: "project-1".into(),
+            tenant_id: "".into(),
+            source: TenantMappingSource::LegacyBackfill,
+            created_at: "2026-11-10T00:00:00Z".into(),
+        };
+        assert_eq!(mapping.validate(), Err(ContractError::EmptyField("tenant_id")));
     }
 
     #[test]
