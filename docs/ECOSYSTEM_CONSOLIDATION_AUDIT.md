@@ -200,3 +200,48 @@ The next audit pass must:
 - Produce an import ledger with explicit per-repository status and exact source commit.
 
 **No repository has been deleted, archived, or bulk-copied as a result of this audit.**
+
+
+## 9. Further narrative and domain-source findings
+
+### 9.1 A-L-L-A-H and Empire of the Light are not one simple product label
+
+The source landscape contains at least two distinct but related design baselines:
+- `bjo163/empire-of-the-light` describes A-L-L-A-H as **“Accountable Life, Learning & Action Hub”**, explicitly a stylized project acronym and not a claim of divine authority. It describes a human-governed, source-grounded knowledge and mission system. Its current README labels the baseline proposed and not production-certified.
+- `BRIDGE-ALLAH/EMPIRE-OF-LIGHT` describes A-L-L-A-H.COM as the public ecosystem brand, Empire of Light as the vision, and a Rust-first ARSY platform in one monorepo. It explicitly treats Fastify as migration input rather than a parallel production backend.
+- `bjo163/A-L-L-A-H.COM` is a large Next.js/Fastify monorepo source. Its code and documentation must be compared with the Rust-first EMPIRE baseline and current MW before import.
+
+These identities should be preserved as source narratives until a final brand/naming ADR defines parent identity, public home, product identity and technical authority separately.
+
+### 9.2 THE BATTERIES
+
+The term appears in the title of the MoonWitness XV master vision document alongside Empire of the Light, A-L-L-A-H, GOD-PROMISE, ROCKSOUL, Corpus and Witness. This proves it is part of the historic narrative vocabulary, but does **not** establish its technical function, implementation, or repository ownership. No exact public repository match was found in the `bjo163` search snapshot. Keep it as an unresolved domain identity pending source discovery.
+
+### 9.3 ZILL
+
+The MOONWITNESS master README lists **ZILL WATCH** among HEADQUARTER modules. No exact `ZILL` repository was found in the public `bjo163` search snapshot. The current evidence supports treating ZILL WATCH as a historical/product module name, not a standalone product or backend. Its exact scope and source implementation remain to be inspected.
+
+### 9.4 Evidence and narrative corpus boundaries
+
+The ROCKSOUL research family has intentionally separated domain repositories:
+- `rocksoul-mftl`: STORY / narrative / belief intelligence.
+- `rocksoul-legend`: EVENT / historical and event intelligence.
+- `moonwitness-corpus`: TEXT / scripture and revelation-reference intelligence (the README calls the domain RGBL).
+- `rocksoul-superhero`: PERSON / human agency (to verify in its own source).
+- `rocksoul-aws`: LAW / legal analysis (to verify in its own source).
+- `rocksoul-assets`: visual system and delivery asset source of truth.
+- `rocksoul-crayon`: shared operational console (referenced by multiple source READMEs; needs its own repo audit).
+
+Their source docs insist on provenance-first records, uncertainty, scoped claims, and explicit separation between textual presence and universal authority. Preserve these domain boundaries during consolidation; do not merge them into one undifferentiated “AI knowledge” table.
+
+### 9.5 MOONSKY messaging boundary
+
+`bjo163/moonsky` describes an independently deployed messaging console with its own PostgreSQL schema and operator identity, explicitly not an ARSY Hub and not a shared ecosystem identity authority. The MoonWitness XV source says D18 messaging moved out of XV into MOONSKY. The target MW design should integrate MOONSKY through a bounded messaging contract; decide whether to retain its process boundary or adapt it into an internal module after reviewing security, transport dependencies and operational isolation. Do not introduce a second global Hub or identity authority.
+
+### 9.6 ROCKSOUL Assets and domain ownership
+
+`bjo163/rocksoul-assets` declares itself the visual source of truth for MoonWitness × Rocksoul and documents a completed asset release. This is a high-value import candidate for the unified MW design system and brand registry, subject to license and path audit. Do not duplicate its asset catalog into multiple app-specific copies.
+
+### 9.7 Current decision remains provisional
+
+The source documents are not consistent about ARSY: MoonWitness XV calls Fastify/MoonQL its single Hub; EMPIRE-OF-LIGHT specifies Rust-first ARSY; current MW is Rust/Axum. The consolidation must choose one technical authority in MW and port required behavior by contract. No source README should silently overrule the canonical MW ADR once ratified.
