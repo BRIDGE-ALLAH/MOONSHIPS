@@ -35,8 +35,15 @@ pub async fn github(
         .and_then(|v| v.to_str().ok())
         .unwrap_or("");
 
-    // Handle installation events (GitHub App installed/updated)
+    // Installation events mutate GitHub App state, so authenticate the raw
+    // body against a configured GitHub App webhook secret before parsing it.
     if event == "installation" || event == "installation_repositories" {
+        let signature = headers
+            .get("X-Hub-Signature-256")
+            .and_then(|v| v.to_str().ok())
+            .unwrap_or("");
+        verify_any_github_app_signature(&state, &body, signature)?;
+
         let payload: serde_json::Value = serde_json::from_slice(&body).map_err(|e| {
             AppError::BadRequest(crate::i18n::te_args(
                 "errors.webhooks.invalid_json",
@@ -79,8 +86,16 @@ pub async fn github(
         .get("X-Hub-Signature-256")
         .and_then(|v| v.to_str().ok())
         .unwrap_or("");
+    let sig = SignatureCheck::GitHub {
+        body: &body,
+        signature,
+    };
+    // Authenticate against the configured service-secret set before parsing.
+    // dispatch_push repeats the check against each matched service so a valid
+    // secret for an unrelated repo cannot authorize a deployment.
+    verify_any_service_signature(&state, &sig)?;
 
-    // Parse payload
+    // Parse payload only after raw-body authentication.
     let payload: serde_json::Value = serde_json::from_slice(&body).map_err(|e| {
         AppError::BadRequest(crate::i18n::te_args(
             "errors.webhooks.invalid_json",
@@ -107,10 +122,6 @@ pub async fn github(
     }
 
     let changed_from_payload = changed_paths_from_github(&payload);
-    let sig = SignatureCheck::GitHub {
-        body: &body,
-        signature,
-    };
 
     let resp = dispatch_push(
         &state,
@@ -147,8 +158,13 @@ pub async fn gitlab(
         .get("X-Gitlab-Token")
         .and_then(|v| v.to_str().ok())
         .unwrap_or("");
+    let sig = SignatureCheck::GitLab {
+        token: gitlab_token,
+    };
+    // Authenticate before parsing or performing any event-specific work.
+    verify_any_service_signature(&state, &sig)?;
 
-    // Parse payload
+    // Parse payload only after raw-body authentication.
     let payload: serde_json::Value = serde_json::from_slice(&body).map_err(|e| {
         AppError::BadRequest(crate::i18n::te_args(
             "errors.webhooks.invalid_json",
@@ -176,9 +192,6 @@ pub async fn gitlab(
     }
 
     let changed_from_payload = changed_paths_from_gitlab(&payload);
-    let sig = SignatureCheck::GitLab {
-        token: gitlab_token,
-    };
 
     let resp = dispatch_push(
         &state,
@@ -217,6 +230,62 @@ impl SignatureCheck<'_> {
                 bool::from(token.as_bytes().ct_eq(secret.as_bytes()))
             }
         }
+    }
+}
+
+/// Require at least one configured service secret to authenticate a push
+/// before deserializing its untrusted payload. A second, resource-specific check
+/// in `dispatch_push` ensures that only services with the matching secret run.
+fn verify_any_service_signature(state: &SharedState, signature: &SignatureCheck<'_>) -> AppResult<()> {
+    let secrets = {
+        let db = state
+            .db
+            .lock()
+            .map_err(|e| anyhow::anyhow!("DB lock: {e}"))?;
+        let mut stmt = db.prepare(
+            "SELECT git_webhook_secret FROM services
+             WHERE git_webhook_secret IS NOT NULL AND git_webhook_secret != ''",
+        )?;
+        stmt.query_map([], |row| row.get::<_, String>(0))?
+            .collect::<Result<Vec<_>, _>>()?
+    };
+
+    if secrets.iter().any(|secret| signature.verify(secret)) {
+        Ok(())
+    } else {
+        Err(AppError::Unauthorized)
+    }
+}
+
+/// Installation events use the GitHub App's source-level webhook secret. Check
+/// every active configured App secret against the raw bytes before parsing the
+/// event or changing an installation mapping.
+fn verify_any_github_app_signature(
+    state: &SharedState,
+    body: &[u8],
+    signature: &str,
+) -> AppResult<()> {
+    let secrets = {
+        let db = state
+            .db
+            .lock()
+            .map_err(|e| anyhow::anyhow!("DB lock: {e}"))?;
+        let mut stmt = db.prepare(
+            "SELECT webhook_secret FROM git_sources
+             WHERE source_type = 'github-app' AND is_active = 1
+               AND webhook_secret IS NOT NULL AND webhook_secret != ''",
+        )?;
+        stmt.query_map([], |row| row.get::<_, String>(0))?
+            .collect::<Result<Vec<_>, _>>()?
+    };
+
+    if secrets
+        .iter()
+        .any(|secret| verify_github_signature(secret, body, signature).is_ok())
+    {
+        Ok(())
+    } else {
+        Err(AppError::Unauthorized)
     }
 }
 
@@ -280,16 +349,15 @@ async fn dispatch_push(
         let sig_ok = match svc.webhook_secret.as_deref() {
             Some(secret) if !secret.is_empty() => sig.verify(secret),
             _ => {
-                // Back-compat: services configured before webhook secrets
-                // existed have none, and deploy on any push that names their
-                // repo. Changing that would silently break working setups, so
-                // it stays — but it is not something to leave unlogged.
+                // Missing credentials are a blocked configuration, never an
+                // implicit trust mode. Existing services must configure a
+                // provider secret before webhook-triggered deployment resumes.
                 tracing::warn!(
                     service = %svc.id,
                     repo = %repo_url,
-                    "Webhook accepted WITHOUT verification: no secret configured for this service"
+                    "Webhook rejected: no secret configured for this service"
                 );
-                true
+                false
             }
         };
         if !sig_ok {
@@ -783,6 +851,18 @@ mod tests {
 
     fn known(paths: &[&str]) -> ChangedPaths {
         ChangedPaths::Known(paths.iter().map(|s| s.to_string()).collect())
+    }
+
+    #[test]
+    fn missing_or_empty_service_secret_never_authenticates() {
+        let body = b"{}";
+        let signature = SignatureCheck::GitHub {
+            body,
+            signature: "",
+        };
+        assert!(!signature.verify(""));
+        assert!(!signature.verify("configured-secret"));
+        assert!(!SignatureCheck::GitLab { token: "" }.verify(""));
     }
 
     #[test]
