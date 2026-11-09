@@ -92,12 +92,14 @@ pub async fn accept(
                    AND accepted_at IS NULL
                    AND datetime(expires_at) > datetime('now')",
                 [&token_hash],
-                |r| Ok((
-                    r.get::<_, String>(0)?,
-                    r.get::<_, String>(1)?,
-                    r.get::<_, String>(2)?,
-                    r.get::<_, Option<String>>(3)?,
-                )),
+                |r| {
+                    Ok((
+                        r.get::<_, String>(0)?,
+                        r.get::<_, String>(1)?,
+                        r.get::<_, String>(2)?,
+                        r.get::<_, Option<String>>(3)?,
+                    ))
+                },
             )
             .optional()?;
         let (invite_id, email_v, role_v, tenant_id_v) =
@@ -135,7 +137,9 @@ pub async fn accept(
             params![tx_now, new_user_id, invite_id],
         )?;
         if accepted != 1 {
-            return Err(AppError::NotFound(crate::i18n::te("errors.invitations.not_found")));
+            return Err(AppError::NotFound(crate::i18n::te(
+                "errors.invitations.not_found",
+            )));
         }
         tx.commit()?;
     }

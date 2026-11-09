@@ -276,5 +276,4 @@ mod tenant_tests {
             Err(AppError::Forbidden(_))
         ));
     }
-
 }
