@@ -1614,6 +1614,17 @@ const MIGRATIONS: &[&str] = &[
     "#,
     // Migration 71: drop duplicate port rows. See `DEDUPE_PORT_ROWS_SQL`.
     DEDUPE_PORT_ROWS_SQL,
+    // Migration 72: bounded replay protection for authenticated webhooks.
+    r#"
+    CREATE TABLE IF NOT EXISTS webhook_deliveries (
+        provider    TEXT NOT NULL,
+        delivery_id TEXT NOT NULL,
+        received_at TEXT NOT NULL DEFAULT (datetime('now')),
+        PRIMARY KEY (provider, delivery_id)
+    );
+    CREATE INDEX IF NOT EXISTS idx_webhook_deliveries_received
+        ON webhook_deliveries(received_at);
+    "#,
 ];
 
 /// One-time cleanup of `port_allocations` rows that repeat a container port.

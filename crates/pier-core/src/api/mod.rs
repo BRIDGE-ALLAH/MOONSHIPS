@@ -173,11 +173,15 @@ pub fn api_router(state: SharedState) -> Router<SharedState> {
         // Webhooks (public — GitHub/GitLab need to reach these)
         .route(
             "/webhooks/github",
-            post(webhooks::github).layer(GovernorLayer::new(webhook_governor.clone())),
+            post(webhooks::github)
+                .layer(DefaultBodyLimit::max(1_048_576))
+                .layer(GovernorLayer::new(webhook_governor.clone())),
         )
         .route(
             "/webhooks/gitlab",
-            post(webhooks::gitlab).layer(GovernorLayer::new(webhook_governor)),
+            post(webhooks::gitlab)
+                .layer(DefaultBodyLimit::max(1_048_576))
+                .layer(GovernorLayer::new(webhook_governor)),
         )
         // GitHub App manifest callback (public — GitHub redirects here)
         .route("/sources/github/callback", get(sources::github_callback))

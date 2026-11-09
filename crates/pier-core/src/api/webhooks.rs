@@ -43,6 +43,13 @@ pub async fn github(
             .and_then(|v| v.to_str().ok())
             .unwrap_or("");
         verify_any_github_app_signature(&state, &body, signature)?;
+        let delivery_id = headers
+            .get("X-GitHub-Delivery")
+            .and_then(|v| v.to_str().ok())
+            .ok_or(AppError::Unauthorized)?;
+        if !claim_webhook_delivery(&state, "github", delivery_id)? {
+            return Ok(Json(serde_json::json!({"ok": true, "duplicate": true})));
+        }
 
         let payload: serde_json::Value = serde_json::from_slice(&body).map_err(|e| {
             AppError::BadRequest(crate::i18n::te_args(
@@ -94,6 +101,13 @@ pub async fn github(
     // dispatch_push repeats the check against each matched service so a valid
     // secret for an unrelated repo cannot authorize a deployment.
     verify_any_service_signature(&state, &sig)?;
+    let delivery_id = headers
+        .get("X-GitHub-Delivery")
+        .and_then(|v| v.to_str().ok())
+        .ok_or(AppError::Unauthorized)?;
+    if !claim_webhook_delivery(&state, "github", delivery_id)? {
+        return Ok(Json(serde_json::json!({"ok": true, "duplicate": true})));
+    }
 
     // Parse payload only after raw-body authentication.
     let payload: serde_json::Value = serde_json::from_slice(&body).map_err(|e| {
@@ -163,6 +177,13 @@ pub async fn gitlab(
     };
     // Authenticate before parsing or performing any event-specific work.
     verify_any_service_signature(&state, &sig)?;
+    let delivery_id = headers
+        .get("X-Gitlab-Event-UUID")
+        .and_then(|v| v.to_str().ok())
+        .ok_or(AppError::Unauthorized)?;
+    if !claim_webhook_delivery(&state, "gitlab", delivery_id)? {
+        return Ok(Json(serde_json::json!({"ok": true, "duplicate": true})));
+    }
 
     // Parse payload only after raw-body authentication.
     let payload: serde_json::Value = serde_json::from_slice(&body).map_err(|e| {
@@ -297,6 +318,44 @@ fn verify_any_github_app_signature(
     } else {
         Err(AppError::Unauthorized)
     }
+}
+
+/// Atomically claim a provider delivery ID. The unique key makes duplicate
+/// webhook deliveries idempotent; old keys are pruned to bound storage growth.
+fn claim_webhook_delivery(
+    state: &SharedState,
+    provider: &str,
+    delivery_id: &str,
+) -> AppResult<bool> {
+    let db = state
+        .db
+        .lock()
+        .map_err(|e| anyhow::anyhow!("DB lock: {e}"))?;
+    claim_webhook_delivery_in_db(&db, provider, delivery_id)
+}
+
+fn claim_webhook_delivery_in_db(
+    db: &rusqlite::Connection,
+    provider: &str,
+    delivery_id: &str,
+) -> AppResult<bool> {
+    if delivery_id.is_empty()
+        || delivery_id.len() > 256
+        || !delivery_id.bytes().all(|b| b.is_ascii_graphic())
+        || !matches!(provider, "github" | "gitlab")
+    {
+        return Err(AppError::Unauthorized);
+    }
+
+    db.execute(
+        "DELETE FROM webhook_deliveries WHERE received_at < datetime('now', '-7 days')",
+        [],
+    )?;
+    let inserted = db.execute(
+        "INSERT OR IGNORE INTO webhook_deliveries (provider, delivery_id) VALUES (?1, ?2)",
+        rusqlite::params![provider, delivery_id],
+    )?;
+    Ok(inserted == 1)
 }
 
 /// The set of repo-relative paths a push changed. `Everything` is the fail-safe
@@ -861,6 +920,27 @@ mod tests {
 
     fn known(paths: &[&str]) -> ChangedPaths {
         ChangedPaths::Known(paths.iter().map(|s| s.to_string()).collect())
+    }
+
+    #[test]
+    fn webhook_delivery_ids_are_idempotent_and_provider_scoped() {
+        let db = rusqlite::Connection::open_in_memory().unwrap();
+        db.execute_batch(
+            "CREATE TABLE webhook_deliveries (
+                provider TEXT NOT NULL,
+                delivery_id TEXT NOT NULL,
+                received_at TEXT NOT NULL DEFAULT (datetime('now')),
+                PRIMARY KEY (provider, delivery_id)
+            );",
+        )
+        .unwrap();
+
+        assert!(claim_webhook_delivery_in_db(&db, "github", "delivery-1").unwrap());
+        assert!(!claim_webhook_delivery_in_db(&db, "github", "delivery-1").unwrap());
+        assert!(claim_webhook_delivery_in_db(&db, "gitlab", "delivery-1").unwrap());
+        assert!(claim_webhook_delivery_in_db(&db, "github", "delivery-2").unwrap());
+        assert!(claim_webhook_delivery_in_db(&db, "github", "").is_err());
+        assert!(claim_webhook_delivery_in_db(&db, "unknown", "delivery-3").is_err());
     }
 
     #[test]
