@@ -48,16 +48,21 @@ Sign in and verify projects, deployments, domains, certificates, database resour
 
 ## Rollback
 
-Locate the backup created for the upgrade:
+Find the latest pre-upgrade backup, stop the service, and restore the previous binary, data, environment and systemd units. The example below uses Bash:
 
-    sudo ls -dt /var/backups/moonships/pre-upgrade-* | head -n1
-
-Restore the old executable from that backup's bin/ directory (preserve the existing executable path /opt/pier/bin/pier), and restore the matching data/.env and systemd files if the application has changed them. Restore a provider snapshot as well if Docker volumes or host-level resources need recovery.
-
+    BACKUP="$(sudo ls -dt /var/backups/moonships/pre-upgrade-* | head -n1)"
     sudo systemctl stop pier
-    sudo cp /opt/pier/bin/pier.pre-moonships /opt/pier/bin/pier
+    sudo cp -a "$BACKUP/bin/." /opt/pier/bin/
+    sudo cp -a "$BACKUP/.env" /opt/pier/.env
+    sudo mv /opt/pier/data "/opt/pier/data.failed-$(date +%s)"
+    sudo cp -a "$BACKUP/data" /opt/pier/data
+    for unit in pier.service pier-net-helper.service pier-updater.service pier-updater.path; do
+      if [ -f "$BACKUP/$unit" ]; then sudo cp -a "$BACKUP/$unit" "/etc/systemd/system/$unit"; fi
+    done
+    sudo systemctl daemon-reload
     sudo systemctl start pier
 
+If the application changed Docker volumes or other host-level resources, restore the provider snapshot too. The installer itself does not remove or alter Docker volumes.
 If the new application performed an incompatible database schema migration, restore the pre-upgrade database/snapshot as well. A binary-only rollback is not sufficient after an irreversible schema change.
 
 ## Scope boundary
