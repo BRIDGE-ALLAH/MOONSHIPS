@@ -245,3 +245,20 @@ Their source docs insist on provenance-first records, uncertainty, scoped claims
 ### 9.7 Current decision remains provisional
 
 The source documents are not consistent about ARSY: MoonWitness XV calls Fastify/MoonQL its single Hub; EMPIRE-OF-LIGHT specifies Rust-first ARSY; current MW is Rust/Axum. The consolidation must choose one technical authority in MW and port required behavior by contract. No source README should silently overrule the canonical MW ADR once ratified.
+
+
+### 9.8 Name collision: `bjo163/moonships` is not the current MOONSHIPS control plane
+
+The public `bjo163/moonships` README describes a **Windows-first developer/infrastructure workbench** built as an initial Tauri 2 + Rust + React + TypeScript scaffold. Its broad utilities and operational modules are largely planned. This is distinct from the current MW repository's Linux self-hosted infrastructure control plane and from `bjo163/mwx-ships` (the alternate Rust/Loco/SeaORM PaaS). Preserve all three identities until source comparison determines whether the workbench contains reusable modules.
+
+### 9.9 Name collision: `bjo163/E-O-L` is a Temps-derived PaaS fork
+
+Despite the abbreviation, its README describes the Temps self-hosted deployment platform, including upstream Temps installation and product links. It should be treated as an upstream/fork source candidate, not automatically classified as the Empire of the Light narrative project. Compare its unique diff and legal obligations with the current Pier-derived MW source before any reuse.
+
+### 9.10 Q4Q research prototype
+
+`bjo163/HBD-ALLAH` describes a static ROCKSOUL Q4Q comparative-religion research dashboard. It explicitly states that only 25 of a 75-root target are registered and that zero scores have undergone source-by-source independent validation. Its own README warns that comparative affinity does not establish religious truth or acceptance by God. If retained, this belongs in a research/assessment module with visible provenance and limitations—not as a core control-plane policy or factual scoring authority.
+
+### 9.11 Scripture and corpus source
+
+`bjo163/moonwitness-corpus` identifies itself as RGBL, a provenance-first multi-tradition scripture/sacred-literature corpus. It separates work, edition, passage, source artifact, rights, content, scoped assertion and provenance, and states that textual presence is not universal authority. This is a valuable source for the MOONWITNESS TEXT domain, but corpus rights and exact source licensing must be verified record-by-record before import.
