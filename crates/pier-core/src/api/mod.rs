@@ -135,6 +135,19 @@ pub fn api_router(state: SharedState) -> Router<SharedState> {
             .expect("webhook governor config"),
     );
 
+    // Apply one explicit body cap to both public webhook endpoints without
+    // changing the limits on unrelated public API routes.
+    let webhook_routes = Router::new()
+        .route(
+            "/github",
+            post(webhooks::github).layer(GovernorLayer::new(webhook_governor.clone())),
+        )
+        .route(
+            "/gitlab",
+            post(webhooks::gitlab).layer(GovernorLayer::new(webhook_governor)),
+        )
+        .layer(DefaultBodyLimit::max(1_048_576));
+
     let public = Router::new()
         .route(
             "/auth/login",
@@ -171,18 +184,7 @@ pub fn api_router(state: SharedState) -> Router<SharedState> {
             get(servers::install_script).layer(GovernorLayer::new(login_governor.clone())),
         )
         // Webhooks (public — GitHub/GitLab need to reach these)
-        .route(
-            "/webhooks/github",
-            post(webhooks::github)
-                .layer(DefaultBodyLimit::max(1_048_576))
-                .layer(GovernorLayer::new(webhook_governor.clone())),
-        )
-        .route(
-            "/webhooks/gitlab",
-            post(webhooks::gitlab)
-                .layer(DefaultBodyLimit::max(1_048_576))
-                .layer(GovernorLayer::new(webhook_governor)),
-        )
+        .nest("/webhooks", webhook_routes)
         // GitHub App manifest callback (public — GitHub redirects here)
         .route("/sources/github/callback", get(sources::github_callback))
         // Invitation accept — recipient is anonymous until they POST.
