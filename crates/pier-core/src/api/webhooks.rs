@@ -218,6 +218,9 @@ enum SignatureCheck<'a> {
 
 impl SignatureCheck<'_> {
     fn verify(&self, secret: &str) -> bool {
+        if secret.is_empty() {
+            return false;
+        }
         match self {
             SignatureCheck::GitHub { body, signature } => {
                 verify_github_signature(secret, body, signature).is_ok()
