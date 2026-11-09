@@ -50,6 +50,19 @@ class BrandingGateTests(unittest.TestCase):
             "X-Pier-Federation", allowlist
         ))
 
+    def test_allowlist_entries_require_an_owner(self):
+        from check_branding import load_inventory
+        import tempfile, json
+        with tempfile.TemporaryDirectory() as tmp:
+            path = Path(tmp) / "inventory.json"
+            path.write_text(json.dumps({
+                "schema_version": 1,
+                "brand": {"name": "MOONSHIPS"},
+                "allowlist": [{"path": "file.md", "pattern": "pier", "reason": "compat"}],
+            }), encoding="utf-8")
+            with self.assertRaises(ValueError):
+                load_inventory(path)
+
     def test_global_allowlist_is_not_a_valid_design(self):
         from check_branding import load_inventory
         import tempfile, json

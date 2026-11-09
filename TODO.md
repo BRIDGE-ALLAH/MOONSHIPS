@@ -330,13 +330,13 @@ For each task:
 7. Generate a report listing remaining Pier references grouped into intentional runtime compatibility vs public-facing regression.
 
 ### ACCEPTANCE CRITERIA
-- [ ] CI branding scan passes on the candidate branch.
-- [ ] Every remaining Pier match is either removed from public copy or documented in the narrow compatibility allowlist.
+- [x] CI branding scan passes on the candidate branch (run 42592051587, commit f533eac8b3de20bd6e500636acec64e404bc1f99).
+- [x] Every remaining Pier match is either removed from public copy or documented in the path-scoped compatibility allowlist with reason and owner.
 - [ ] No public title, header, support link, installer banner, README hero, OG metadata, or release URL points to the old product identity.
 - [ ] Legacy runtime identifiers remain unchanged and are covered by compatibility tests.
-- [ ] Locale files have identical required keys and placeholder signatures.
+- [x] Locale files have identical 2,610 keys and placeholder signatures across English, Spanish, and Simplified Chinese.
 - [ ] Logo, icon, and OG assets validate and render in a build smoke test.
-- [ ] The report is deterministic and includes zero unclassified matches.
+- [x] The report is deterministic and includes zero unclassified matches.
 - [ ] The check runs on every pull request and cannot be skipped for a release candidate.
 
 ---
@@ -950,3 +950,12 @@ Every new task must use this exact structure:
   - **DEPENDENCIES:** exact task IDs; do not restate another task's implementation scope.
 
 **Maintainer note:** Keep the backlog single-sourced. If a new finding overlaps an existing task, update that task's SPEC/RULE/DESIGN/ACCEPTANCE CRITERIA or add a clearly non-overlapping subtask; do not create duplicate tickets. P0/P1 precede feature work. All checks are automated and objective; no task is considered complete on a subjective human sign-off. No task authorizes production changes.
+
+
+### Execution evidence and remaining external blocker
+
+- Source/docs/UI/installer/locale/assets branding changes are implemented on `rebrand/moonships-full-brand`; Open Graph image references use an absolute raw-GitHub URL so social crawlers can resolve the image after merge.
+- The branding gate, its unit tests, release-gate tests, shell syntax, Rust formatting, workspace check, and core binary tests passed on commit `f533eac8b3de20bd6e500636acec64e404bc1f99`.
+- A clean Docker build was still running at the time of this update; its result must be checked on the final commit.
+- **External repository metadata is not complete:** `GET /repos/BRIDGE-ALLAH/MOONSHIPS` reports `homepage=https://pier.team`. The connected GitHub integration exposes repository metadata as read-only and has no repository-settings write action. A repository administrator must clear that website field or replace it with the official MOONSHIPS website. The repository description should also be updated to begin with `MOONSHIPS —`.
+- Branch-protection enforcement of the branding check cannot be verified with the current connection. Do not mark P1-06 complete until repository homepage/description and required-check enforcement are confirmed.

@@ -21,8 +21,8 @@ def load_inventory(path: Path = INVENTORY_PATH) -> dict:
     if data.get("schema_version") != 1 or not data.get("brand", {}).get("name"):
         raise ValueError("unsupported or incomplete branding inventory")
     for entry in data.get("allowlist", []):
-        if not entry.get("path") or not entry.get("pattern") or not entry.get("reason"):
-            raise ValueError("every compatibility allowlist entry needs path, pattern, and reason")
+        if not entry.get("path") or not entry.get("pattern") or not entry.get("reason") or not entry.get("owner"):
+            raise ValueError("every compatibility allowlist entry needs path, pattern, reason, and owner")
         if entry["path"] in {"*", "**", "**/*"}:
             raise ValueError("global compatibility allowlists are forbidden")
         re.compile(entry["pattern"])
@@ -99,6 +99,7 @@ def run_checks(inventory: dict) -> dict:
                         "path": rel,
                         "line": line_no,
                         "reason": entry["reason"],
+                        "owner": entry["owner"],
                         "text": line.strip()[:240],
                     })
 
@@ -140,15 +141,40 @@ def run_checks(inventory: dict) -> dict:
             if not target.is_file() or ref["needle"] not in target.read_text(encoding="utf-8"):
                 failures.append(f"{asset['path']}: expected reference missing from {ref['path']}")
 
-    required_urls = [
+    required_fragments = [
         ("README.md", inventory["brand"]["repository_url"]),
         ("INSTALL.md", inventory["brand"]["repository_url"]),
         ("CONTRIBUTING.md", inventory["brand"]["issues_url"]),
         ("SECURITY.md", inventory["brand"]["security_url"]),
+        ("Cargo.toml", inventory["brand"]["repository_url"]),
+        ("scripts/bootstrap.sh", 'REPO="BRIDGE-ALLAH/MOONSHIPS"'),
+        ("scripts/bootstrap.sh", 'https://github.com/${REPO}/releases/download'),
+        ("scripts/pier-update.sh", "BRIDGE-ALLAH/MOONSHIPS"),
+        ("crates/pier-core/Cargo.toml", 'description = "MOONSHIPS'),
+        ("crates/pier-agent/Cargo.toml", 'description = "MOONSHIPS'),
+        ("crates/pier-net-helper/Cargo.toml", 'description = "MOONSHIPS'),
     ]
-    for rel, needle in required_urls:
+    for rel, needle in required_fragments:
         if needle not in (ROOT / rel).read_text(encoding="utf-8"):
-            failures.append(f"{rel}: canonical MOONSHIPS URL missing: {needle}")
+            failures.append(f"{rel}: canonical MOONSHIPS identity fragment missing: {needle}")
+
+    archived_prefixes = ("UPSTREAM-PIER-", "docs/i18n/UPSTREAM-PIER-")
+    legacy_public_urls = (
+        re.compile(r"(?i)https?://(?:www\\.)?pier\\.team(?:/install)?"),
+        re.compile(r"(?i)https?://github\\.com/joveptesg/pier"),
+        re.compile(r"(?i)https?://raw\\.githubusercontent\\.com/joveptesg/pier"),
+        re.compile(r"(?i)https?://pier\\.example\\.com"),
+        re.compile(r"(?i)https?://pier-b\\.example\\.com"),
+        re.compile(r"(?i)YOUR-PIER-HOST"),
+        re.compile(r"(?i)pier@example\\.com"),
+    )
+    for file_path in expand_targets(inventory["scan_targets"]):
+        rel = file_path.relative_to(ROOT).as_posix()
+        if rel.startswith(archived_prefixes):
+            continue
+        for line_no, line in enumerate(file_path.read_text(encoding="utf-8").splitlines(), 1):
+            if any(pattern.search(line) for pattern in legacy_public_urls):
+                failures.append(f"{rel}:{line_no}: obsolete public Pier URL or example remains")
 
     css = (ROOT / "crates/pier-core/assets/static/tailwind.css").read_text(encoding="utf-8")
     if ".bg-moonships-600" not in css or ".hover\\:bg-moonships-700" not in css:
