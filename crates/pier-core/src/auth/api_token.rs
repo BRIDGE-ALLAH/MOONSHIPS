@@ -108,12 +108,13 @@ pub fn lookup(conn: &Connection, plaintext: &str) -> Result<Option<AuthUser>> {
         params![now, token_id],
     );
 
+    let tenant_id = resolve_tenant_id(conn, &user_id)?;
     Ok(Some(AuthUser {
         id: user_id,
         username,
         role,
         global_role: GlobalRole::parse(&global_role).unwrap_or(GlobalRole::User),
-        tenant_id: resolve_tenant_id(conn, &user_id)?,
+        tenant_id,
         session_id: String::new(),
         is_peer: false,
     }))
