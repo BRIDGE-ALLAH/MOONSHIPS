@@ -63,6 +63,20 @@ README snapshots were read from the following source repositories. SHAs are the 
 
 **Required before ADR approval:** a source-level parity matrix of Fastify ARSY vs Rust/EMPIRE capabilities vs current MW, including schemas/migrations, route contracts, auth/RBAC, tenancy, scheduler/run-state, integrations, security, deployment and regression evidence.
 
+#### Source-level Fastify ARSY security evidence (migration blocker)
+
+A deeper read of `bjo163/A-L-L-A-H.COM` at source commit `bf8681c714b9983861664a05f0c6d9df752f7549` confirms that the LLM gateway is not yet safe to import wholesale:
+
+- `packages/arsy-plugin-llm-gateway/src/index.ts` blob `9587a31bf1407368e43d539ee0f4714a6b2dea2e`: `GET /v1/models` uses unscoped raw SQL for models/routes; `POST /v1/embeddings` invokes upstream providers before a visible tenant check; `GET /v1/mcp/sse` creates anonymous session IDs; `GET /v1/mcp/audit` returns the global in-memory tool log; `GET /v1/gateway/providers` selects provider rows without a tenant predicate.
+- `packages/arsy-plugin-llm-gateway/src/agent/loop.ts` blob `c57945b34893211fc06f860aa3fc88d9b4a50f4d`: agent execution calls `resolveRoute('dx-default')` without passing `session.company_id`, despite the session storing that tenant ID.
+- `packages/arsy-plugin-llm-gateway/src/router.ts` blob `bf2d018bef0b422949404ee6a88363500ecf7a7d`: router query paths support tenant-scoped visible sets when a company ID is supplied, so missing tenant context at callers is material.
+- `.plans/20261105-llm-gateway-tenant-isolation/spec.md` is marked `proposed`; its paired task file is also `proposed`. The source tree contains a FINAL_REPORT describing eight bugs and a remediation plan, but the presence of that report is not proof the fixes were merged or verified.
+- `apps/arsy/CONTRACT.md` has an empty `routes: []` declaration and `last_verified: 2026-02-10`; it is not a reliable current route inventory.
+
+**Security interpretation:** source handlers show missing tenant binding and unscoped data access. The full app-level Fastify registration/auth encapsulation has not yet been exhaustively traced, so this audit does not claim that every route is externally unauthenticated. The cross-tenant data-scope gaps and missing tenant propagation are sufficient to block importing this gateway code as-is. Require route-level negative tests (no principal, tenant A, tenant B, platform principal) and verify all parent hooks before making any production exposure claim.
+
+**Disposition:** preserve Fastify ARSY as a high-value behavior/contract migration source, but quarantine the LLM gateway plugin from import until its security tasks are implemented and independently verified. Do not port these defects into Rust.
+
 ### 3.2 MOONSHIPS product boundary
 
 There are at least three distinct codebases/experiences:
