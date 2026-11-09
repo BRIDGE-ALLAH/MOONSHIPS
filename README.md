@@ -21,6 +21,7 @@ The consolidation is being tracked in:
 - [Ecosystem Consolidation TODO](docs/ECOSYSTEM_CONSOLIDATION_TODO.md)
 - [Ecosystem Consolidation Audit](docs/ECOSYSTEM_CONSOLIDATION_AUDIT.md)
 - [BRIDGE-ALLAH organization repository audit (2026-11-09)](docs/ECOSYSTEM_ORG_REPOSITORY_AUDIT_2026-11-09.md)
+- [MW architecture conflict register](docs/MW_ARCHITECTURE_CONFLICT_REGISTER.md)
 - [Ecosystem Repository Register](docs/ECOSYSTEM_REPOSITORY_REGISTER.md)
 - [Complete public bjo163 repository index](docs/ECOSYSTEM_PUBLIC_REPOSITORY_INDEX.md)
 
