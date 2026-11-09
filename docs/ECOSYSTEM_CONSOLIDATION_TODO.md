@@ -367,3 +367,9 @@ A repository may be marked archive-eligible only after every retained capability
 - Remaining before enforcement: explicit tenant assignment API/CLI, tenant propagation in authenticated principal, tenant-scoped SQL predicates, migration/restore rehearsal, and cross-tenant negative tests. Legacy single-tenant mapping is not evidence of prior isolation.
 
 - Extended `mw-arsy-contracts` with typed Tenant, TenantMembership, TenantRole, TenantStatus and ProjectTenantMapping; explicit legacy global-role conversion fails closed on unknown role values. Two additional unit tests added.
+
+## 2026-11-10 visible repository inventory completion
+
+- Expanded the combined GitHub search baseline to all 162 visible repository records (142 `bjo163` public search results + 20 `BRIDGE-ALLAH` organization search results), deduplicated by full repository name.
+- 21 of 162 records have richer repository API metadata; remaining 141 explicitly preserve only fields exposed by search, with unavailable fields set to null. No invented timestamps, language or license values.
+- Coverage is complete for the current search result set only, not for historical transferred/deleted/private/unindexed repositories. Continue targeted historical source discovery and licensing verification before final sign-off.
