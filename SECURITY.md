@@ -4,7 +4,7 @@
 
 **Do not open a public issue for a suspected security vulnerability.**
 
-Use [GitHub's private vulnerability reporting for MOONSHIPS](https://github.com/BRIDGE-ALLAH/MOONSHIPS/security/advisories/new). Include the affected commit or release, affected component, impact, reproduction steps, and a proof of concept when safe to provide.
+Use [GitHub's private vulnerability reporting for MOONSHIPS](https://github.com/BRIDGE-ALLAH/MW/security/advisories/new). Include the affected commit or release, affected component, impact, reproduction steps, and a proof of concept when safe to provide.
 
 If private vulnerability reporting is unavailable, contact the repository maintainers through the contact information published in the MOONSHIPS repository profile. Do not send secrets, customer data, or production credentials.
 
