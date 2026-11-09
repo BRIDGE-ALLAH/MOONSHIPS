@@ -36,7 +36,10 @@ def allowed_legacy_reference(path: str, line: str, allowlist: list[dict]) -> dic
         # may remain, but a standalone/title-case Pier or PIER word is public-brand
         # leakage and must be corrected rather than allowlisted.
         if path.startswith("crates/pier-core/assets/templates/") or path.startswith("crates/pier-core/locales/"):
-            if re.search(r"(?<![A-Za-z0-9])Pier(?![A-Za-z0-9])", line):
+            # The X-Pier-Federation header is a versioned wire-protocol name;
+            # changing it would break existing federation peers.
+            protocol_header = "X-Pier-Federation" in line
+            if re.search(r"(?<![A-Za-z0-9])Pier(?![A-Za-z0-9])", line) and not protocol_header:
                 return None
             if re.search(r"(?<![A-Za-z0-9])PIER(?![_A-Za-z0-9])", line):
                 return None

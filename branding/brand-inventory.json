@@ -160,7 +160,7 @@
     {
       "path": "crates/pier-core/assets/templates/*.html",
       "pattern": "(?i)pier",
-      "reason": "Only exact legacy service, updater, cookie, and browser-storage identifiers remain in templates; persisted keys cannot be renamed without a dual-read migration."
+      "reason": "Exact legacy service, updater, federation wire-header, cookie, browser-storage, container-name, and protocol identifiers are retained for compatibility; standalone public product labels are rejected by the scanner."
     },
     {
       "path": "crates/pier-core/locales/*.yml",

@@ -39,6 +39,17 @@ class BrandingGateTests(unittest.TestCase):
             "crates/pier-core/assets/templates/login.html", "localStorage.getItem('pier-theme')", allowlist
         ))
 
+    def test_legacy_federation_header_is_a_wire_compatibility_identifier(self):
+        allowlist = [{
+            "path": "crates/pier-core/assets/templates/*.html",
+            "pattern": r"(?i)pier",
+            "reason": "protocol compatibility",
+        }]
+        self.assertIsNotNone(allowed_legacy_reference(
+            "crates/pier-core/assets/templates/servers/detail.html",
+            "X-Pier-Federation", allowlist
+        ))
+
     def test_global_allowlist_is_not_a_valid_design(self):
         from check_branding import load_inventory
         import tempfile, json
