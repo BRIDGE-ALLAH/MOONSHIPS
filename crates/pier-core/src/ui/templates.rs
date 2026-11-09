@@ -64,6 +64,34 @@ pub fn content_type_for(path: &str) -> &'static str {
 mod tests {
     use super::*;
 
+    #[test]
+    fn public_landing_page_renders_brand_and_product_content() {
+        let env = init_templates();
+        let html = env
+            .get_template("landing.html")
+            .expect("landing.html loads")
+            .render(minijinja::context! {})
+            .expect("landing.html renders");
+
+        for needle in [
+            "YOUR",
+            "INFRASTRUCTURE.",
+            "YOUR RULES.",
+            "NO PERMISSION NEEDED",
+            "CAPABILITIES",
+            "GITHUB",
+            "/static/moonships-landing.css",
+            "/login",
+        ] {
+            assert!(html.contains(needle), "landing page missing: {needle}");
+        }
+
+        assert!(
+            StaticAssets::get("moonships-landing.css").is_some(),
+            "landing page stylesheet is embedded"
+        );
+    }
+
     /// All templates load, the MiniJinja `t()` function resolves catalog keys,
     /// and `extends`/`include` chains render — exercised end-to-end on the two
     /// section-1 screens. Outside a request scope `t()` defaults to `en`.
