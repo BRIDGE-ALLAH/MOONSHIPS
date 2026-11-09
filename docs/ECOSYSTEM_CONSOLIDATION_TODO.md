@@ -373,3 +373,12 @@ A repository may be marked archive-eligible only after every retained capability
 - Expanded the combined GitHub search baseline to all 162 visible repository records (142 `bjo163` public search results + 20 `BRIDGE-ALLAH` organization search results), deduplicated by full repository name.
 - 21 of 162 records have richer repository API metadata; remaining 141 explicitly preserve only fields exposed by search, with unavailable fields set to null. No invented timestamps, language or license values.
 - Coverage is complete for the current search result set only, not for historical transferred/deleted/private/unindexed repositories. Continue targeted historical source discovery and licensing verification before final sign-off.
+
+## 2026-11-10 tenant propagation and first project vertical slice
+
+- AuthUser.tenant_id resolves only for exactly one membership; missing or ambiguous membership fails closed for tenant-scoped routes. Session, Basic and bearer API-token paths use the same resolver; peer principals remain unscoped.
+- Project listing for regular users joins the explicit project-to-tenant mapping. Project detail/update/delete and resource project-role guards reject cross-tenant and unmapped projects before project membership checks.
+- Project creation writes the project and project_tenants assignment in one transaction. Platform Owner/Admin remain platform-wide; peer project creation is gated until a peer grant has an explicit tenant.
+- Migration 74 binds invitations to a tenant and backfills existing invitations to legacy-default. Bootstrap owner and invitation acceptance create tenant memberships; invitation acceptance writes user, membership and accepted status in one transaction.
+- Added negative tests for missing/ambiguous membership, cross-tenant project mapping, unmapped projects and a user who has a project_members row in another tenant.
+- Remaining: enumerate every project/resource API and background job for tenant predicates; implement explicit tenant administration/selection and peer grant scope; test multi-tenant migrations/backups/restores; verify no global admin surfaces leak tenant data outside the intended platform operator boundary.

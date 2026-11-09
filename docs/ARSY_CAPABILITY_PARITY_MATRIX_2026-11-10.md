@@ -103,7 +103,9 @@ The audit branch now adds migration 73 in `crates/pier-core/src/db/schema.rs`:
 
 Three focused SQLite tests cover role and project backfill, idempotent replay, and an empty installation. - The Rust contract crate now also defines typed tenant, tenant membership, tenant role, lifecycle status and project-to-tenant mapping records; legacy global-role conversion is explicit and rejects unknown values. Two additional tests cover role mapping and missing tenant assignment.
 
-This migration is intentionally data-foundation only: current AuthUser, routes, SQL query scoping and RBAC behavior remain unchanged. Before multi-tenant enforcement, add explicit operator assignment and conflict checks, tenant-aware AuthUser propagation, route-level tenant predicates, and cross-tenant negative tests. Do not interpret the legacy default tenant as proof that historical projects were independently tenant-isolated.
+Migration 74 binds invitations to a tenant and backfills existing invitations to legacy-default. Bootstrap-owner creation and invitation acceptance now create tenant memberships atomically. AuthUser carries tenant_id only when exactly one membership exists; missing or multiple memberships remain unscoped. Session, Basic and bearer-token authentication resolve the same context; peer principals remain tenantless.
+
+The first project vertical slice is tenant-aware: regular-user project listing joins project_tenants; project detail/update/delete and resource project guards verify that the project belongs to the principal's tenant before checking project membership; project creation writes the project and tenant mapping in one transaction. Missing mappings are denied. Existing global Owner/Admin remain platform-wide operators; peer principals cannot create projects until peer grants carry explicit tenant scope. This is not yet full multi-tenant enforcement: audit all other project/resource queries and administrative surfaces, implement tenant selection for multi-membership users, and rehearse migrations/backups/restores before production enablement.
 
 ## 7. First implementation increment (additive, no runtime behavior change)
 

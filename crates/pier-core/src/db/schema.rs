@@ -1687,7 +1687,17 @@ const MIGRATIONS: &[&str] = &[
     SELECT id, 'legacy-default', 'legacy_backfill'
     FROM projects;
     "#,
-
+    // Migration 74: bind invitations to a tenant so accepted users inherit
+    // the inviter's tenant membership instead of becoming unscoped.
+    r#"
+    ALTER TABLE user_invitations
+        ADD COLUMN tenant_id TEXT REFERENCES tenants(id);
+    UPDATE user_invitations
+       SET tenant_id = 'legacy-default'
+     WHERE tenant_id IS NULL;
+    CREATE INDEX IF NOT EXISTS idx_user_invitations_tenant
+        ON user_invitations(tenant_id);
+    "#,
 ];
 
 /// One-time cleanup of `port_allocations` rows that repeat a container port.
@@ -1788,7 +1798,18 @@ mod arsy_tenant_migration_tests {
         let db = Connection::open_in_memory().expect("in-memory database");
         db.execute_batch(
             "CREATE TABLE users (id TEXT PRIMARY KEY, global_role TEXT NOT NULL);
-             CREATE TABLE projects (id TEXT PRIMARY KEY);",
+             CREATE TABLE projects (id TEXT PRIMARY KEY);
+             CREATE TABLE user_invitations (
+                 id TEXT PRIMARY KEY,
+                 email TEXT NOT NULL,
+                 invite_token_hash TEXT NOT NULL UNIQUE,
+                 default_global_role TEXT NOT NULL,
+                 invited_by TEXT,
+                 expires_at TEXT NOT NULL,
+                 accepted_at TEXT,
+                 accepted_user_id TEXT,
+                 created_at TEXT NOT NULL DEFAULT (datetime('now'))
+             );",
         )
         .expect("legacy tables");
         db.execute(
@@ -1814,7 +1835,7 @@ mod arsy_tenant_migration_tests {
     #[test]
     fn migration_backfills_users_and_projects_into_explicit_legacy_tenant() {
         let db = legacy_db();
-        db.execute_batch(MIGRATIONS.last().expect("tenant migration"))
+        db.execute_batch(MIGRATIONS[MIGRATIONS.len() - 2].expect("tenant migration"))
             .expect("apply tenant migration");
 
         let tenant_count: i64 = db
@@ -1859,7 +1880,7 @@ mod arsy_tenant_migration_tests {
     #[test]
     fn migration_is_idempotent_for_existing_legacy_assignments() {
         let db = legacy_db();
-        let migration = MIGRATIONS.last().expect("tenant migration");
+        let migration = MIGRATIONS[MIGRATIONS.len() - 2].expect("tenant migration");
         db.execute_batch(migration).expect("first application");
         db.execute_batch(migration).expect("second application");
 
@@ -1874,6 +1895,32 @@ mod arsy_tenant_migration_tests {
         assert_eq!(project_count, 1);
     }
 
+
+    #[test]
+    fn invitation_migration_backfills_existing_invites_to_legacy_tenant() {
+        let db = legacy_db();
+        db.execute_batch(MIGRATIONS[MIGRATIONS.len() - 2].expect("tenant migration"))
+            .expect("apply tenant migration");
+        db.execute(
+            "INSERT INTO user_invitations
+                (id, email, invite_token_hash, default_global_role, expires_at)
+             VALUES ('invite-1', 'alice@example.test', 'hash-1', 'user', '2099-01-01')",
+            [],
+        )
+        .expect("insert legacy invitation");
+
+        db.execute_batch(MIGRATIONS.last().expect("invitation tenant migration"))
+            .expect("apply invitation tenant migration");
+        let tenant_id: String = db
+            .query_row(
+                "SELECT tenant_id FROM user_invitations WHERE id = 'invite-1'",
+                [],
+                |row| row.get(0),
+            )
+            .expect("backfilled invitation tenant");
+        assert_eq!(tenant_id, "legacy-default");
+    }
+
     #[test]
     fn migration_handles_empty_installation_without_synthetic_members() {
         let db = Connection::open_in_memory().expect("in-memory database");
@@ -1882,7 +1929,7 @@ mod arsy_tenant_migration_tests {
              CREATE TABLE projects (id TEXT PRIMARY KEY);",
         )
         .expect("legacy tables");
-        db.execute_batch(MIGRATIONS.last().expect("tenant migration"))
+        db.execute_batch(MIGRATIONS[MIGRATIONS.len() - 2].expect("tenant migration"))
             .expect("apply tenant migration");
 
         let member_count: i64 = db

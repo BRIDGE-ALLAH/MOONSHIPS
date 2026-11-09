@@ -465,7 +465,10 @@ mod tests {
             correlation_id: "correlation-1".into(),
             requested_at: "2026-11-10T00:00:00Z".into(),
         };
-        assert_eq!(request.validate(), Err(ContractError::EmptyField("tenant_id")));
+        assert_eq!(
+            request.validate(),
+            Err(ContractError::EmptyField("tenant_id"))
+        );
     }
 
     #[test]
@@ -517,14 +520,26 @@ mod tests {
             created_at: "2026-11-10T00:00:00Z".into(),
             updated_at: "2026-11-10T00:00:00Z".into(),
         };
-        assert_eq!(operation.validate(), Err(ContractError::InvalidField("idempotency_key")));
+        assert_eq!(
+            operation.validate(),
+            Err(ContractError::InvalidField("idempotency_key"))
+        );
     }
 
     #[test]
     fn legacy_global_roles_map_explicitly_and_unknown_roles_fail_closed() {
-        assert_eq!(TenantRole::from_legacy_global_role("owner"), Ok(TenantRole::Owner));
-        assert_eq!(TenantRole::from_legacy_global_role("admin"), Ok(TenantRole::Admin));
-        assert_eq!(TenantRole::from_legacy_global_role("user"), Ok(TenantRole::Member));
+        assert_eq!(
+            TenantRole::from_legacy_global_role("owner"),
+            Ok(TenantRole::Owner)
+        );
+        assert_eq!(
+            TenantRole::from_legacy_global_role("admin"),
+            Ok(TenantRole::Admin)
+        );
+        assert_eq!(
+            TenantRole::from_legacy_global_role("user"),
+            Ok(TenantRole::Member)
+        );
         assert_eq!(
             TenantRole::from_legacy_global_role("superuser"),
             Err(ContractError::InvalidField("global_role"))
@@ -539,7 +554,10 @@ mod tests {
             source: TenantMappingSource::LegacyBackfill,
             created_at: "2026-11-10T00:00:00Z".into(),
         };
-        assert_eq!(mapping.validate(), Err(ContractError::EmptyField("tenant_id")));
+        assert_eq!(
+            mapping.validate(),
+            Err(ContractError::EmptyField("tenant_id"))
+        );
     }
 
     #[test]

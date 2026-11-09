@@ -143,7 +143,6 @@ pub struct AuthUser {
     pub is_peer: bool,
 }
 
-
 /// Resolve a request tenant only when the user has exactly one membership.
 /// Zero or multiple memberships are deliberately unscoped until an explicit
 /// tenant-selection mechanism is introduced; callers must not guess.
@@ -660,6 +659,8 @@ fn login_redirect_for_path(path_and_query: &str) -> String {
 
 #[cfg(test)]
 mod tests {
+    use super::*;
+
     #[test]
     fn tenant_resolution_fails_closed_for_missing_or_ambiguous_membership() {
         let db = rusqlite::Connection::open_in_memory().unwrap();
@@ -682,9 +683,6 @@ mod tests {
         );
         assert_eq!(resolve_tenant_id(&db, "multi-tenant").unwrap(), None);
     }
-
-
-    use super::*;
 
     #[test]
     fn is_api_path_matches_api_and_registry_only() {
