@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ============================================================================
-# Pier self-updater — installed as /usr/local/sbin/pier-update.
+# MOONSHIPS self-updater — installed as /usr/local/sbin/pier-update.
 #
 # Run as root by pier-updater.service, which pier-updater.path starts when the
 # panel drops /opt/pier/data/update-request. It re-runs the official
@@ -26,7 +26,7 @@ REQUEST=/opt/pier/data/update-request
 STATE_DIR=/var/lib/pier-updater
 STATUS="${STATE_DIR}/status.json"
 LOG="${STATE_DIR}/last.log"
-REPO="${PIER_UPDATE_REPO:-joveptesg/pier}"
+REPO="${PIER_UPDATE_REPO:-BRIDGE-ALLAH/MOONSHIPS}"
 REF="${PIER_UPDATE_REF:-main}"
 
 # Consume the request first: the path unit uses PathExists=, so a request left
