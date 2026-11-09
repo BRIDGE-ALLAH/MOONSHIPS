@@ -17,12 +17,13 @@
 | Repository | Initial domain | Initial disposition | Evidence / next action |
 |---|---|---|---|
 | `bjo163/A-L-L-A-H.COM` | A-L-L-A-H public ecosystem, Fastify/Next monorepo | Import candidate | 1,833-tree baseline; inspect apps/packages/contracts, license, secret scan, source SHA |
-| `bjo163/E-O-L` | Empire of Light | Import candidate | Compare with EMPIRE-OF-LIGHT |
-| `bjo163/HBD-ALLAH` | A-L-L-A-H/GODPROMISE-related | Unclassified | Inspect README, tree, narrative and license |
+| `bjo163/E-O-L` | Temps-derived self-hosted PaaS fork/source | Upstream/fork candidate | README describes Temps product and upstream install flow; inspect unique diff, license and relation to current Pier-derived MW before any import |
+| `bjo163/HBD-ALLAH` | ROCKSOUL Q4Q comparative-religion research dashboard | Research prototype / archive candidate | Static dashboard; 25 roots registered toward 75 target; zero scores independently source-validated; preserve explicit research limitations and no theological verdict claims |
 | `bjo163/moonwitnessxv` | MoonWitness XV monorepo | High-priority import candidate | 2,721-tree baseline; contains app workspaces, ARSY, ORACLE, LUMEN, ECHOLOG, architecture and 52-milestone TODO |
 | `bjo163/moonwitness-II` | Story/witness platform | Import candidate | Canonical content datasets and web application; compare with MOONWITNESS |
 | `bjo163/moonwitness-II-q4q` | Scripture evidence explorer | Import candidate / sensitive corpus boundary | Preserve corpus, provenance, deterministic evidence and interpretation separation |
 | `bjo163/moonwitness-x` | Moonwitness Time System | Research/import candidate | Verify astronomical models and claims; map Antikythera crates |
+| `bjo163/moonships` | Windows-first developer/infrastructure workbench | Prototype candidate / separate product domain | README says Tauri 2 + Rust + React + TypeScript scaffold; operational modules remain planned; do not confuse with current MOONSHIPS infrastructure control plane |
 | `bjo163/moonwitness-corpus` | Knowledge corpus | Import candidate | Inspect schemas, provenance, corpus licensing |
 | `bjo163/moonwitness-reborn` | MoonWitness successor | Unclassified | Compare with XV and other canonical candidates |
 | `bjo163/moonwitness-xiv` | MoonWitness version | Historical/import candidate | Determine unique content and migrations |
@@ -42,7 +43,7 @@
 | `bjo163/rocksoul-aws` | Law/analysis | Domain candidate | Inspect meaning, scope and source boundaries |
 | `bjo163/rocksoul-mftl` | STORY domain | Domain candidate | See above |
 | `bjo163/rocksoul-mftl` | Narrative corpus | Domain candidate | Duplicate mention retained for cross-reference only |
-| `bjo163/mwx-ships` | Alternate MOONSHIPS control plane | Compare before import | Rust/Loco/SeaORM vs MW Rust/Axum/Pier architecture |
+| `bjo163/mwx-ships` | Alternate MOONSHIPS infrastructure control plane | Compare before import | Rust/Loco/SeaORM vs MW Rust/Axum/Pier architecture |
 | `bjo163/AQEL` | Arabic-first language/compiler | Import candidate | Pre-release; inspect compiler implementation, grammar, tests and license |
 | `bjo163/moonsky` | Messaging/channels | Import candidate | Compare with MOONWITNESS messaging and gateway |
 | `bjo163/antikythera-time` | Celestial time engine | Research candidate | Compare with moonwitness-x |
