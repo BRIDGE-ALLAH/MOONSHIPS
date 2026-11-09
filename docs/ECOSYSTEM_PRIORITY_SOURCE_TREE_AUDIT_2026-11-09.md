@@ -7,10 +7,11 @@
 
 ## 1. Snapshot and source-tree evidence
 
-All listed recursive trees returned without truncation. Tree SHAs identify the snapshot reviewed; they are not claims that every file was semantically audited.
+The priority set covers 16 repositories; the MOONWITNESS tree count is taken from the pinned recursive audit in the deep-source audit document. All listed recursive trees returned without truncation. Tree SHAs identify the snapshot reviewed; they are not claims that every file was semantically audited.
 
 | Source | Default-branch tree SHA | Entries | Observed structure / disposition |
 |---|---|---:|---|
+| BRIDGE-ALLAH/MOONWITNESS | 8f9a5de38c39ea82388178effefead06af4e2c8b | 975 (from pinned recursive audit) | Next.js/Rust/TypeScript ecosystem workspace with ARSY backend and HEADQUARTER prototype; ZILL WATCH is a HEADQUARTER module, not a separate app. |
 | bjo163/moonwitnessxv | 1b5c1b717b68db8ca7c06fa3dc5cc392edc9257d | 2,364 | Large TypeScript monorepo with apps, packages, CI, ADRs, security contracts and migration plans. ARSY/Fastify is a migration reference; many app surfaces are explicitly parked, scaffolded or gated. |
 | bjo163/A-L-L-A-H.COM | bf8681c714b9983861664a05f0c6d9df752f7549 | 1,465 | Fastify/TypeScript ARSY source, LLM gateway plugin and numerous quarantined/proposed plans. Do not equate proposed remediation with merged fixes. |
 | bjo163/rocksoul | 6da18d7e2144136e02d7a7ff67577b49112b59f0 | 67 | Small Rust workspace with CI, architecture, cognitive-core, evaluation and security/sandbox plans. Bounded cognition candidate, not global authority. |
