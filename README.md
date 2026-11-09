@@ -29,6 +29,7 @@ The consolidation is being tracked in:
 - [MW-GATEWAY provenance and test-fixture security review](docs/MW_GATEWAY_PROVENANCE_SECURITY_REVIEW_2026-11-09.md)
 - [Upstream lineage verification across platform candidates](docs/UPSTREAM_LINEAGE_VERIFICATION_2026-11-09.md)
 - [Ecosystem Repository Register](docs/ECOSYSTEM_REPOSITORY_REGISTER.md)
+- [W0/W1 refreshed inventory and architecture reconciliation (2026-11-09)](docs/W0_W1_RECONCILIATION_AUDIT_2026-11-09.md)
 - [Complete public bjo163 repository index](docs/ECOSYSTEM_PUBLIC_REPOSITORY_INDEX.md)
 
 These documents distinguish verified implementation from prototypes, plans, legacy sources, and unresolved candidates. No legacy repository is considered migrated or safe to archive merely because it appears in the register.
