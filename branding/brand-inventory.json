@@ -215,8 +215,8 @@
     },
     {
       "path": "docs/*.md",
-      "pattern": "(?i)MOONSHIPS",
-      "reason": "Ecosystem audit, architecture, migration, and historical source documents must name MOONSHIPS when describing the existing product, source repositories, and compatibility boundaries; this is intentional domain documentation, not a stale repository destination.",
+      "pattern": "(?i)pier|MOONSHIPS",
+      "reason": "Ecosystem audit, security review, architecture, migration, and historical source documents must name the legacy Pier lineage and MOONSHIPS product when describing source repositories, implementation paths, and compatibility boundaries; these references are intentional technical documentation, not stale repository destinations.",
       "owner": "ecosystem audit and architecture documentation"
     }
   ]
