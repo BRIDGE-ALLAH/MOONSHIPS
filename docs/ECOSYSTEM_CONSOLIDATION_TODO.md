@@ -8,8 +8,8 @@ This snapshot separates completed evidence collection from remaining acceptance 
 |---|---|---|
 | W0.01 repository visibility inventory | Baseline captured | 142 public bjo163 search results, 20 visible BRIDGE-ALLAH repos, 1 separately accessible bjo163 repo; rerun at final audit and reconcile any inaccessible/history gaps |
 | W0.02 metadata | Partial | Search/list JSON snapshot exists; languages, releases, tags, latest commits, licenses/files, workflows, CI, submodules/LFS and assets remain incomplete |
-| W0.03 recursive source audit | Partial | Priority tree audit added for 15 repos; full recursive audit of all accessible candidates and file-level review remain open |
-| W0.04 unresolved names | Partial | ZILL WATCH confirmed as a HEADQUARTER prototype module; THE BATTERIES appears in narrative/source catalog only, technical referent unresolved |
+| W0.03 recursive source audit | Partial | Priority tree audit added for 16 repos, including the MOONWITNESS HEADQUARTER prototype/source registry; full recursive audit of all accessible candidates and file-level review remain open |
+| W0.04 unresolved names | Partial | ZILL WATCH confirmed as a HEADQUARTER prototype module; THE BATTERIES appears in MOONWITNESS narrative/source catalog only; owner-wide bjo163 search yielded false positives, technical referent unresolved |
 | W1.01 ARSY comparison | Partial / blocked | Fastify source findings recorded; Rust/Axum parity, full route/auth/tenant matrix and security-negative tests remain open |
 | W1.02 MOONSHIPS comparison | Partial | Current MW retained; mwx-ships and Tauri workbench assessed at source/docs level; feature/security parity and CI evidence remain open |
 | W1.03 platform capability ownership | Drafted | Proposed ADR-0001–0009 and domain ownership map added; owner ratification and source-backed contracts remain open |
