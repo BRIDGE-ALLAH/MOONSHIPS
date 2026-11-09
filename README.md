@@ -1,8 +1,11 @@
-<p align="center"><img src="docs/og-banner.svg" alt="MOONSHIPS — Your Infrastructure. Your Rules. Your Universe." width="640"></p>
+<p align="center"><img src="docs/logo.svg" alt="MOONSHIPS logo" width="360"></p>
+<p align="center"><a href="docs/og-banner.svg">Social preview artwork</a></p>
 
 > **An open-source, self-hosted platform for deploying and operating infrastructure you control.**
 
 MOONSHIPS brings applications, containers, Docker Compose stacks, databases, domains, TLS, backups, and server operations into one lightweight control plane—from a small VPS to a fleet of servers.
+
+MOONSHIPS is a separately branded derivative of the Pier codebase. Upstream copyright and license notices are retained. The archived `UPSTREAM-PIER-*` documents are historical upstream legal references; they are not MOONSHIPS contributor agreements or MOONSHIPS trademark policy.
 
 ## What you can do
 - **Deploy applications:** Git-based deployments, Dockerfiles, images, Compose, and Railpack auto-builds.

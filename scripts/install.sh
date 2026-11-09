@@ -190,7 +190,7 @@ fi
 
 if systemctl is-active --quiet pier 2>/dev/null; then
     UPGRADE=true
-    info "Existing Pier installation detected — upgrading in place for MOONSHIPS..."
+    info "Existing legacy installation detected — upgrading in place for MOONSHIPS..."
     systemctl stop pier
 elif [[ "$LEGACY_PRESENT" == true ]]; then
     UPGRADE=true
