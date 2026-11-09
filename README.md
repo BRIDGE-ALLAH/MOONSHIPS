@@ -27,6 +27,7 @@ The consolidation is being tracked in:
 - [Deep source audit: platform, ARSY, gateway, data and UI](docs/DEEP_SOURCE_AUDIT_PLATFORM_ARSY_GATEWAY_DATA_UI_2026-11-09.md)
 - [Federation security review: TLS, WebSocket credentials, RBAC and SSRF](docs/FEDERATION_SECURITY_REVIEW_2026-11-09.md)
 - [MW-GATEWAY provenance and test-fixture security review](docs/MW_GATEWAY_PROVENANCE_SECURITY_REVIEW_2026-11-09.md)
+- [Upstream lineage verification across platform candidates](docs/UPSTREAM_LINEAGE_VERIFICATION_2026-11-09.md)
 - [Ecosystem Repository Register](docs/ECOSYSTEM_REPOSITORY_REGISTER.md)
 - [Complete public bjo163 repository index](docs/ECOSYSTEM_PUBLIC_REPOSITORY_INDEX.md)
 
