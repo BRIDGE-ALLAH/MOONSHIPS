@@ -19,6 +19,7 @@ The ecosystem is being consolidated as a modular monorepo: one source of truth, 
 The consolidation is being tracked in:
 - [Ecosystem Consolidation Audit](docs/ECOSYSTEM_CONSOLIDATION_AUDIT.md)
 - [Ecosystem Repository Register](docs/ECOSYSTEM_REPOSITORY_REGISTER.md)
+- [Complete public bjo163 repository index](docs/ECOSYSTEM_PUBLIC_REPOSITORY_INDEX.md)
 
 These documents distinguish verified implementation from prototypes, plans, legacy sources, and unresolved candidates. No legacy repository is considered migrated or safe to archive merely because it appears in the register.
 
