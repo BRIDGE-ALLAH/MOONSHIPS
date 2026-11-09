@@ -27,7 +27,7 @@ This repository is a MOONSHIPS-branded derivative of the Pier codebase. The file
 
 ## Reporting issues
 
-Use [GitHub Issues](https://github.com/BRIDGE-ALLAH/MOONSHIPS/issues). Include reproduction steps, the affected MOONSHIPS version/commit, OS, and Docker version.
+Use [GitHub Issues](https://github.com/BRIDGE-ALLAH/MW/issues). Include reproduction steps, the affected MOONSHIPS version/commit, OS, and Docker version.
 
 ## Security vulnerabilities
 
