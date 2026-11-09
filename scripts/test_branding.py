@@ -26,6 +26,19 @@ class BrandingGateTests(unittest.TestCase):
         self.assertEqual(signatures["app.welcome"], ("%{name}",))
         self.assertEqual(signatures["app.nested.count"], ("%{count}",))
 
+    def test_public_ui_cannot_allowlist_standalone_old_brand(self):
+        allowlist = [{
+            "path": "crates/pier-core/assets/templates/*.html",
+            "pattern": r"(?i)pier",
+            "reason": "legacy identifiers only",
+        }]
+        self.assertIsNone(allowed_legacy_reference(
+            "crates/pier-core/assets/templates/login.html", "title: Pier", allowlist
+        ))
+        self.assertIsNotNone(allowed_legacy_reference(
+            "crates/pier-core/assets/templates/login.html", "localStorage.getItem('pier-theme')", allowlist
+        ))
+
     def test_global_allowlist_is_not_a_valid_design(self):
         from check_branding import load_inventory
         import tempfile, json

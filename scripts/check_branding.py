@@ -30,8 +30,17 @@ def load_inventory(path: Path = INVENTORY_PATH) -> dict:
 
 def allowed_legacy_reference(path: str, line: str, allowlist: list[dict]) -> dict | None:
     for entry in allowlist:
-        if fnmatch.fnmatchcase(path, entry["path"]) and re.search(entry["pattern"], line):
-            return entry
+        if not fnmatch.fnmatchcase(path, entry["path"]) or not re.search(entry["pattern"], line):
+            continue
+        # In rendered templates and application locales, compatibility identifiers
+        # may remain, but a standalone/title-case Pier or PIER word is public-brand
+        # leakage and must be corrected rather than allowlisted.
+        if path.startswith("crates/pier-core/assets/templates/") or path.startswith("crates/pier-core/locales/"):
+            if re.search(r"(?<![A-Za-z0-9])Pier(?![A-Za-z0-9])", line):
+                return None
+            if re.search(r"(?<![A-Za-z0-9])PIER(?![_A-Za-z0-9])", line):
+                return None
+        return entry
     return None
 
 def parse_locale(path: Path) -> tuple[set[str], dict[str, tuple[str, ...]]]:
