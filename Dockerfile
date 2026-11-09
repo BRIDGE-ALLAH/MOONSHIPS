@@ -22,9 +22,9 @@ RUN mkdir -p \
       crates/pier-tests/src \
       crates/arsy-contracts/src \
     && for crate in pier-core pier-agent pier-net-helper pier-tests; do \
-         printf 'fn main() {}\\n' > "crates/$crate/src/main.rs"; \
+         printf 'fn main() {}\n' > "crates/$crate/src/main.rs"; \
        done \
-    && printf '// temporary workspace target\\n' > crates/arsy-contracts/src/lib.rs \
+    && printf '// temporary workspace target\n' > crates/arsy-contracts/src/lib.rs \
     && cargo build --release --locked --package pier-core \
     && rm -rf crates/pier-core/src crates/pier-agent/src crates/pier-net-helper/src crates/pier-tests/src crates/arsy-contracts/src
 

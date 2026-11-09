@@ -84,7 +84,7 @@ pub async fn accept(
             .db
             .lock()
             .map_err(|e| anyhow::anyhow!("DB lock: {e}"))?;
-        let row: Option<(String, String, String)> = db
+        let row: Option<(String, String, String, Option<String>)> = db
             .query_row(
                 "SELECT id, email, default_global_role, tenant_id
                  FROM user_invitations

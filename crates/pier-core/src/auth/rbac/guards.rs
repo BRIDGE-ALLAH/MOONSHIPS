@@ -40,51 +40,7 @@ pub struct ProjectMembership {
     pub user_id: String,
     pub role: ProjectRole,
     pub via_global_admin: bool,
-
-    #[test]
-    fn project_role_guard_denies_cross_tenant_members_even_with_project_membership() {
-        let db = Connection::open_in_memory().unwrap();
-        db.execute_batch(
-            "CREATE TABLE project_tenants (project_id TEXT PRIMARY KEY, tenant_id TEXT NOT NULL);
-             CREATE TABLE project_members (
-                 user_id TEXT NOT NULL,
-                 project_id TEXT NOT NULL,
-                 project_role TEXT NOT NULL
-             );
-             INSERT INTO project_tenants (project_id, tenant_id)
-             VALUES ('project-a', 'tenant-a'), ('project-b', 'tenant-b');
-             INSERT INTO project_members (user_id, project_id, project_role)
-             VALUES ('user-a', 'project-a', 'viewer'), ('user-a', 'project-b', 'admin');",
-        )
-        .unwrap();
-
-        let user = AuthUser {
-            id: "user-a".into(),
-            username: "alice".into(),
-            role: "user".into(),
-            global_role: GlobalRole::User,
-            tenant_id: Some("tenant-a".into()),
-            session_id: "session-a".into(),
-            is_peer: false,
-        };
-
-        assert!(enforce_project_role(&user, "project-a", ProjectRole::Viewer, &db).is_ok());
-        assert!(matches!(
-            enforce_project_role(&user, "project-b", ProjectRole::Viewer, &db),
-            Err(AppError::Forbidden(_))
-        ));
-
-        let unscoped = AuthUser {
-            tenant_id: None,
-            ..user
-        };
-        assert!(matches!(
-            enforce_project_role(&unscoped, "project-a", ProjectRole::Viewer, &db),
-            Err(AppError::Forbidden(_))
-        ));
-    }
 }
-
 /// Generic factory: returns an async middleware that requires `min` global role.
 ///
 /// Wraps the closure so call-sites read like:
@@ -277,4 +233,48 @@ mod tenant_tests {
         assert!(!project_belongs_to_tenant(&db, "project-a", "tenant-b").unwrap());
         assert!(!project_belongs_to_tenant(&db, "unmapped-project", "tenant-a").unwrap());
     }
+
+    #[test]
+    fn project_role_guard_denies_cross_tenant_members_even_with_project_membership() {
+        let db = Connection::open_in_memory().unwrap();
+        db.execute_batch(
+            "CREATE TABLE project_tenants (project_id TEXT PRIMARY KEY, tenant_id TEXT NOT NULL);
+             CREATE TABLE project_members (
+                 user_id TEXT NOT NULL,
+                 project_id TEXT NOT NULL,
+                 project_role TEXT NOT NULL
+             );
+             INSERT INTO project_tenants (project_id, tenant_id)
+             VALUES ('project-a', 'tenant-a'), ('project-b', 'tenant-b');
+             INSERT INTO project_members (user_id, project_id, project_role)
+             VALUES ('user-a', 'project-a', 'viewer'), ('user-a', 'project-b', 'admin');",
+        )
+        .unwrap();
+
+        let user = AuthUser {
+            id: "user-a".into(),
+            username: "alice".into(),
+            role: "user".into(),
+            global_role: GlobalRole::User,
+            tenant_id: Some("tenant-a".into()),
+            session_id: "session-a".into(),
+            is_peer: false,
+        };
+
+        assert!(enforce_project_role(&user, "project-a", ProjectRole::Viewer, &db).is_ok());
+        assert!(matches!(
+            enforce_project_role(&user, "project-b", ProjectRole::Viewer, &db),
+            Err(AppError::Forbidden(_))
+        ));
+
+        let unscoped = AuthUser {
+            tenant_id: None,
+            ..user
+        };
+        assert!(matches!(
+            enforce_project_role(&unscoped, "project-a", ProjectRole::Viewer, &db),
+            Err(AppError::Forbidden(_))
+        ));
+    }
+
 }
