@@ -344,3 +344,10 @@ A repository may be marked archive-eligible only after every retained capability
 
 **Forbidden:** automatic deletion, force-push, history rewrite, secret publication, or archive before verified acceptance.
 
+## 2026-11-10 follow-on execution
+
+- CI for the preceding PR head `6e69754eca2d8a1e0d2f31dde5c63e394bd2c3cd` completed successfully (GitHub Actions run 42655941865). This validates that commit's configured workflow only; it is not a production, migration, security or integration acceptance.
+- Repository metadata API snapshot now covers 21 of 162 unique repositories visible in the combined search baseline: 5 initial samples plus 16 priority repos. Remaining 141 metadata records and repository history gaps are still open.
+- ARSY parity matrix added. It separates MW/Pier's current project RBAC from MOONWITNESS ARSY's single-operator token and signed deployment-operation controls, and from the legacy A-L-L-A-H.COM gateway lineage.
+- Source review confirms MW's AuthUser has no tenant/org field; its project membership/RBAC is not a general tenant hierarchy. MOONWITNESS ARSY currently maps deployment tenant_id to owner_id and uses one configured operator principal. These are distinct, concrete migration gaps.
+- Next implementation gate is typed ARSY contracts and deterministic project/owner-to-tenant mapping. No runtime auth, schema, database or API behavior changed in this pass.
