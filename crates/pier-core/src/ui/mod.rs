@@ -10,7 +10,6 @@ use crate::state::SharedState;
 /// Build the UI router serving HTML pages and static assets.
 pub fn ui_router(state: SharedState) -> Router<SharedState> {
     let public = Router::new()
-        .route("/", get(pages::landing_page))
         .route("/welcome", get(pages::landing_page))
         .route("/login", get(pages::login_page))
         .route("/setup", get(pages::setup_page))
