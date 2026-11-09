@@ -1,4 +1,4 @@
-# Simplified Chinese (zh-CN) — machine translation of en.yml (Pier admin panel).
+# Simplified Chinese (zh-CN) — machine translation of en.yml (MOONSHIPS admin panel).
 # Same key structure as en.yml; any missing key falls back to en (i18n! fallback).
 # Machine-translated — native review advisable before production.
 
@@ -42,7 +42,7 @@ nav:
 
 # Shared chrome rendered by base.html.
 layout:
-  support_pier: 支持 Pier
+  support_pier: 支持 MOONSHIPS
   deploy_in_progress: 进行中
   # Deploy badge count: "N deployment(s)". JS picks singular/plural by count.
   deployment_one: 次部署
@@ -110,7 +110,7 @@ setup:
   title: 安装设置
   proxy_error_title: 反向代理（Traefik）启动失败
   proxy_error_hint: "这通常是由于共享 IP 的 VPS 上 Docker Hub 速率限制导致的。要手动修复，请在服务器上运行："
-  proxy_error_after: "重启后，Pier 会自动重新启动 Traefik。此横幅将在 /setup 页面消失。"
+  proxy_error_after: "重启后，MOONSHIPS 会自动重新启动 Traefik。此横幅将在 /setup 页面消失。"
   create_admin: 创建管理员账户
   subtitle: 首次设置。请创建管理员账户。
   username: 用户名
@@ -165,7 +165,7 @@ invite:
   invalid_title: 邀请无效
   invalid_desc: 此链接已过期、已被使用或从未存在。请联系邀请你的人重新发送一个。
   back_to_login: 返回登录
-  welcome: 欢迎使用 Pier
+  welcome: 欢迎使用 MOONSHIPS
   invited_as: 你被邀请的身份为
   choose_credentials: 选择用户名和密码以完成账户设置。
   username: 用户名
@@ -292,7 +292,7 @@ servers_list:
   local: 本地
   peer: 对等节点
   mesh_network: Mesh(网格)网络
-  mesh_disabled_desc: 每个 Pier 节点之间的 WireGuard 隧道。已禁用。
+  mesh_disabled_desc: 每个 MOONSHIPS 节点之间的 WireGuard 隧道。已禁用。
   mesh_peers: 对等节点
   mesh_on: 开启
   enable_mesh: 启用 Mesh(网格)
@@ -331,7 +331,7 @@ servers_list:
   label_label: 标签
   label_hint: 将使用此令牌的主端的任意标识符。
   token_for: 令牌用于
-  reveal_warning: 立即复制 —— Pier 不会再次显示它。关闭此对话框后只能看到前缀。
+  reveal_warning: 立即复制 —— MOONSHIPS 不会再次显示它。关闭此对话框后只能看到前缀。
   reveal_instructions: '在主 pier-core 上：进入 <span class="font-mono">/servers</span> → 此 peer 所在行 → 将此值粘贴到<strong>联邦令牌</strong>字段中。'
   copied_confirm: 我已复制
   mesh_settings: Mesh(网格)设置
@@ -405,7 +405,7 @@ servers_list:
   toast_mesh_reapplied: Mesh 已重新应用
   toast_apply_partial: 应用部分失败
   toast_apply_failed: 应用失败
-  disable_confirm: 禁用 mesh？这将在每个 peer 上关闭 wg0 并清除 Pier 端的分配。
+  disable_confirm: 禁用 mesh？这将在每个 peer 上关闭 wg0 并清除 MOONSHIPS 端的分配。
   disable_uninstall_confirm: 同时在每个 peer 上卸载 pier-net-helper / wireguard 软件包吗？（确定 = 卸载，取消 = 保留安装）
   toast_mesh_disabled_prefix: Mesh 已禁用 ——
   toast_mesh_disabled_suffix: 个 peer 出现问题
@@ -425,7 +425,7 @@ servers_detail:
   remove: 移除
   promote_modal_title: "将代理升级 → 独立 pier-core"
   promote_modal_desc_pre: "导出一个捆绑包，包含当前与该服务器关联的所有服务、域名、环境变量、备份计划和全局配置 "
-  promote_modal_desc_post: "。在该服务器上应用它，使其能够作为完整的 Pier 面板运行，而不再是轻量级代理。"
+  promote_modal_desc_post: "。在该服务器上应用它，使其能够作为完整的 MOONSHIPS 面板运行，而不再是轻量级代理。"
   promote_heads_up: 注意
   promote_warn_core: 目标服务器必须运行 pier-core（相同主版本）。如果它只有 pier-agent，请先安装 pier-core。
   promote_warn_empty_db: 目标数据库必须为空（不存在任何服务）。导入会拒绝覆盖。
@@ -479,7 +479,7 @@ servers_detail:
   federation_token: 联邦令牌
   paired: 已配对
   not_paired: 未配对
-  federation_token_desc: "粘贴此 peer 在 <span class=\"font-mono\">/servers</span> → 联邦令牌 → <em>新建令牌</em> 下生成的明文令牌。Pier 以明文形式存储它（与 <span class=\"font-mono\">agent_token</span> 相同的取舍）；保存后我们绝不会再次显示它。"
+  federation_token_desc: "粘贴此 peer 在 <span class=\"font-mono\">/servers</span> → 联邦令牌 → <em>新建令牌</em> 下生成的明文令牌。MOONSHIPS 以明文形式存储它（与 <span class=\"font-mono\">agent_token</span> 相同的取舍）；保存后我们绝不会再次显示它。"
   working: "处理中…"
   clear: 清除
   agent_credential: 代理凭据
@@ -578,7 +578,7 @@ resources_create:
   pick_from_list_button: 从列表中选择
   enter_url_manually_button: 手动输入 URL
   already_deployed_suffix: "— 已部署"
-  repos_already_deployed_hint: 个仓库已在此 Pier 上部署 — 您可以再次部署它们（例如使用不同的 compose 文件）。
+  repos_already_deployed_hint: 个仓库已在此 MOONSHIPS 上部署 — 您可以再次部署它们（例如使用不同的 compose 文件）。
   change_repos_github: 在 GitHub 上更改仓库 ↗
   manual_url_hint: 必须是您的 GitHub App 安装可以访问的仓库。身份验证使用上方选择的来源。
   configuration_heading: 配置
@@ -600,7 +600,7 @@ resources_create:
   target_server_hint: 资源将部署到的服务器
   host_port_label: 主机端口（可选）
   host_port_auto_placeholder: 自动
-  host_port_hint: "留空则自动：Pier 会尝试标准端口（例如 Postgres 用 5432），若被占用则从其端口池中选择。"
+  host_port_hint: "留空则自动：MOONSHIPS 会尝试标准端口（例如 Postgres 用 5432），若被占用则从其端口池中选择。"
   btn_creating: 正在创建…
   btn_continue: 继续
   btn_deploy_cluster: 部署集群
@@ -1291,7 +1291,7 @@ packages_list:
   saving: 保存中…
   save: 保存
   mirror_intro: 从上游注册表缓存的软件包。
-  mirror_help: 每一行都是此 Pier 至少获取过一次的公共软件包。Tarball 是延迟拉取的——只有客户端实际安装过的版本才会落到磁盘上。仅有元数据的版本存放在 SQLite 中，不计入缓存大小上限。
+  mirror_help: 每一行都是此 MOONSHIPS 至少获取过一次的公共软件包。Tarball 是延迟拉取的——只有客户端实际安装过的版本才会落到磁盘上。仅有元数据的版本存放在 SQLite 中，不计入缓存大小上限。
   pinned_only: 仅已固定
   refreshing: 刷新中…
   refresh: 刷新
@@ -1453,7 +1453,7 @@ domains_list:
 proxy_settings:
   title: 代理设置
   heading: 反向代理
-  subtitle: Traefik 反向代理 —— 由 Pier 自动管理
+  subtitle: Traefik 反向代理 —— 由 MOONSHIPS 自动管理
   version_title: Traefik 版本
   version_current: 当前
   version_latest: 最新可用
@@ -1476,7 +1476,7 @@ proxy_settings:
   platform_domain_label: 平台域名
   active: 已激活
   not_loaded: 未加载 —— 保存以应用
-  platform_domain_note: "Pier 自身的自定义域名 —— 通过 SSL 路由到此面板。请勿包含 <code>https://</code>（例如 <code>pier.example.com</code>）。"
+  platform_domain_note: "MOONSHIPS 自身的自定义域名 —— 通过 SSL 路由到此面板。请勿包含 <code>https://</code>（例如 <code>pier.example.com</code>）。"
   acme_email_label: ACME 邮箱
   acme_email_placeholder: "admin@example.com"
   acme_email_note: 用于接收 Let's Encrypt 证书通知的邮箱
@@ -1598,7 +1598,7 @@ compose_list:
   create_first: 创建你的第一个堆栈
   migrate_heading_prefix: 移动
   migrate_heading_suffix: 到另一台服务器
-  migrate_explainer: Pier 将在所选对等节点上重建此堆栈，然后拆除本地副本。有状态堆栈（命名卷）会被 API 拒绝。
+  migrate_explainer: MOONSHIPS 将在所选对等节点上重建此堆栈，然后拆除本地副本。有状态堆栈（命名卷）会被 API 拒绝。
   target_server: 目标服务器
   select: 选择
   dns_warning: DNS A 记录仍指向此服务器。移动后请更新它们，以便用户实际访问到新节点。
@@ -1660,7 +1660,7 @@ settings_index:
   subheading: 应用配置
   general_title: 常规
   app_url: 应用 URL
-  app_url_desc: 用于访问 Pier 的 URL
+  app_url_desc: 用于访问 MOONSHIPS 的 URL
   timezone: 时区
   timezone_desc: 用于通知和时间戳。
   timezone_now: '当前： '
@@ -1711,7 +1711,7 @@ settings_index:
   federation_outgoing: '<strong>出站</strong>（从此处控制其他服务器）通过 <a href="/servers" class="text-blue-500 hover:underline">服务器</a>页面以“Peer core”类型进行管理。'
   federation_incoming: '<strong>入站</strong>在此处：你签发一个令牌并交给另一个 pier-core 的操作员。他们将其粘贴到自己的“添加服务器 → Peer core”表单中，其面板即可通过 REST 获得对你实例的管理员等效访问权限。'
   tokens_grant_admin: 令牌授予完整的管理员权限 —— 可随时撤销；无论哪种方式，此实例都将继续自主运行。
-  protocol_note: '协议：使用 <code class="font-mono bg-gray-100 dark:bg-gray-800 px-1 rounded">X-Pier-Peer-Token</code> 头进行身份验证的请求会匹配 <code class="font-mono bg-gray-100 dark:bg-gray-800 px-1 rounded">peer_grants</code> 中的一行，并在该次调用中被视为管理员会话。'
+  protocol_note: '协议：使用 <code class="font-mono bg-gray-100 dark:bg-gray-800 px-1 rounded">X-MOONSHIPS-Peer-Token</code> 头进行身份验证的请求会匹配 <code class="font-mono bg-gray-100 dark:bg-gray-800 px-1 rounded">peer_grants</code> 中的一行，并在该次调用中被视为管理员会话。'
   issued_tokens: 已签发的令牌
   issue_token: 签发令牌
   col_name: 名称
@@ -1922,17 +1922,17 @@ settings_notifications:
 
 # Settings — updates (settings/updates.html).
 settings_updates:
-  updater_running: "正在更新 Pier…"
-  updater_running_detail: "安装程序正在更新 Pier、其辅助程序和服务。期间面板会重启，可能需要几分钟。"
+  updater_running: "正在更新 MOONSHIPS…"
+  updater_running_detail: "安装程序正在更新 MOONSHIPS、其辅助程序和服务。期间面板会重启，可能需要几分钟。"
   updater_timeout: "更新在 30 分钟内未完成。请检查服务器：journalctl -u pier-updater"
   updater_banner_title: "启用完整的一键更新"
-  updater_banner_desc: "此服务器由旧版安装程序安装，因此面板更新只能替换 Pier 二进制文件，无法更新辅助程序和系统服务。请通过 SSH 运行一次安装程序，之后面板中的每次更新都会自动更新全部组件。"
+  updater_banner_desc: "此服务器由旧版安装程序安装，因此面板更新只能替换 MOONSHIPS 二进制文件，无法更新辅助程序和系统服务。请通过 SSH 运行一次安装程序，之后面板中的每次更新都会自动更新全部组件。"
   page_title: 更新
   heading: 更新
-  subheading: 管理 Pier 版本和更新偏好
+  subheading: 管理 MOONSHIPS 版本和更新偏好
   current_version: 当前版本
   version_label: 版本
-  version_desc: 已安装的 Pier 版本
+  version_desc: 已安装的 MOONSHIPS 版本
   build_date_label: 二进制构建日期
   build_date_desc: 此二进制文件的编译时间
   uptime_label: 运行时长
@@ -1947,15 +1947,15 @@ settings_updates:
   build_prefix: '构建：'
   download_size_prefix: '下载大小：'
   install_update_label: 安装更新
-  install_update_desc: Pier 将在更新后自动重启
+  install_update_desc: MOONSHIPS 将在更新后自动重启
   update_and_restart: 更新并重启
   update_complete_title: 更新完成
-  update_complete_desc: Pier 已成功更新。
+  update_complete_desc: MOONSHIPS 已成功更新。
   update_failed: 更新失败
   check_failed_title: 检查失败
   update_settings: 更新设置
   update_mode_label: 更新模式
-  update_mode_desc: 选择 Pier 处理可用更新的方式
+  update_mode_desc: 选择 MOONSHIPS 处理可用更新的方式
   mode_auto_label: 自动
   mode_auto_desc: 自动下载并安装更新
   mode_notify_label: 仅通知
@@ -1976,19 +1976,19 @@ settings_updates:
   new_build_available: '有可用的新构建：%{build}'
   running_latest: 你正在运行最新版本
   check_updates_failed: '检查更新失败：%{error}'
-  confirm_install: Pier 将下载更新并重启。是否继续？
+  confirm_install: MOONSHIPS 将下载更新并重启。是否继续？
   progress_downloading: 正在下载更新…
   progress_downloading_detail: 这可能需要一些时间，取决于你的网络连接
   progress_installing: 正在安装更新…
   progress_installing_detail: 正在应用更新并准备重启
-  progress_restarting: 正在重启 Pier…
+  progress_restarting: 正在重启 MOONSHIPS…
   progress_restarting_detail: 服务器正在重启。请稍候…
   progress_reconnecting: 正在重新连接…
   update_failed_fallback: 更新失败
   update_request_failed: '更新请求失败：%{error}'
   progress_complete: 更新完成！
-  progress_complete_detail: Pier 已成功更新
-  reconnect_timeout: Pier 可能仍在重启。请尝试手动刷新页面。
+  progress_complete_detail: MOONSHIPS 已成功更新
+  reconnect_timeout: MOONSHIPS 可能仍在重启。请尝试手动刷新页面。
   save_settings_failed: 保存设置失败
   save_failed: '保存失败：%{error}'
 
@@ -2265,7 +2265,7 @@ emergency_export:
   toast_downloaded: 归档已下载
 support_modal:
   close: 关闭
-  heading: 喜欢 Pier 吗？支持我们的工作。
+  heading: 喜欢 MOONSHIPS 吗？支持我们的工作。
   body_profitable: '多亏了<span class="font-semibold text-gray-900 dark:text-white">您</span>，我们已经实现盈利，但是&hellip;'
   body_features: 我们希望开发更多很酷的功能。
   body_help: 为此我们需要您在资金上支持我们的工作。
