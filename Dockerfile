@@ -28,6 +28,8 @@ RUN mkdir -p \
 # Copy real sources + assets
 COPY crates/ crates/
 COPY templates/ templates/
+# helper_unit.rs embeds this unit at compile time.
+COPY scripts/pier-net-helper.service scripts/pier-net-helper.service
 
 # Touch main.rs to invalidate the cached dummy build
 RUN touch crates/pier-core/src/main.rs \
