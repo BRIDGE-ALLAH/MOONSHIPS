@@ -246,8 +246,10 @@ fn verify_any_service_signature(state: &SharedState, signature: &SignatureCheck<
             "SELECT git_webhook_secret FROM services
              WHERE git_webhook_secret IS NOT NULL AND git_webhook_secret != ''",
         )?;
-        stmt.query_map([], |row| row.get::<_, String>(0))?
-            .collect::<Result<Vec<_>, _>>()?
+        let rows = stmt
+            .query_map([], |row| row.get::<_, String>(0))?
+            .collect::<Result<Vec<_>, _>>()?;
+        rows
     };
 
     if secrets.iter().any(|secret| signature.verify(secret)) {
@@ -275,8 +277,10 @@ fn verify_any_github_app_signature(
              WHERE source_type = 'github-app' AND is_active = 1
                AND webhook_secret IS NOT NULL AND webhook_secret != ''",
         )?;
-        stmt.query_map([], |row| row.get::<_, String>(0))?
-            .collect::<Result<Vec<_>, _>>()?
+        let rows = stmt
+            .query_map([], |row| row.get::<_, String>(0))?
+            .collect::<Result<Vec<_>, _>>()?;
+        rows
     };
 
     if secrets
