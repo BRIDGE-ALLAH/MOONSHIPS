@@ -38,7 +38,7 @@ After installation, open https://YOUR_SERVER_IP:8443/setup and create the admini
 - pier.service, pier-net-helper.service, updater units, and /run/pier/net.sock
 - Docker networks, containers, volumes, TLS material, and application data
 
-Take a provider snapshot and verify a backup before upgrading. Keep the previous binary for rollback. See [MIGRATION.md](MIGRATION.md).
+The installer automatically backs up the existing data directory, environment, binaries, and systemd units under `/var/backups/moonships/` before replacement. Also take a provider snapshot (Docker volumes are outside that backup) and verify a backup before upgrading. See [MIGRATION.md](MIGRATION.md).
 
 **Do not rename legacy data paths, service units, accounts, environment keys, or helper sockets during a branding-only upgrade.** The current runtime components depend on these interfaces; changing them independently risks downtime or data loss.
 
