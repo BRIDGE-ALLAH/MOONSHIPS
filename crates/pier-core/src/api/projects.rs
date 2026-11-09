@@ -57,11 +57,15 @@ pub async fn list(
             "SELECT p.id, p.name, p.description, p.port_range_start, p.port_range_end, p.created_at
              FROM projects p
              JOIN project_members pm ON pm.project_id = p.id
-             WHERE pm.user_id = ?1
+             JOIN project_tenants pt ON pt.project_id = p.id
+             WHERE pm.user_id = ?1 AND pt.tenant_id = ?2
              ORDER BY p.name",
         )?;
         let rows: Vec<serde_json::Value> = stmt
-            .query_map([&user.id], project_row)?
+            .query_map(
+                rusqlite::params![&user.id, user.tenant_id.as_deref().unwrap_or("")],
+                project_row,
+            )?
             .filter_map(|r| r.ok())
             .collect();
         rows
@@ -186,6 +190,9 @@ pub async fn create(
         .lock()
         .map_err(|e| anyhow::anyhow!("DB lock: {e}"))?;
 
+    let tenant_id = user.tenant_id.as_deref().ok_or_else(|| {
+        AppError::Forbidden(crate::i18n::te("errors.projects.create_admin_only"))
+    })?;
     validate_port_range(&db, body.port_range_start, body.port_range_end, None)?;
 
     db.execute(
@@ -198,6 +205,11 @@ pub async fn create(
             body.port_range_start,
             body.port_range_end
         ],
+    )?;
+    db.execute(
+        "INSERT INTO project_tenants (project_id, tenant_id, mapping_source)
+         VALUES (?1, ?2, 'operator_assignment')",
+        rusqlite::params![id, tenant_id],
     )?;
 
     Ok(Json(serde_json::json!({"ok": true, "id": id})))
