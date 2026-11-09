@@ -23,7 +23,8 @@ The consolidation is being tracked in:
 - [BRIDGE-ALLAH organization repository audit (2026-11-09)](docs/ECOSYSTEM_ORG_REPOSITORY_AUDIT_2026-11-09.md)
 - [MW architecture conflict register](docs/MW_ARCHITECTURE_CONFLICT_REGISTER.md)
 - [ARSY Fastify source audit](docs/ARSY_MOONWITNESS_FASTIFY_SOURCE_AUDIT.md)
-- [RGBL, MFTL, MOONSKY and MOONSHIPS domain audit](docs/DOMAIN_SOURCE_AUDIT_RGBL_MFTL_MOONSKY_MOONSHIPS.md)
+- [RGBL, MFTL, MOONSKY and MOONSHIPS domain audit](docs/DOMAIN_SOURCE_AUDIT_RGBL_MFTL_MOONSHIPS.md)
+- [Deep source audit: platform, ARSY, gateway, data and UI](docs/DEEP_SOURCE_AUDIT_PLATFORM_ARSY_GATEWAY_DATA_UI_2026-11-09.md)
 - [Ecosystem Repository Register](docs/ECOSYSTEM_REPOSITORY_REGISTER.md)
 - [Complete public bjo163 repository index](docs/ECOSYSTEM_PUBLIC_REPOSITORY_INDEX.md)
 
