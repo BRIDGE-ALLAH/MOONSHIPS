@@ -1,579 +1,915 @@
-# MOONSHIPS — Engineering TODO & Product Roadmap
+# MOONSHIPS — Consolidated Engineering Backlog
 
-> **Status:** Draft backlog hasil static audit tahap pertama + product brainstorm.  
-> **Target branch:** `rebrand/moonships-full-brand`  
-> **Prioritas:** P0 = release blocker; P1 = security/reliability wajib sebelum production; P2 = hardening/quality; P3 = product expansion.  
-> **Catatan audit:** Temuan di bawah adalah hasil static review pada jalur kritis, bukan klaim bahwa seluruh 368 file telah diaudit baris demi baris. Setiap task wajib diverifikasi ulang terhadap HEAD terbaru sebelum implementasi. Jangan menandai selesai hanya karena kode sudah ditulis; bukti test dan review harus tersedia.
+> **Backlog revision:** 2  
+> **Branch:** `rebrand/moonships-full-brand`  
+> **Purpose:** single source of truth for engineering work, ordered by dependency and risk.  
+> **Scope:** static-audit findings that still require verification, build/release hardening, security, reliability, then optional product expansion.  
+> **Execution policy:** every task is designed to be implementable and verifiable by automation. No task requires a human code review, manual approval click, or subjective sign-off to satisfy its acceptance criteria. Risky actions must be guarded by deterministic, preconfigured machine policy and automated tests. This does **not** authorize unattended production deployment, destructive changes to customer data, or changes to live servers.
 
----
+## How to read and execute this backlog
 
-## 0. Aturan kerja dan Definition of Done
+### Priority
+- **P0 — Build/release integrity:** release pipeline and clean-build blockers.
+- **P1 — Security boundary:** authorization, isolation, webhook trust, privileged binary integrity, credential protection.
+- **P2 — Reliability and operability:** process lifecycle, database scheduling, backup/restore, telemetry, test depth.
+- **P3 — Product expansion:** deploy intelligence, security posture, fleet/GitOps, diagnostics, recovery, extensibility.
 
-### Global engineering rules
-- [ ] **G-01 — Compatibility & migration safety**
-  - **SPEC**
-    - Pertahankan kompatibilitas runtime dan format data Pier yang masih dipakai oleh instalasi existing, kecuali ada migration plan eksplisit.
-    - Semua perubahan schema harus additive/backward-compatible terlebih dahulu; destructive migration harus melalui fase deprecation dan backup.
-    - Jangan menghapus identifier, environment variable, path, service label, atau API field legacy tanpa inventory pemakaian dan migration.
-  - **RULE**
-    - Dilarang melakukan destructive migration otomatis saat startup.
-    - Dilarang menimpa konfigurasi pengguna tanpa backup dan konfirmasi.
-    - Semua migrasi harus idempotent: aman dijalankan ulang.
-    - Simpan AGPL/license notices dan atribusi upstream yang diwajibkan.
-  - **DESIGN**
-    - Buat migration module terpisah dengan version marker, preflight, backup, apply, verify, dan rollback guidance.
-    - Catat perubahan kompatibilitas di `docs/migrations/`.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] Upgrade dari versi sebelum perubahan berhasil pada fixture database/config yang representatif.
-    - [ ] Menjalankan migrasi dua kali tidak merusak data.
-    - [ ] Backup dibuat dan dapat diverifikasi sebelum operasi destruktif.
-    - [ ] Test membuktikan konfigurasi/service lama tetap terbaca.
-    - [ ] Dokumentasi menjelaskan upgrade, rollback, dan breaking changes.
+### Task status
+All checkboxes begin unchecked. A task may be checked only when every acceptance criterion passes on the task's target commit and the evidence artifacts exist. “Code written” is not completion.
 
-- [ ] **G-02 — Secure-by-default, observability, dan test evidence**
-  - **SPEC**
-    - Setiap endpoint sensitif, proses privileged, deployment, backup, dan perubahan credential harus punya kontrol akses, audit trail, error handling, dan test.
-    - Log harus membantu diagnosis tanpa membocorkan secret, token, password, private key, atau payload sensitif.
-  - **RULE**
-    - Default harus deny untuk akses yang tidak terverifikasi.
-    - Tidak boleh menganggap secret kosong sebagai validasi yang berhasil.
-    - Tidak boleh mencatat secret mentah ke log atau error response.
-    - Semua task wajib menyertakan unit/integration test sesuai risiko.
-  - **DESIGN**
-    - Gunakan shared authorization policy, typed error, structured audit event, dan redaction helper.
-    - Standarkan correlation/request ID pada alur API dan background job.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] Negative tests membuktikan unauthorized/underprivileged request ditolak.
-    - [ ] Log dan response diuji tidak mengandung secret.
-    - [ ] Test failure path, timeout, retry, dan partial failure tersedia.
-    - [ ] Dokumentasi operasional diperbarui.
+### Required task execution contract
+For each task:
+1. Re-read the affected code at the current branch HEAD; do not assume earlier audit notes are still accurate.
+2. Implement only the ownership boundary stated in the task. If adjacent work is needed, create a separate task instead of expanding scope silently.
+3. Add deterministic unit, integration, regression, and negative tests appropriate to the risk.
+4. Run formatting, lint, build, and relevant workspace tests.
+5. Produce machine-readable evidence (CI result, test report, benchmark, migration fixture result, or generated artifact).
+6. Update docs and this checklist in the same change.
+7. Do not mark complete if a required test is skipped, flaky, or only manually asserted.
+
+### Global non-negotiable rules
+- Preserve Pier runtime contracts during branding-only migration: `/opt/pier`, `/opt/pier/data`, `/opt/pier/.env`, Linux user/group `pier`, `pier.service`, helper/updater unit names, `/run/pier/net.sock`, `PIER_*` variables, database formats, and executable names until a separately tested namespace migration exists.
+- No destructive schema migration without an additive compatibility phase, automated backup verification, and tested rollback path.
+- Authorization is enforced server-side. Hidden UI controls are not security controls.
+- Fail closed on missing identity, missing secret, malformed signature, unknown role, invalid resource binding, and failed integrity checks.
+- Secrets never appear in logs, API error bodies, test snapshots, CI artifacts, or diagnostic bundles.
+- Do not run production migrations, install scripts, release publishing, or destructive restore against a live customer host as part of backlog implementation.
+- Preserve AGPL-3.0 and upstream copyright/attribution obligations.
+- Do not introduce a new dependency if an existing maintained crate/tool already meets the requirement.
 
 ---
 
-# 1. P0 — Release blockers
+# Wave 0 — Build and release integrity (P0)
 
-- [ ] **P0-01 — Perbaiki Docker build context dan workspace manifests**
-  - **SPEC**
-    - Audit Dockerfile terhadap root workspace `Cargo.toml`, seluruh workspace member, file yang di-`COPY`, build script, asset runtime, dan direktori template.
-    - Audit awal menemukan indikasi `COPY templates/ templates/` merujuk direktori root yang tidak terlihat pada tree, serta tahap manifest copy belum mencakup semua workspace member (`pier-net-helper`, `pier-tests`).
-    - Hasil akhir harus menghasilkan image reproducible dari clean checkout, bukan hanya dari working tree developer.
-  - **RULE**
-    - Jangan menghapus workspace member dari manifest hanya untuk membuat Docker build lolos.
-    - Jangan memakai file lokal yang tidak committed sebagai dependency build.
-    - Pin base image/toolchain secara eksplisit dan gunakan build stage non-root bila memungkinkan.
-    - Jangan memasukkan secret build-time ke image layer.
-  - **DESIGN**
-    - Buat Docker build stage yang menyalin root manifest/lockfile dan manifest semua crate sebelum source untuk dependency caching.
-    - Salin asset runtime hanya dari path yang benar-benar ada; jika asset optional, buat conditional build/copy yang eksplisit.
-    - Tambahkan `.dockerignore` yang aman dan dokumentasikan build args yang didukung.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] `docker build` berhasil dari clean checkout pada CI.
-    - [ ] Build menggunakan `Cargo.lock` dan mode locked.
-    - [ ] Image dapat start pada smoke test dan endpoint health/readiness merespons.
-    - [ ] Binary/helper/asset yang dibutuhkan tersedia di image pada path yang diharapkan.
-    - [ ] Tidak ada credential atau file lokal developer di image.
-    - [ ] Build log dan ukuran image direview; tidak ada dependency workspace yang terlewat.
+## [ ] P0-01 — Make Docker build resolve the complete Cargo workspace
 
-- [ ] **P0-02 — Jadikan CI sebagai gerbang wajib sebelum release**
-  - **SPEC**
-    - Workflow release tidak boleh publish artifact/tag/image jika validasi CI untuk commit yang sama belum sukses.
-    - Audit awal menemukan release workflow berjalan pada push ke `main` tanpa dependency eksplisit pada workflow CI. Branch protection belum diverifikasi dan harus dicek terpisah.
-  - **RULE**
-    - Release hanya dari protected branch dan commit yang sudah lolos checks.
-    - Jangan gunakan `continue-on-error` pada security/build/test gate wajib.
-    - Hindari kondisi race: CI untuk commit lama tidak boleh mengesahkan commit baru.
-  - **DESIGN**
-    - Konfigurasikan branch protection/ruleset untuk mewajibkan PR dan status checks.
-    - Buat release workflow memakai `workflow_run` dengan validasi branch + head SHA, atau mekanisme dependency yang menjamin checks milik commit yang sama.
-    - Pisahkan build/test, package, sign, dan publish agar publish hanya terjadi setelah gate.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] Simulasikan CI gagal: tidak ada release/tag/image publish.
-    - [ ] Simulasikan CI sukses untuk SHA yang sama: release dapat berjalan.
-    - [ ] CI dari SHA berbeda tidak dapat membuka gate.
-    - [ ] Branch protection/ruleset terdokumentasi dan diverifikasi di GitHub.
-    - [ ] Release log menyimpan commit SHA dan hasil checks.
+**Ownership boundary:** Dockerfile, Docker build context, `.dockerignore`, Docker build CI test. This task does not redesign runtime packaging or change workspace membership.
+
+### SPEC
+- The repository workspace declares four members: `pier-core`, `pier-agent`, `pier-net-helper`, and `pier-tests`.
+- The current Dockerfile's dependency-cache stage copies only the manifests for `pier-core` and `pier-agent`, while the workspace manifest references all members. Cargo workspace metadata resolution can fail before the real source copy because the other member manifests are absent.
+- The root `templates/` directory exists in the repository tree; do **not** treat its COPY instruction as a missing-directory finding. Verify whether it is actually needed by the final image and retain it if required.
+- A clean checkout must build without relying on untracked files, developer caches, or generated files left over from another build.
+
+### RULE
+- Do not remove a workspace member or edit workspace membership merely to make Docker build pass.
+- Dependency caching must not change the source being compiled.
+- Use `--locked` for Cargo dependency resolution.
+- Never pass secrets through Docker build args or bake them into layers.
+- Preserve the current runtime command, required embedded assets, volume semantics, and documented environment variables unless tests prove they are unused.
+
+### DESIGN
+1. Inspect all workspace manifests and build scripts to identify metadata required before dependency compilation.
+2. Copy the root `Cargo.toml`, `Cargo.lock`, and every workspace member `Cargo.toml` into the dependency stage.
+3. Create only the dummy source files required for Cargo dependency caching; ensure each workspace member has the minimum expected target files or use a build strategy that does not require dummy crate targets.
+4. Copy real `crates/` and required asset/template directories after dependency caching.
+5. Build the intended runtime binary with `cargo build --release --locked --package pier-core`.
+6. Audit runtime stage for shared libraries, CA certificates, Docker CLI/Compose, user/group, permissions, and embedded assets.
+7. Keep build context explicit and exclude `.git`, local `target/`, secrets, local data, and unrelated files using `.dockerignore`.
+
+### ACCEPTANCE CRITERIA
+- [ ] `docker build --no-cache` succeeds from a clean checkout.
+- [ ] Normal cached `docker build` succeeds on a second run.
+- [ ] Build uses the committed lockfile and does not update dependencies.
+- [ ] Cargo resolves all four workspace members in the builder stage.
+- [ ] Runtime image contains the intended `pier` executable and all required runtime assets.
+- [ ] Container starts as the intended non-root user and the health endpoint responds in a smoke test.
+- [ ] Docker/Compose integration expected by the application is available and permissions are tested.
+- [ ] Image inspection finds no repository secrets, local `.env`, host data, or developer `target/` directory.
+- [ ] CI stores build logs and image digest as evidence.
 
 ---
 
-# 2. P1 — Security & reliability wajib sebelum production
+## [ ] P0-02 — Make release publishing depend on successful CI for the exact same commit
 
-- [ ] **P1-01 — Wajibkan Global Admin/Owner untuk mengubah security settings**
-  - **AREA**
-    - `crates/pier-core/src/api/security.rs`
-    - `crates/pier-core/src/api/mod.rs`
-  - **SPEC**
-    - Endpoint `/security/settings` yang mengubah `security.require_password_on_delete` harus dibatasi ke Global Admin/Owner.
-    - Hak akses harus diperiksa di server untuk setiap request, bukan mengandalkan visibility UI.
-    - Perubahan setting harus dapat diaudit.
-  - **RULE**
-    - Project Editor, Viewer, dan user authenticated biasa tidak boleh mengubah global security policy.
-    - Unknown role, missing identity, atau gagal memuat role harus fail closed.
-    - Jangan mengubah behavior default secara diam-diam; pertahankan nilai existing saat upgrade.
-  - **DESIGN**
-    - Tambahkan AuthUser/context ke handler dan gunakan policy/helper authorization global yang konsisten.
-    - Tempatkan route pada router yang menerapkan `require_global_admin`, atau lakukan guard eksplisit yang setara.
-    - Tulis audit event berisi actor ID, key setting, old/new value, timestamp, request ID; jangan simpan token.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] Global Admin/Owner dapat mengubah setting.
-    - [ ] Project Admin/Editor/Viewer dan unauthenticated ditolak (403/401 sesuai kontrak).
-    - [ ] Test mencakup role tidak dikenal dan kegagalan lookup role.
-    - [ ] Audit event tercipta untuk perubahan sukses dan tidak untuk perubahan gagal.
-    - [ ] UI menampilkan error permission yang jelas tanpa menjadi satu-satunya kontrol.
-    - [ ] API docs dan security settings docs diperbarui.
+**Ownership boundary:** GitHub Actions workflows, branch ruleset configuration documentation, release test fixtures. This task does not change artifact signing implementation; see P1-04.
 
-- [ ] **P1-02 — Batasi DB Browser dengan least-privilege credentials dan database allowlist**
-  - **AREA**
-    - `crates/pier-core/src/api/db_browser.rs`
-  - **SPEC**
-    - Query DB Browser harus dibatasi pada database/schema yang memang dimiliki resource/service yang dipilih.
-    - Jangan gunakan cluster superuser/root credential untuk operasi SQL interaktif pengguna.
-    - `RunRequest.database` dari client harus divalidasi terhadap resource binding server-side.
-  - **RULE**
-    - Client tidak boleh menentukan host, username, password, atau target database arbitrary.
-    - Project Editor tidak otomatis mendapat hak superuser pada seluruh instance/container.
-    - Query destructive/DDL harus mengikuti permission yang eksplisit; Viewer hanya read-only.
-    - Kegagalan validasi target harus ditolak sebelum membuka koneksi.
-  - **DESIGN**
-    - Saat provisioning DB, buat credential khusus database/service dengan grant minimum.
-    - Simpan mapping resource ID → engine, host, database/schema allowlist, credential reference.
-    - Resolve target sepenuhnya dari server-side resource ID; abaikan/reject nama database yang tidak ada di allowlist.
-    - Pisahkan capability `db.read`, `db.write`, dan `db.admin`; terapkan read-only transaction/session untuk Viewer.
-    - Rencanakan migrasi credential lama dari root ke credential scoped dengan fallback yang terkontrol dan masa transisi.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] Editor pada Service A tidak dapat membaca/menulis database Service B.
-    - [ ] Request dengan nama database arbitrary ditolak.
-    - [ ] Viewer tidak dapat menjalankan INSERT/UPDATE/DELETE/DDL.
-    - [ ] Credential runtime bukan postgres/root untuk operasi normal.
-    - [ ] Test untuk PostgreSQL dan MySQL/MariaDB mencakup allowlist, role, dan privilege.
-    - [ ] Credential lama dimigrasikan atau ditandai dengan instruksi remediation yang jelas.
-    - [ ] Audit log mencatat actor, resource, jenis operasi, dan status tanpa menyimpan SQL sensitif secara default.
+### SPEC
+- Current release workflow triggers on pushes to `main` and builds/publishes artifacts without an explicit dependency on the CI workflow.
+- The CI workflow currently runs shell syntax, formatting, workspace check, and only the `pier-core` binary test target.
+- Release publishing must be impossible when required checks are missing, failed, cancelled, or belong to a different commit SHA.
 
-- [ ] **P1-03 — Wajibkan verifikasi signature untuk semua webhook event**
-  - **AREA**
-    - `crates/pier-core/src/api/webhooks.rs`
-  - **SPEC**
-    - Semua event webhook yang dapat mengubah state atau memicu deploy wajib diverifikasi sebelum payload diproses.
-    - Service tanpa webhook secret tidak boleh menerima event sebagai trusted.
-    - Event GitHub/GitLab harus memakai algoritma/header signature yang sesuai provider.
-  - **RULE**
-    - Secret kosong/missing = reject, bukan bypass.
-    - Verifikasi dilakukan sebelum parsing/side effect yang mengubah state.
-    - Jangan log secret atau signature mentah.
-    - Tolak signature malformed, body mismatch, unknown provider, dan replay delivery ID bila mekanisme tersedia.
-  - **DESIGN**
-    - Ambil raw request body, verifikasi HMAC/signature menggunakan constant-time comparison, baru parse payload.
-    - Terapkan verifikasi pada push, installation, ping, dan event lain; tidak boleh ada jalur event khusus yang melewati guard.
-    - Simpan webhook secret terenkripsi dan sediakan rotasi secret dengan overlap terbatas.
-    - Simpan delivery ID + timestamp secara idempotent untuk mencegah replay/duplikasi.
-    - Sediakan UI/API untuk generate, rotate, test, dan revoke secret.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] Webhook tanpa secret ditolak.
-    - [ ] Signature valid diterima untuk event yang didukung.
-    - [ ] Signature invalid/missing/malformed ditolak sebelum side effect.
-    - [ ] Installation event tidak dapat mengubah mapping tanpa signature valid.
-    - [ ] Replay delivery ID ditangani idempotently/ditolak sesuai desain.
-    - [ ] Test mencakup GitHub dan GitLab serta payload kosong/oversized.
-    - [ ] Dokumentasi migrasi secret lama tersedia; deploy tidak diam-diam menjadi unauthenticated.
+### RULE
+- Release artifacts may only be published for the exact SHA that passed the required CI jobs.
+- A stale successful run must never authorize a newer commit.
+- Failed or skipped required checks are not success.
+- Keep least-privilege GitHub Actions permissions; only the publish job receives release-write permission.
+- Do not use `continue-on-error` for mandatory checks.
 
-- [ ] **P1-04 — Verifikasi integritas binary privileged helper sebelum instalasi**
-  - **AREA**
-    - `scripts/install.sh` dan mekanisme bootstrap/helper release
-  - **SPEC**
-    - Setiap helper binary yang diunduh dan dijalankan dengan privilege root harus diverifikasi integritas dan asalnya.
-    - Instalasi gagal tertutup jika checksum/signature tidak tersedia atau tidak cocok.
-  - **RULE**
-    - Dilarang menjalankan binary hasil download sebelum verifikasi.
-    - Jangan menulis langsung ke path final sebelum validasi.
-    - Jangan menerima checksum dari channel yang sama tanpa autentikasi tambahan sebagai satu-satunya trust root.
-  - **DESIGN**
-    - Download ke file temporary dengan permission ketat.
-    - Verifikasi SHA-256 dari manifest release yang dipercaya; idealnya validasi signature/provenance (mis. Sigstore/cosign) dengan identity/issuer yang dipin.
-    - Setelah lolos, install atomically, set owner/mode yang benar, lalu lakukan version/self-test.
-    - Sediakan cache dan mekanisme retry yang tidak menurunkan standar verifikasi.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] Checksum mismatch menyebabkan instalasi gagal dan file temporary dihapus.
-    - [ ] Manifest/checksum hilang menyebabkan fail closed.
-    - [ ] Binary hanya dipindahkan ke path final setelah validasi.
-    - [ ] Test shell mencakup download gagal, file kosong, checksum salah, permission salah, dan release tidak tersedia.
-    - [ ] Prosedur rotasi signing identity/key terdokumentasi.
+### DESIGN
+1. Define one canonical set of required check names and keep them stable.
+2. Configure repository branch ruleset/branch protection to require PR and required CI checks before merge.
+3. Make release workflow wait for CI completion using a SHA-bound workflow dependency (for example `workflow_run` with explicit branch and head-SHA equality checks) or an equivalent mechanism that cannot race.
+4. Split release into build/test, artifact preparation, and publish jobs.
+5. Pass the verified commit SHA and artifact digests between jobs; do not rebuild from a mutable branch name after validation.
+6. Restrict release-write permission to the final publish job.
+7. Add workflow tests or a script that validates the release gate's branch/SHA/conclusion logic.
 
-- [ ] **P1-05 — Enkripsi credential backup yang saat ini tersimpan plaintext di SQLite**
-  - **AREA**
-    - `crates/pier-core/src/backup/executor.rs`
-    - tabel `database_credentials` dan key management
-  - **SPEC**
-    - Password database yang disimpan untuk backup tidak boleh tersimpan plaintext pada database SQLite.
-    - Enkripsi harus tetap memungkinkan scheduled backup berjalan setelah restart tanpa meminta password manual setiap kali.
-  - **RULE**
-    - Jangan hardcode encryption key di source code atau image.
-    - Jangan log plaintext credential.
-    - Kehilangan key harus menghasilkan error recovery yang eksplisit; jangan diam-diam menganggap credential kosong.
-    - Jangan menghapus credential lama sebelum proses re-encryption terverifikasi.
-  - **DESIGN**
-    - Gunakan envelope encryption: data key per record atau per scope, dibungkus master key dari file secret dengan permission ketat atau external secret manager.
-    - Tambahkan versi format ciphertext dan key ID untuk rotasi.
-    - Buat migrator yang membaca record plaintext, mengenkripsi, menulis atomically, lalu memverifikasi decrypt sebelum menghapus plaintext.
-    - Sediakan command/status untuk mendeteksi record legacy dan menyelesaikan migrasi.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] SQLite baru tidak menyimpan password plaintext.
-    - [ ] Migrasi database existing mengubah semua record dan diverifikasi.
-    - [ ] Backup tetap berjalan setelah restart dengan key yang sama.
-    - [ ] Wrong/missing key menghasilkan error aman dan actionable.
-    - [ ] Rotasi key dapat dilakukan tanpa kehilangan kemampuan decrypt.
-    - [ ] Test memastikan plaintext tidak muncul di DB dump, log, atau API response.
+### ACCEPTANCE CRITERIA
+- [ ] Simulated failed CI results in zero release/tag/asset publication.
+- [ ] Missing or cancelled CI results in zero publication.
+- [ ] A successful CI run for SHA A cannot authorize release of SHA B.
+- [ ] A successful CI run for the exact release SHA allows the publish job to proceed.
+- [ ] PR checks are required by repository ruleset; configuration is machine-readable or captured in an automated verification report.
+- [ ] Build job has read-only repository permissions.
+- [ ] Only publish job has the minimum release-write permission.
+- [ ] Release metadata includes source SHA, toolchain, artifact SHA-256, and build timestamp.
+- [ ] A test validates both positive and negative gate cases.
 
 ---
 
-# 3. P2 — Hardening, correctness, operability
+# Wave 1 — Security boundaries (P1)
 
-- [ ] **P2-01 — Kill seluruh process tree saat shell task cancel/timeout**
-  - **AREA:** `crates/pier-agent/src/shell.rs`
-  - **SPEC**
-    - Cancel dan timeout harus menghentikan shell beserta seluruh descendant process yang dibuat oleh task tersebut.
-  - **RULE**
-    - Jangan hanya mengirim SIGTERM ke PID bash jika child process masih dapat hidup.
-    - Jangan membunuh proses di luar process group milik task.
-    - Berikan grace period, lalu SIGKILL jika proses tidak berhenti.
-  - **DESIGN**
-    - Spawn command pada process group/session terpisah.
-    - Simpan PGID dan kirim SIGTERM ke process group; tunggu grace period; kirim SIGKILL jika perlu.
-    - Pastikan stdout/stderr reader dan child handle ditutup/di-await dengan benar.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] Test command dengan child process membuktikan semua descendant berhenti saat cancel.
-    - [ ] Test timeout membuktikan tidak ada orphan process.
-    - [ ] Task normal tetap mengembalikan exit code/stdout/stderr.
-    - [ ] Tidak ada proses pengguna lain yang ikut terbunuh.
-    - [ ] Test berjalan stabil pada platform yang didukung; behavior platform-specific didokumentasikan.
+## [ ] P1-01 — Enforce Global Admin authorization on global security settings
 
-- [ ] **P2-02 — Perluas CI test dari satu binary ke seluruh workspace**
-  - **AREA:** `.github/workflows/ci.yml`
-  - **SPEC**
-    - CI harus menjalankan format, lint, check, test seluruh workspace, integration test kritis, dan Docker build.
-  - **RULE**
-    - Gunakan `--locked` untuk menjaga lockfile.
-    - Test penting tidak boleh di-skip tanpa alasan dan issue yang tercatat.
-    - Pisahkan test yang butuh privileged environment dengan runner/job yang aman.
-  - **DESIGN**
-    - Pipeline minimum: shellcheck/syntax, cargo fmt --check, cargo clippy, cargo check --workspace --locked, cargo test --workspace --locked.
-    - Tambahkan integration tests untuk auth/RBAC, webhook signature, DB isolation, backup migration, dan shell cancellation.
-    - Tambahkan Docker build smoke test dan artifact retention untuk debugging.
-    - Cache dependency dengan key yang menyertakan Cargo.lock dan toolchain.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] Semua crate workspace terdeteksi dan dites.
-    - [ ] Test failure menyebabkan PR check merah.
-    - [ ] CI berjalan pada PR dan push ke main.
-    - [ ] Docker image build diuji dari clean checkout.
-    - [ ] Test privileged menggunakan fixture/container terisolasi, bukan host runner.
-    - [ ] Durasi CI dicatat dan tidak mengorbankan coverage demi kecepatan.
+**Ownership boundary:** `crates/pier-core/src/api/security.rs`, route registration/policy in `crates/pier-core/src/api/mod.rs`, authorization tests. Do not implement the entire audit-log platform here.
 
-- [ ] **P2-03 — Kurangi blocking SQLite mutex di async runtime**
-  - **AREA:** `SharedState`, handlers async, dan akses `rusqlite::Connection`
-  - **SPEC**
-    - Operasi SQLite blocking tidak boleh menahan Tokio worker thread saat query lambat/contended.
-    - Akses database perlu memiliki batas concurrency dan pola transaksi yang konsisten.
-  - **RULE**
-    - Jangan memegang mutex selama network I/O atau operasi filesystem yang lama.
-    - Jangan memindahkan connection rusqlite antar thread jika melanggar thread-safety contract.
-    - Jangan mengubah isolation/transaction semantics tanpa regression test.
-  - **DESIGN**
-    - Petakan semua callsite lock dan ukur contention sebelum refactor.
-    - Pilih salah satu: dedicated DB worker/actor, `spawn_blocking` dengan ownership connection yang valid, atau pool SQLite yang terkontrol.
-    - Pisahkan read/write path bila membantu concurrency; tetapkan busy timeout dan WAL policy secara eksplisit.
-    - Tambahkan metrics untuk query duration, queue wait, lock wait, dan busy errors.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] Tidak ada blocking DB call berat langsung pada async executor.
-    - [ ] Tidak ada mutex held selama await/network I/O.
-    - [ ] Concurrent API load test tidak mengalami starvation/deadlock.
-    - [ ] Data consistency dan transaction rollback test tetap lulus.
-    - [ ] Benchmark sebelum/sesudah tersedia untuk workload representatif.
+### SPEC
+- The `/security/settings` update handler changes global security policy, including `security.require_password_on_delete`.
+- Static audit found the handler did not receive an authenticated user/role context and the route was not registered behind the global-admin guard.
+- Only Global Admin/Owner may read or mutate global security policy, according to the product's established role model.
 
-- [ ] **P2-04 — Bangun backup integrity check dan restore drill otomatis**
-  - **AREA:** backup executor, scheduler, UI/status, docs
-  - **SPEC**
-    - Status "backup sukses" harus membuktikan artifact lengkap dan dapat dibaca; keberadaan file saja tidak cukup.
-    - Restore harus diuji secara berkala pada lingkungan terisolasi.
-  - **RULE**
-    - Jangan restore test ke production database/volume.
-    - Jangan mengirim credential atau data backup ke log.
-    - Retention cleanup tidak boleh menghapus satu-satunya backup valid.
-  - **DESIGN**
-    - Tambahkan manifest berisi format version, timestamp, resource identity, ukuran, checksum, dan komponen backup.
-    - Setelah backup, lakukan checksum/readability validation.
-    - Jalankan restore drill pada temporary container/namespace/network terisolasi, verifikasi schema/data marker, lalu destroy environment.
-    - Tampilkan last verified backup, last restore drill, duration, dan error reason.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] Artifact korup terdeteksi sebelum dinyatakan valid.
-    - [ ] Restore drill sukses pada fixture PostgreSQL dan MySQL/MariaDB yang didukung.
-    - [ ] Temporary environment selalu dibersihkan meskipun test gagal.
-    - [ ] Retention policy mempertahankan jumlah backup valid minimum.
-    - [ ] Alert muncul jika backup gagal atau restore drill melewati SLA.
-    - [ ] Runbook disaster recovery diuji oleh operator lain.
+### RULE
+- Unauthenticated callers receive 401; authenticated users without global-admin capability receive 403.
+- Project-scoped Admin/Editor/Viewer cannot elevate themselves by changing project membership or request payload.
+- Missing user context, unknown role, role lookup failure, or policy-service failure must deny the mutation.
+- Do not trust role names supplied by the client.
+- Preserve existing setting values on upgrade; do not silently reset a customer's security preference.
 
-- [ ] **P2-05 — Tambahkan audit log terstruktur untuk aksi sensitif**
-  - **SPEC**
-    - Catat login/security setting, credential rotation, DB access, deployment, webhook configuration, backup/restore, user/role changes, dan privileged operation.
-  - **RULE**
-    - Audit log append-only dari perspektif aplikasi; user biasa tidak dapat mengubah/menghapus.
-    - Jangan simpan secret, token, private key, atau query parameter sensitif.
-    - Pisahkan audit event dari debug log.
-  - **DESIGN**
-    - Definisikan schema event: actor, action, target, timestamp UTC, outcome, source IP bila tersedia, request/correlation ID, metadata yang sudah direduksi.
-    - Sediakan filter UI/API dan export.
-    - Terapkan retention dan opsi forward ke syslog/SIEM.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] Setiap aksi sensitif yang tercantum menghasilkan event.
-    - [ ] Event gagal juga tercatat dengan outcome yang tepat.
-    - [ ] Tidak ada secret dalam event.
-    - [ ] Filter berdasarkan actor, target, action, dan rentang waktu berfungsi.
-    - [ ] Akses audit log mengikuti role khusus.
+### DESIGN
+1. Reuse the canonical server-side authorization helper; do not create a parallel role parser.
+2. Add authenticated principal/context to the handler.
+3. Place the route behind the global-admin router guard or use an equivalent explicit capability check.
+4. Validate the setting key and value against a typed allowlist.
+5. Emit a structured security-setting event through the audit event interface (the generic audit pipeline is expanded in P2-05).
+6. Return a stable error shape with no internal role/secret data.
+7. Keep the UI permission state consistent with the API, but rely on API enforcement.
 
-- [ ] **P2-06 — Tambahkan API token dengan scope dan expiry**
-  - **SPEC**
-    - Integrasi automation tidak harus memakai session/global admin credential.
-    - Token harus dapat dibatasi berdasarkan scope, resource, expiry, dan revocation.
-  - **RULE**
-    - Token baru hanya menampilkan plaintext sekali saat dibuat.
-    - Token disimpan sebagai hash yang aman, bukan plaintext.
-    - Default scope minimum dan expiry wajib atau default terbatas.
-  - **DESIGN**
-    - Scope contoh: `service:read`, `service:deploy`, `backup:read`, `backup:restore`, `db:read`.
-    - Ikat token ke owner + resource allowlist; dukung revoke dan last-used metadata.
-    - Middleware memvalidasi scope per endpoint dan menolak privilege escalation.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] Token tanpa scope yang diperlukan ditolak.
-    - [ ] Token expired/revoked langsung tidak dapat digunakan.
-    - [ ] Token tidak dapat mengakses resource di luar allowlist.
-    - [ ] Plaintext tidak tersimpan di DB/log.
-    - [ ] UI mendukung create, copy-once, rotate, revoke, dan expiry display.
+### ACCEPTANCE CRITERIA
+- [ ] Global Admin/Owner can update the allowed setting.
+- [ ] Project Admin, Editor, Viewer, and ordinary authenticated users receive 403.
+- [ ] Unauthenticated requests receive 401.
+- [ ] Unknown role and role lookup failure deny the update.
+- [ ] Client-supplied actor/role fields have no effect.
+- [ ] Invalid setting key/type is rejected without a database write.
+- [ ] Successful update emits one audit event; denied attempts cannot mutate state.
+- [ ] Regression tests verify the previous default and existing stored values survive upgrade.
+- [ ] API docs describe the capability and error contract.
 
 ---
 
-# 4. P3 — Product features & differentiation
+## [ ] P1-02 — Isolate DB Browser credentials and bind queries to the selected resource
 
-- [ ] **P3-01 — Smart Deployment: health gate, canary/blue-green, auto rollback**
-  - **SPEC**
-    - Deployment harus dapat menunggu health check dan otomatis rollback bila versi baru gagal memenuhi policy.
-    - Sediakan progressive rollout untuk service yang mendukung multi-instance.
-  - **RULE**
-    - Auto rollback hanya jika ada previous known-good deployment dan rollback procedure aman.
-    - Database migration irreversible harus memblokir auto rollback kecuali ada compatibility contract.
-    - User dapat memilih manual approval untuk production.
-  - **DESIGN**
-    - Model deployment state: queued → preparing → deploying → health-checking → promoted/rolled-back/failed.
-    - Health gate mencakup container health, HTTP/TCP probe, startup grace period, consecutive failures, dan timeout.
-    - Canary rollout bertahap dengan traffic weight dan pause/approval gates.
-    - Simpan deployment manifest dan previous image/config reference.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] Health check gagal menyebabkan rollout berhenti.
-    - [ ] Auto rollback mengembalikan image/config sebelumnya tanpa kehilangan persistent data.
-    - [ ] Manual approval dan maintenance window berfungsi.
-    - [ ] Timeline menunjukkan setiap fase dan alasan rollback.
-    - [ ] Test mencakup deploy sukses, probe timeout, crash loop, dan rollback failure.
+**Ownership boundary:** `crates/pier-core/src/api/db_browser.rs`, DB credential provisioning/mapping, SQL authorization tests. Do not redesign general database backup credentials here; see P1-05.
 
-- [ ] **P3-02 — Security Center: image scan, SBOM, secrets, posture score**
-  - **SPEC**
-    - Berikan satu tempat untuk melihat vulnerability, image provenance, exposed ports, insecure configuration, dan secret leak signals.
-  - **RULE**
-    - Score harus explainable; jangan menyebut sistem "secure" hanya berdasarkan skor.
-    - Secret scanning tidak boleh mengirim secret mentah ke pihak ketiga tanpa consent.
-    - Finding harus memiliki severity, evidence, remediation, dan last-scanned timestamp.
-  - **DESIGN**
-    - Generate SBOM per image/build.
-    - Integrasikan scanner modular untuk CVE, image config, dependency, dan repository secret patterns.
-    - Map finding ke service/deployment dan tampilkan trend.
-    - Tambahkan exception/accepted-risk dengan owner, alasan, expiry.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] SBOM dapat diunduh dan terikat ke image digest.
-    - [ ] Finding memiliki evidence dan remediation guidance.
-    - [ ] Exception memiliki expiry dan audit trail.
-    - [ ] Scan dapat dijalankan manual dan terjadwal.
-    - [ ] False-positive workflow tersedia tanpa menghapus evidence.
+### SPEC
+- Static audit found DB Browser target resolution can use PostgreSQL superuser/root credentials sourced from container environment and accepts a client-supplied database name.
+- A project Editor with SQL execution capability must not gain cluster-wide access to unrelated databases merely because the application knows a root credential.
+- The server must derive the allowed database target from the selected service/resource identity.
 
-- [ ] **P3-03 — Fleet Manager untuk multi-server**
-  - **SPEC**
-    - Kelola banyak host/agent dari satu dashboard: health, capacity, version, maintenance, dan deployment target.
-  - **RULE**
-    - Host identity harus unik dan terverifikasi.
-    - Aksi massal harus preview target dan mendukung staged rollout.
-    - Host offline tidak boleh dianggap berhasil menerima perubahan.
-  - **DESIGN**
-    - Host registry dengan enrollment token sekali pakai, agent version, capabilities, heartbeat, labels, dan region.
-    - Group host berdasarkan environment/team/label.
-    - Support drain/maintenance mode dan rolling agent upgrade.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] Host online/offline/stale dibedakan.
-    - [ ] Enrollment/revoke aman dan dapat diaudit.
-    - [ ] Upgrade agent bertahap dan dapat dihentikan.
-    - [ ] Aksi massal menampilkan preview dan hasil per host.
-    - [ ] Capacity view menampilkan CPU/RAM/disk dan timestamp data.
+### RULE
+- Client cannot submit or override host, port, username, password, connection string, or arbitrary database target.
+- Project membership does not imply database superuser permission.
+- Viewer is read-only; Editor gets only the explicitly granted database-level operations; database administration is a separate capability.
+- Reject unknown resource IDs, mismatched project IDs, and database names outside the server-side allowlist before opening a DB connection.
+- Do not expose connection errors containing passwords, DSNs, or internal host details.
 
-- [ ] **P3-04 — GitOps dan configuration drift detection**
-  - **SPEC**
-    - Service configuration dapat disinkronkan dari Git dan perbedaan antara desired state dengan live state dapat dideteksi.
-  - **RULE**
-    - Jangan overwrite live config tanpa preview/diff dan policy.
-    - Secret harus menggunakan reference/secret manager, bukan plaintext dalam Git.
-    - Reconcile loop harus idempotent dan memiliki rate limit.
-  - **DESIGN**
-    - Definisikan schema manifest versioned untuk service, env references, ports, volumes, networks, healthchecks, dan deploy policy.
-    - Pull-based reconciliation dengan status drift: in-sync, drifted, blocked, error.
-    - Sediakan preview diff, approve, sync, dan rollback commit.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] Manifest tervalidasi sebelum diterapkan.
-    - [ ] Drift terdeteksi dan menunjukkan field yang berbeda.
-    - [ ] Sync membutuhkan policy/approval yang sesuai environment.
-    - [ ] Secret value tidak pernah ditulis ke Git diff/log.
-    - [ ] Reconcile berulang tidak membuat perubahan berulang yang tidak perlu.
+### DESIGN
+1. Create a server-side mapping: resource ID → project ID, engine, service/container identity, permitted database/schema names, credential reference, and capability set.
+2. Provision per-database/service credentials with least-privilege grants; do not use root/postgres for ordinary query execution.
+3. Resolve all connection parameters from trusted server-side metadata.
+4. Reject or remove the client-supplied `database` field; if compatibility requires it, validate exact membership in the resource allowlist.
+5. Use read-only transaction/session mode for Viewer and enforce write/DDL capabilities for Editor/Admin.
+6. Add credential rotation/migration for existing DB resources, with legacy credential detection and a fail-safe remediation state.
+7. Emit resource-scoped audit events without storing raw SQL by default.
 
-- [ ] **P3-05 — Resource Intelligence dan capacity forecasting**
-  - **SPEC**
-    - Tampilkan histori CPU/RAM/disk/network, tren penggunaan, anomali, dan estimasi kapan kapasitas akan habis.
-  - **RULE**
-    - Tampilkan rentang waktu, sampling interval, dan kualitas/kelengkapan data.
-    - Forecast harus diberi label estimasi, bukan kepastian.
-    - Hindari telemetry berlebihan yang membebani agent.
-  - **DESIGN**
-    - Agent mengirim metrics teragregasi dengan retention/downsampling.
-    - Dashboard per host/service dan alert threshold yang dapat diatur.
-    - Forecast sederhana berbasis trend + confidence band sebelum model kompleks.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] Grafik histori dapat difilter berdasarkan host/service/rentang waktu.
-    - [ ] Alert disk pressure dan capacity threshold dapat diuji.
-    - [ ] Forecast menampilkan horizon dan confidence/uncertainty.
-    - [ ] Sampling dan retention dapat dikonfigurasi.
-    - [ ] Overhead agent diukur dan berada dalam budget yang disepakati.
-
-- [ ] **P3-06 — Disaster Recovery Wizard**
-  - **SPEC**
-    - Operator dapat memulihkan server/service dari backup melalui langkah terpandu, dengan validasi preflight dan recovery report.
-  - **RULE**
-    - Restore production membutuhkan konfirmasi eksplisit dan permission tinggi.
-    - Tampilkan target, data yang akan ditimpa, timestamp backup, dan risiko sebelum eksekusi.
-    - Tidak boleh menganggap restore selesai sebelum post-restore verification.
-  - **DESIGN**
-    - Wizard: pilih backup → verify integrity → pilih target → preflight capacity/compatibility → review impact → approve → restore → verify → report.
-    - Sediakan restore ke environment sementara untuk rehearsal.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] Preflight mendeteksi backup corrupt, versi tidak kompatibel, dan kapasitas kurang.
-    - [ ] User melihat impact summary sebelum confirm.
-    - [ ] Restore rehearsal tidak menyentuh production.
-    - [ ] Report memuat langkah, durasi, hasil verifikasi, dan error.
-    - [ ] Aksi restore masuk audit log.
-
-- [ ] **P3-07 — Diagnostics bundle dengan redaction**
-  - **SPEC**
-    - Sediakan bundle diagnostik untuk mempercepat troubleshooting tanpa membocorkan credential atau data pribadi.
-  - **RULE**
-    - Redaction wajib dilakukan sebelum archive dibuat.
-    - User dapat preview daftar file dan kategori data yang akan disertakan.
-    - Jangan menyertakan database dump atau file volume secara default.
-  - **DESIGN**
-    - Kumpulkan version/build info, sanitized config, service status, recent redacted logs, agent health, dan relevant system metrics.
-    - Gunakan allowlist file; redaction patterns untuk token, password, private key, DSN, email/IP opsional.
-    - Beri manifest isi bundle dan checksum.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] Test fixtures berisi dummy secrets dan memastikan semuanya ter-redact.
-    - [ ] User dapat memilih kategori diagnostik.
-    - [ ] Bundle tidak berisi raw DB/volume data secara default.
-    - [ ] Manifest dan checksum tersedia.
-    - [ ] Ukuran bundle dibatasi dan proses dapat dibatalkan.
-
-- [ ] **P3-08 — Passkeys/WebAuthn untuk akun admin**
-  - **SPEC**
-    - Tambahkan authentication factor phishing-resistant untuk admin dan opsi kebijakan organisasi.
-  - **RULE**
-    - Recovery path harus aman dan tidak melemahkan MFA.
-    - Credential WebAuthn terikat ke user dan relying-party ID yang benar.
-    - Perubahan factor/recovery harus diaudit.
-  - **DESIGN**
-    - Registration/authentication ceremony sesuai WebAuthn.
-    - Support multiple authenticators, revoke, recovery codes, dan policy enforcement per role.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] Registration dan login diuji pada browser/platform yang didukung.
-    - [ ] Origin/RP ID mismatch ditolak.
-    - [ ] Revoke authenticator langsung berlaku.
-    - [ ] Recovery flow diuji dan diaudit.
-    - [ ] Admin dapat diwajibkan memakai passkey/MFA sesuai policy.
-
-- [ ] **P3-09 — Plugin/integration SDK**
-  - **SPEC**
-    - Sediakan extension point untuk integrasi notification, monitoring, deployment hooks, dan secret providers.
-  - **RULE**
-    - Plugin berjalan dengan capability minimum dan tidak otomatis mewarisi admin privilege.
-    - Plugin third-party harus memiliki manifest, version compatibility, permission declaration, dan lifecycle.
-    - Network access dan secret access harus eksplisit.
-  - **DESIGN**
-    - Mulai dari webhook/event integration yang terisolasi sebelum arbitrary code execution.
-    - Definisikan plugin manifest, capability scopes, event schema version, timeout, retry, dan signature.
-    - Sediakan sandbox/worker boundary bila nantinya mendukung executable plugins.
-  - **ACCEPTANCE CRITERIA**
-    - [ ] Plugin tanpa capability tidak dapat mengakses resource.
-    - [ ] Event delivery idempotent dengan retry/backoff.
-    - [ ] Plugin dapat disable/revoke tanpa restart seluruh platform jika memungkinkan.
-    - [ ] Compatibility check dan audit trail tersedia.
-    - [ ] Threat model ditinjau sebelum executable plugin runtime dirilis.
+### ACCEPTANCE CRITERIA
+- [ ] Editor on database A cannot enumerate, read, or mutate database B on the same DB server.
+- [ ] Arbitrary database names and resource/project mismatches are rejected before connection.
+- [ ] Viewer cannot execute INSERT/UPDATE/DELETE/DDL or change session permissions to bypass read-only mode.
+- [ ] Normal query path does not use root/postgres credentials.
+- [ ] PostgreSQL and MySQL/MariaDB integration tests cover isolation and permission boundaries.
+- [ ] Existing resources are migrated to scoped credentials or marked blocked with a deterministic remediation message.
+- [ ] API responses and logs contain no credential/DSN values.
+- [ ] Audit events identify actor, project, resource, operation class, and outcome.
 
 ---
 
-# 5. Cross-cutting UX & operations
+## [ ] P1-03 — Verify every webhook event before parsing side effects
 
-- [ ] **UX-01 — Permission matrix dan role clarity**
-  - **SPEC:** Dokumentasikan capability untuk Global Owner/Admin, Project Admin/Editor/Viewer, service-scoped token, dan agent.
-  - **RULE:** UI dan API harus memakai policy yang sama; UI hide button bukan authorization.
-  - **DESIGN:** Buat permission matrix sebagai sumber kebenaran, lalu gunakan test table-driven.
-  - **ACCEPTANCE CRITERIA:** [ ] Semua endpoint sensitif terpetakan. [ ] Setiap role diuji allow/deny. [ ] Dokumentasi dan UI konsisten.
+**Ownership boundary:** `crates/pier-core/src/api/webhooks.rs`, webhook secret storage/rotation contract, webhook tests. Do not implement general deployment rollback behavior here.
 
-- [ ] **OPS-01 — Operational runbooks**
-  - **SPEC:** Runbook untuk upgrade, rollback, webhook failure, DB credential rotation, backup/restore, helper install, dan agent offline.
-  - **RULE:** Langkah harus dapat dilakukan operator lain tanpa asumsi pengetahuan penulis.
-  - **DESIGN:** Setiap runbook memuat symptom, impact, diagnosis, safe mitigation, recovery, verification, escalation.
-  - **ACCEPTANCE CRITERIA:** [ ] Minimal satu simulasi tabletop per skenario kritis. [ ] Perintah destructive diberi warning dan precondition. [ ] Runbook memiliki owner dan tanggal review.
+### SPEC
+- Static audit found webhook processing paths where an unset secret could be treated as eligible/trusted and installation-event state changes could occur before the signature verification used by push handling.
+- All provider events capable of changing installation mapping, source metadata, deployment state, or triggering deploy must be authenticated before side effects.
 
-- [ ] **OPS-02 — Metrics, alerting, and SLO baseline**
-  - **SPEC:** Ukur API availability/latency, agent heartbeat, deployment success, backup success, restore verification, queue delay, dan DB contention.
-  - **RULE:** Alert harus actionable dan memiliki severity/owner; hindari alert tanpa runbook.
-  - **DESIGN:** Tentukan SLI/SLO awal berdasarkan baseline pengukuran, bukan angka arbitrer.
-  - **ACCEPTANCE CRITERIA:** [ ] Dashboard operasional tersedia. [ ] Alert diuji dengan fault injection. [ ] Setiap alert kritis mengarah ke runbook.
+### RULE
+- Missing/empty secret means reject; it never means unsigned trusted mode.
+- Verify the raw request body before deserialization or side effects.
+- Use provider-specific signature headers/algorithms and constant-time comparison.
+- Unknown provider, malformed signature, unsupported event, oversized body, and replayed delivery ID must fail safely.
+- Do not log raw body, secret, signature, or authorization headers.
+- Secret rotation must not silently create a period where requests are accepted unsigned.
+
+### DESIGN
+1. Normalize provider identity and event metadata from trusted route/config.
+2. Read bounded raw body bytes and validate content length.
+3. Resolve secret for the target installation/service.
+4. Verify provider signature against raw bytes using constant-time comparison.
+5. Validate delivery ID/timestamp and apply idempotency/replay protection.
+6. Only after successful verification, deserialize and route event to business logic.
+7. Store webhook secrets encrypted; support generate, rotate, test, revoke, and legacy-secret remediation.
+8. Keep signature verification as a shared middleware/service so no event handler can bypass it.
+
+### ACCEPTANCE CRITERIA
+- [ ] Missing secret, missing signature, malformed signature, and invalid signature are rejected before any state change.
+- [ ] Valid GitHub and GitLab signatures are accepted for supported events.
+- [ ] Installation events cannot mutate installation mappings without valid signature.
+- [ ] Replayed delivery IDs are idempotently ignored/rejected.
+- [ ] Oversized and malformed payloads are rejected within bounded resource use.
+- [ ] Tests cover all supported event types, not only push.
+- [ ] Legacy services with no secret enter a documented blocked/remediation state.
+- [ ] No raw secrets/signatures/payloads appear in logs or error responses.
 
 ---
 
-# 6. Urutan implementasi yang disarankan
+## [ ] P1-04 — Authenticate integrity and provenance of privileged helper downloads
 
-| Wave | Isi | Exit gate |
+**Ownership boundary:** helper release assets, `scripts/install.sh` helper fallback, bootstrap/updater helper installation. Do not own the general CI release gate (P0-02).
+
+### SPEC
+- The network helper runs with elevated host privileges and performs host networking operations.
+- Static audit found an `install.sh` fallback path that downloads the helper without checksum validation, while other download paths have different integrity behavior.
+- Every path that installs or replaces the privileged helper must enforce the same verification policy.
+
+### RULE
+- Never execute or install a downloaded helper before verification.
+- Missing checksum/manifest/signature or verification tool failure is a hard failure.
+- Do not trust an unauthenticated checksum fetched from the same mutable location as the binary as the sole provenance control.
+- Never overwrite the currently working helper before the new artifact is verified.
+- Do not silently fall back to an unverified binary.
+
+### DESIGN
+1. Define one canonical helper artifact naming/version/architecture manifest.
+2. Generate SHA-256 checksums and signed provenance/attestation in the release pipeline.
+3. Pin the expected signer identity/issuer or trusted public key in the installer.
+4. Download binary and metadata into a root-owned temporary directory with restrictive permissions.
+5. Verify checksum, signature/provenance, architecture, executable format, and expected version.
+6. Install atomically only after all checks pass; retain previous helper for rollback.
+7. Use one shared verification function across bootstrap, installer, updater, and repair paths.
+8. Record verified digest and source release in an install metadata file.
+
+### ACCEPTANCE CRITERIA
+- [ ] All helper download/install code paths call the same verifier.
+- [ ] Checksum mismatch, signature mismatch, missing metadata, wrong architecture, and invalid binary all fail closed.
+- [ ] Existing working helper remains intact on failed update.
+- [ ] Valid signed artifact installs atomically with correct owner/mode.
+- [ ] Automated shell tests cover network errors, truncated downloads, missing files, bad signatures, and rollback.
+- [ ] Release artifacts expose digest and provenance evidence.
+- [ ] Installer output reports verified version/digest without exposing secrets.
+
+---
+
+## [ ] P1-05 — Encrypt backup database credentials at rest in SQLite
+
+**Ownership boundary:** backup credential persistence and key management, including migration. DB Browser runtime credentials are owned by P1-02.
+
+### SPEC
+- Static audit found backup `DbCredential` passwords documented/stored as plaintext in the `database_credentials` SQLite table.
+- Scheduled backup must still work after service restart without requiring an operator to re-enter credentials for every run.
+
+### RULE
+- No hard-coded master key in source, container image, or default config.
+- Never log plaintext credential or include it in API output.
+- A missing/wrong key must produce an explicit blocked/error state, never a blank/default password.
+- Preserve the old record until ciphertext decrypt verification succeeds.
+- Key rotation must preserve decryptability of existing backups/configuration.
+
+### DESIGN
+1. Define versioned encrypted record format: algorithm, nonce, ciphertext, key ID, format version.
+2. Use envelope encryption with master key supplied by protected host secret file or supported secret manager.
+3. Set strict owner/mode for local key material; never store key beside the SQLite DB with equal permissions.
+4. Implement read/write abstraction so backup code never sees plaintext outside a short-lived in-memory scope.
+5. Migrate legacy plaintext rows transactionally: read → encrypt → write → decrypt-verify → remove plaintext.
+6. Provide a machine-readable migration status and deterministic recovery instructions.
+7. Support key rotation with old/new key IDs and automated re-encryption verification.
+
+### ACCEPTANCE CRITERIA
+- [ ] New credentials are encrypted before SQLite persistence.
+- [ ] Migration converts every legacy row and verifies decryption before deleting plaintext.
+- [ ] SQLite dump and backup metadata do not reveal plaintext passwords.
+- [ ] Backup succeeds after process restart with configured key material.
+- [ ] Missing/wrong key blocks the affected backup job with an actionable error.
+- [ ] Key rotation test decrypts all old records and verifies new writes use the active key.
+- [ ] Logs, traces, API responses, and error snapshots contain no credential plaintext.
+- [ ] Migration is idempotent and has a tested rollback/restore fixture.
+
+---
+
+# Wave 2 — Runtime reliability and operability (P2)
+
+## [ ] P2-01 — Cancel shell tasks by process group, including descendants
+
+**Ownership boundary:** `crates/pier-agent/src/shell.rs`, process lifecycle helper, agent shell tests. Do not change general deployment job cancellation semantics outside the shell task boundary.
+
+### SPEC
+- Static audit found cancellation/timeout sends SIGTERM to the Bash PID only.
+- Child processes spawned by Bash may outlive cancellation, keep pipes open, consume resources, or continue side effects.
+- A task cancellation must terminate all processes launched in that task's isolated process group.
+
+### RULE
+- Never signal a global process name or process group not created by the task.
+- Graceful termination precedes force kill.
+- Timeout and user cancellation must share the same cleanup path.
+- Always reap child processes and close stdout/stderr readers.
+- Preserve exit status semantics for normally completed commands.
+
+### DESIGN
+1. Spawn each shell task in its own process group/session using platform-supported process APIs.
+2. Store process-group identity with the task handle.
+3. On cancel/timeout send SIGTERM to the group, wait a bounded grace period, then SIGKILL the group if still alive.
+4. Await child exit and stream-reader completion; clean up task state even on error.
+5. Add platform-specific implementation behind a narrow abstraction if non-Unix platforms are supported.
+
+### ACCEPTANCE CRITERIA
+- [ ] Test shell script spawns nested children; cancellation terminates every descendant.
+- [ ] Timeout terminates every descendant and leaves no orphan.
+- [ ] Graceful command completion preserves exit code/stdout/stderr.
+- [ ] Process outside the task's group remains alive.
+- [ ] Repeated cancel/timeout races do not panic, deadlock, or leak handles.
+- [ ] Platform limitations are explicit and CI covers every supported target.
+
+---
+
+## [ ] P2-02 — Execute full workspace quality gates in CI
+
+**Ownership boundary:** CI workflow and test harness invocation. Release dependency/gating is owned by P0-02.
+
+### SPEC
+- Current CI checks workspace compilation but explicitly runs tests only for the `pier-core` binary target.
+- Every workspace member and test target must be executed, including agent, network helper, and test harness crates.
+- Security-critical behavior added by P1 tasks must have integration coverage in CI.
+
+### RULE
+- Keep `--locked` on Cargo check/test/clippy.
+- A skipped test suite must fail or be explicitly represented as a separate non-required platform job with a tracked reason.
+- Do not run host-privileged integration tests directly on a shared runner.
+- Do not suppress flaky tests; fix determinism or isolate them with an explicit owner and expiry.
+
+### DESIGN
+1. Run `cargo fmt --all -- --check`.
+2. Run `cargo check --workspace --locked`.
+3. Run `cargo clippy --workspace --all-targets --locked -- -D warnings` after resolving current baseline warnings.
+4. Run `cargo test --workspace --locked`.
+5. Add isolated container-backed integration suites for webhook signatures, DB isolation, credential encryption/migration, backup/restore, and process cancellation.
+6. Add shell static analysis and script tests for installer/bootstrap/helper verification.
+7. Add Docker build smoke test from P0-01.
+8. Publish test reports and preserve failure logs with secret redaction.
+
+### ACCEPTANCE CRITERIA
+- [ ] CI enumerates and tests every workspace member and test target.
+- [ ] A deliberately failing test makes the required PR check fail.
+- [ ] No required test target is silently omitted.
+- [ ] Security integration tests run in isolated fixtures/containers.
+- [ ] Shell tests cover supported installers and failure paths.
+- [ ] Docker clean build is part of required CI.
+- [ ] CI artifacts contain test reports but no secrets.
+- [ ] CI duration and flaky-test rate are measured; stability is not traded for hidden skips.
+
+---
+
+## [ ] P2-03 — Move blocking SQLite work off async executor workers
+
+**Ownership boundary:** SQLite connection ownership/access layer and its call sites. Do not change schema, authorization, or business semantics as part of this refactor.
+
+### SPEC
+- Shared state currently uses a synchronous SQLite connection behind a mutex and async handlers acquire that lock.
+- Blocking queries and lock contention can block Tokio workers and serialize unrelated requests.
+- Database concurrency must be bounded and transaction behavior preserved.
+
+### RULE
+- Do not hold a DB mutex while awaiting network I/O or unrelated filesystem work.
+- Respect rusqlite connection thread-safety/ownership constraints.
+- Preserve transaction boundaries, busy timeout, WAL behavior, and isolation semantics unless a separately tested change is approved by machine policy.
+- Avoid unbounded blocking task creation.
+
+### DESIGN
+1. Inventory all connection lock call sites and classify read/write/transaction duration.
+2. Add tracing for lock wait, query duration, busy errors, and queue depth before changing architecture.
+3. Choose a single ownership model: dedicated DB worker/actor, bounded blocking executor with safe connection ownership, or a supported pool.
+4. Route all SQLite operations through the chosen abstraction; prevent direct mutex access from handlers.
+5. Bound queue size and define overload/backpressure behavior.
+6. Keep migrations and backup operations serialized against conflicting writes.
+
+### ACCEPTANCE CRITERIA
+- [ ] No blocking SQLite call runs directly on a Tokio async worker.
+- [ ] No DB lock is held across `await`.
+- [ ] Concurrency load test shows no starvation/deadlock and bounded queue growth.
+- [ ] Existing transaction and rollback tests pass unchanged.
+- [ ] Migration/backup cannot race with incompatible writes.
+- [ ] Benchmark compares baseline and new design for representative read/write workloads.
+- [ ] Metrics expose DB queue wait, query latency, and busy errors.
+
+---
+
+## [ ] P2-04 — Verify backup artifacts and run isolated restore drills
+
+**Ownership boundary:** backup artifact format/verification, scheduled restore-test runner, recovery status UI/API. Credential encryption itself is owned by P1-05.
+
+### SPEC
+- A backup marked successful must be complete, readable, and integrity-checked.
+- The system must periodically prove that backup artifacts can be restored in an isolated disposable environment.
+- Restore rehearsal must not mutate production resources.
+
+### RULE
+- Never restore test data into production database, volume, host, or network.
+- Do not mark a backup verified merely because a file exists.
+- Retention cleanup must never delete the last known-good verified backup for a protected resource.
+- Temporary test resources must be cleaned even on failure/cancellation.
+- Do not emit backup contents or credentials to logs.
+
+### DESIGN
+1. Define a versioned manifest containing backup ID, resource identity, engine/version, created time, format version, component list, sizes, and checksums.
+2. Validate checksums and archive readability immediately after backup.
+3. Schedule restore drills in isolated containers/namespaces with no route to production networks.
+4. Restore representative PostgreSQL/MySQL/MariaDB fixtures and validate schema, row counts/markers, indexes, and application-level invariants.
+5. Destroy temporary resources in a guaranteed cleanup/finally path.
+6. Store verification result, duration, environment version, and sanitized error reason.
+7. Expose last successful backup and last successful restore drill separately.
+
+### ACCEPTANCE CRITERIA
+- [ ] Corrupt/truncated/missing backup components are detected.
+- [ ] Restore drills succeed for each supported database engine.
+- [ ] Restore test cannot reach or overwrite production targets (verified by network and target isolation tests).
+- [ ] Temporary containers, volumes, and networks are removed after both success and failure.
+- [ ] Retention preserves configured minimum known-good recovery points.
+- [ ] UI/API distinguishes created, integrity-checked, restore-verified, failed, and expired.
+- [ ] Alert fires on backup failure, integrity failure, or restore-drill SLA breach.
+- [ ] Recovery report is machine-readable and contains no secrets.
+
+---
+
+## [ ] P2-05 — Implement one reusable append-only security audit event pipeline
+
+**Ownership boundary:** audit event schema, persistence, query/export API, redaction, retention, and consumers. Task-specific authorization remains in P1-01/P1-02/P1-03.
+
+### SPEC
+- Security-sensitive actions need consistent traceability across authentication, role changes, security settings, DB Browser access, deployment, webhook configuration, credential rotation, backup/restore, and privileged operations.
+- Existing ad hoc logs are not a substitute for a structured audit event store.
+- This task provides the common event pipeline; it must not duplicate authorization logic in each feature.
+
+### RULE
+- Audit records are append-only through the application interface.
+- Ordinary users cannot edit/delete audit events.
+- Never store passwords, tokens, private keys, webhook signatures, raw credential values, or raw SQL parameters.
+- Audit storage failure for a high-risk action must follow a documented fail-closed policy; do not silently lose the event.
+- Audit API access is itself permission-checked and auditable.
+
+### DESIGN
+1. Define versioned event schema: event ID, timestamp UTC, actor ID/type, action, target type/ID, project/tenant scope, outcome, source/request ID, and redacted metadata.
+2. Provide typed event constructors so features cannot invent inconsistent field names.
+3. Persist events transactionally where practical with the action; use an outbox pattern where cross-resource atomicity is impossible.
+4. Add tamper-evidence via chained digest or equivalent integrity mechanism, with periodic verification.
+5. Add query filters, pagination, export, retention, and optional syslog/SIEM forwarding.
+6. Add automated redaction validation at the event boundary.
+7. Integrate existing security settings, DB Browser, webhook, deployment, backup, and credential events without changing their authorization decisions.
+
+### ACCEPTANCE CRITERIA
+- [ ] All listed action families emit normalized events with actor, target, action, outcome, and timestamp.
+- [ ] Failed and denied attempts are represented without leaking request secrets.
+- [ ] Application API cannot update/delete existing audit records.
+- [ ] Tamper-evidence verification detects modified/deleted records in test fixtures.
+- [ ] Query/export permissions are enforced server-side.
+- [ ] Retention and export are deterministic and covered by tests.
+- [ ] Redaction tests inject dummy passwords/tokens/private keys and prove they are absent.
+- [ ] Audit pipeline outage behavior is tested for each critical action class.
+
+---
+
+## [ ] P2-06 — Add scoped, expiring, revocable API tokens
+
+**Ownership boundary:** API token model, storage, authentication middleware, management endpoints/UI. Do not change existing browser session authentication.
+
+### SPEC
+- Automation/integrations need credentials narrower than a human admin session.
+- Tokens must be scoped by capability and resource, have expiry, and be revocable independently.
+- Token plaintext is displayed once at creation; only a secure verifier/hash is persisted.
+
+### RULE
+- No implicit global-admin scope.
+- Default scope is empty/minimum and expiry is bounded.
+- Revoked/expired tokens fail immediately.
+- Token owner cannot grant a scope they do not possess.
+- Token authentication must not bypass tenant/project/resource authorization.
+
+### DESIGN
+1. Define token metadata: ID, owner, hashed secret, scope list, resource allowlist, created/expiry/last-used/revoked timestamps.
+2. Use a cryptographically secure random token and a suitable one-way verifier; compare safely.
+3. Add per-request scope and resource checks after token authentication.
+4. Add create/list/revoke/rotate endpoints and UI.
+5. Add rate limits and last-used metadata without storing plaintext token.
+6. Support migration-free coexistence with session auth.
+
+### ACCEPTANCE CRITERIA
+- [ ] Token cannot invoke endpoint outside its scope.
+- [ ] Token cannot access resource outside its allowlist.
+- [ ] Expired and revoked tokens fail immediately.
+- [ ] Token plaintext is returned only once and never appears in DB/logs.
+- [ ] Owner cannot create higher privilege than their own capability.
+- [ ] Session login and existing API behavior remain regression-tested.
+- [ ] Token creation, scope change, rotation, and revocation emit audit events.
+
+---
+
+# Wave 3 — Product expansion (P3)
+
+> These are independent product initiatives. Each must be delivered behind a feature flag and may not block completion of P0–P2. “No human approval required” means rollout decisions are driven by explicit machine policies and automated acceptance tests; production activation remains outside this backlog.
+
+## [ ] P3-01 — Health-gated deployment with automatic rollback
+
+**Ownership boundary:** deployment state machine, health probe execution, rollback orchestration. Do not implement GitOps reconciliation or canary traffic shaping here.
+
+### SPEC
+- A deployment is not successful merely because the container started.
+- New release must pass configurable readiness/health criteria before being marked healthy.
+- When a new release fails the configured gate, system automatically restores the last known-good deployment when rollback is safe.
+
+### RULE
+- Rollback is allowed only when a known-good image/config snapshot exists and compatibility policy says rollback is safe.
+- If a migration is marked irreversible or incompatible, stop promotion and enter a blocked state rather than attempting destructive rollback.
+- All thresholds are explicit configuration; no hidden defaults that can cause an infinite wait.
+- No manual approval state is part of the state machine.
+
+### DESIGN
+1. Model deployment states: queued, preparing, deploying, probing, healthy, promoted, rollback-in-progress, rolled-back, blocked, failed.
+2. Support HTTP/TCP/container health checks with startup grace, interval, timeout, consecutive failure count, and total deadline.
+3. Persist previous image digest, config revision, deployment ID, and rollback eligibility.
+4. Automatically rollback on threshold breach when safe; otherwise freeze traffic and emit actionable alert.
+5. Record state transitions and probe evidence.
+6. Add deterministic failure injection for crash loop, probe timeout, dependency unavailable, and rollback failure.
+
+### ACCEPTANCE CRITERIA
+- [ ] Healthy deployment promotes only after all configured probes pass.
+- [ ] Failed probes stop promotion and trigger safe automatic rollback.
+- [ ] Irreversible migration policy blocks unsafe rollback and records the reason.
+- [ ] No deployment can remain indefinitely in a transitional state.
+- [ ] Every state transition is auditable.
+- [ ] Test suite covers success, crash loop, timeout, rollback success, and rollback failure.
+- [ ] Feature can be disabled without changing legacy deployment behavior.
+
+---
+
+## [ ] P3-02 — Add canary/blue-green rollout using deterministic traffic policy
+
+**Ownership boundary:** traffic splitting and staged rollout only. Health gate and rollback mechanics are provided by P3-01.
+
+### SPEC
+- Multi-instance services should support progressive exposure of a new version to a controlled percentage of traffic.
+- Rollout progression is driven by configured health/error/latency thresholds.
+
+### RULE
+- Traffic weights must sum to 100% and be validated before rollout.
+- If metrics are missing or stale, rollout pauses/fails closed; it must not infer success.
+- Do not apply canary to single-instance services or unsupported routing providers.
+- No human approval action is required; configured policy determines progression.
+
+### DESIGN
+1. Define rollout plan schema: strategy, steps, traffic weights, observation window, metric thresholds, timeout, and rollback action.
+2. Implement blue-green target registration and atomic route switch.
+3. Implement canary traffic weights for supported proxy providers.
+4. Evaluate health and error/latency metrics at each stage.
+5. Feed failure decisions to P3-01 rollback state machine.
+6. Keep legacy deployment path unchanged when feature is disabled.
+
+### ACCEPTANCE CRITERIA
+- [ ] Invalid weights and unsupported services are rejected before changes.
+- [ ] Traffic weights at each stage match configured plan.
+- [ ] Missing/stale telemetry blocks progression.
+- [ ] Threshold breach triggers automated rollback.
+- [ ] Route switch is atomic or has a tested bounded inconsistency window.
+- [ ] Tests cover each rollout step, timeout, telemetry loss, and rollback.
+- [ ] Feature flag off preserves existing behavior.
+
+---
+
+## [ ] P3-03 — Build Security Center with explainable findings and SBOM
+
+**Ownership boundary:** scanner orchestration, finding model, SBOM storage/display. Do not duplicate secret redaction or audit event infrastructure.
+
+### SPEC
+- Provide a unified view of image vulnerabilities, dependency CVEs, exposed ports, risky runtime configuration, image provenance, and repository secret-pattern findings.
+- Every finding must be actionable and tied to a concrete artifact/service.
+
+### RULE
+- A numeric score must never be represented as a guarantee of security.
+- No secret value is transmitted to an external scanner.
+- Findings cannot be silently suppressed; accepted-risk entries require reason, owner identity, expiry, and audit event.
+- Scanner failure must be distinguishable from zero findings.
+
+### DESIGN
+1. Generate SBOM for each immutable image digest/build.
+2. Define normalized finding schema: scanner, rule ID, severity, evidence reference, affected artifact, first/last seen, remediation, status.
+3. Run scanners as isolated jobs with bounded CPU/memory/time and no unnecessary secret access.
+4. Correlate findings with service, host, deployment, and image digest.
+5. Add trend view, filters, machine-readable export, and expiring risk exceptions.
+6. Show scan coverage and stale/missing scan state.
+
+### ACCEPTANCE CRITERIA
+- [ ] SBOM is linked to immutable image digest and can be exported.
+- [ ] Finding has severity, evidence, remediation, affected asset, and scan timestamp.
+- [ ] Scanner error is not displayed as a clean scan.
+- [ ] Risk exception has owner, reason, expiry, and audit event.
+- [ ] Secret scanning fixtures prove no raw secret leaves the platform.
+- [ ] Repeated scans deduplicate stable findings and preserve history.
+- [ ] Feature flag off has no impact on deployment.
+
+---
+
+## [ ] P3-04 — Add multi-server Fleet Manager and safe agent lifecycle
+
+**Ownership boundary:** host registry, enrollment, heartbeat, inventory, agent upgrade orchestration. Does not own application deployment strategy.
+
+### SPEC
+- Operators need a consistent view of multiple hosts, agent health/version/capabilities, capacity, labels, and maintenance state.
+- Enrollment and agent upgrade must be secure, observable, and idempotent.
+
+### RULE
+- Host identity is unique and cryptographically bound to enrollment.
+- Enrollment tokens are one-time, short-lived, and scoped.
+- Offline/stale agents are never reported as successfully updated.
+- Mass operations use bounded batches and stop automatically on failure thresholds.
+
+### DESIGN
+1. Add host registry with stable ID, identity key, labels, region/environment, agent version, capabilities, heartbeat, and last-seen.
+2. Implement one-time enrollment and revoke/rotate flow.
+3. Add health states: online, degraded, stale, offline, revoked.
+4. Add maintenance/drain mode and rolling agent upgrade with batch size and failure threshold.
+5. Add per-host action results and retry/backoff.
+6. Reuse P2-05 audit events.
+
+### ACCEPTANCE CRITERIA
+- [ ] Duplicate or forged host identity is rejected.
+- [ ] Expired/reused enrollment token is rejected.
+- [ ] Offline/stale hosts are visibly distinct from healthy hosts.
+- [ ] Upgrade proceeds in bounded batches and halts on configured failure threshold.
+- [ ] Per-host result is persisted and retry is idempotent.
+- [ ] Revoke prevents future authenticated agent actions.
+- [ ] Host enrollment, upgrade, maintenance, and revoke emit audit events.
+
+---
+
+## [ ] P3-05 — Implement GitOps manifests and configuration drift detection
+
+**Ownership boundary:** desired-state schema, Git source sync, drift diff/reconcile. Does not own secret manager or traffic rollout internals.
+
+### SPEC
+- Service configuration should be represented as versioned desired state in Git.
+- Platform compares desired state with live state and reports drift.
+- Reconciliation must be safe, idempotent, and policy-driven.
+
+### RULE
+- Secret values are never committed or printed in diffs; manifests contain secret references only.
+- Invalid manifests never partially apply.
+- Reconcile loop has rate limits, retry bounds, and stale-source detection.
+- No manual approve button is required; preconfigured environment policy determines whether a diff is auto-applied, blocked, or reverted.
+
+### DESIGN
+1. Define versioned schema for services, image/source, environment references, ports, volumes, networks, healthchecks, deploy policy, and dependencies.
+2. Validate schema and semantic constraints before any mutation.
+3. Fetch Git desired state using least-privilege deploy key/token.
+4. Compute redacted diff between desired and live state.
+5. Apply only allowed change classes according to environment policy.
+6. Track sync status: in-sync, drifted, reconciling, blocked, failed, stale-source.
+7. Support rollback to a previous Git commit using the normal deployment/backup contracts.
+
+### ACCEPTANCE CRITERIA
+- [ ] Invalid schema or incompatible version is rejected before mutation.
+- [ ] Drift identifies exact changed fields without showing secret values.
+- [ ] Auto-reconcile only applies changes allowed by stored policy.
+- [ ] Repeated reconcile is idempotent.
+- [ ] Stale Git source and API failures do not overwrite live state.
+- [ ] Rollback to previous commit is testable and auditable.
+- [ ] Secret scanning proves no plaintext secret is present in manifest/diff/log.
+
+---
+
+## [ ] P3-06 — Add resource intelligence and capacity forecasting
+
+**Ownership boundary:** metrics collection, retention/downsampling, dashboards, threshold alerts, forecast. Does not own host enrollment (P3-04).
+
+### SPEC
+- Provide per-host and per-service CPU, memory, disk, network, restart, and capacity history.
+- Forecasts must communicate uncertainty and data coverage.
+
+### RULE
+- Metrics must have timestamp, source, sampling interval, and quality/coverage metadata.
+- Forecast is an estimate, not a guarantee.
+- Sampling must not materially degrade agent or server performance.
+- Missing telemetry must be shown as missing, never as zero.
+
+### DESIGN
+1. Define versioned metric schema and bounded sampling cadence.
+2. Aggregate/downsample metrics and apply retention tiers.
+3. Add CPU/RAM/disk/network dashboards by host/service/time range.
+4. Add configurable thresholds and alert deduplication.
+5. Start with transparent trend-based forecasting and confidence intervals before complex models.
+6. Measure agent/server overhead and tune collection budget.
+
+### ACCEPTANCE CRITERIA
+- [ ] Dashboard filters by host, service, and time range.
+- [ ] Missing/stale telemetry is visibly distinct from zero usage.
+- [ ] Disk pressure and capacity alerts are covered by deterministic tests.
+- [ ] Forecast shows horizon, data coverage, and uncertainty.
+- [ ] Retention/downsampling policy is configurable and tested.
+- [ ] Collection overhead stays within a documented CPU/memory budget.
+
+---
+
+## [ ] P3-07 — Build Disaster Recovery Wizard with automated preflight and verification
+
+**Ownership boundary:** recovery orchestration UI/API and recovery report. Backup artifact validation and restore drills are owned by P2-04.
+
+### SPEC
+- Guide an operator through selecting a verified backup, validating target compatibility/capacity, restoring, and verifying service recovery.
+- Provide a rehearsal mode that restores into an isolated environment.
+
+### RULE
+- The wizard must not silently overwrite a target with incompatible data.
+- Production restore is not part of automated backlog tests; tests use isolated disposable targets.
+- Preflight failure blocks execution deterministically.
+- No human approval step is needed in the task's automated test flow; configured policy and explicit execution context determine permitted targets.
+
+### DESIGN
+1. Flow: select backup → verify manifest/checksum → resolve target → compatibility preflight → capacity preflight → execute in isolated test or authorized target → post-restore verification → report.
+2. Show data age, components, schema version, target identity, and expected overwrite scope.
+3. Reuse restore engine from P2-04.
+4. Generate machine-readable recovery report and audit events.
+5. Add failure recovery and cleanup for interrupted restore.
+
+### ACCEPTANCE CRITERIA
+- [ ] Corrupt backup, incompatible version, insufficient capacity, and unknown target block before mutation.
+- [ ] Rehearsal restores only into isolated temporary resources.
+- [ ] Post-restore verification checks schema and application-level markers.
+- [ ] Interrupted restore leaves target in a deterministic recoverable state.
+- [ ] Report includes source backup, target, duration, verification result, and sanitized errors.
+- [ ] All restore attempts are audited.
+
+---
+
+## [ ] P3-08 — Add redacted one-click diagnostics bundle
+
+**Ownership boundary:** diagnostic collection allowlist, redaction, archive generation, UI/API. Do not add general-purpose file browser access.
+
+### SPEC
+- Produce a support bundle containing version/build metadata, sanitized config, service status, redacted logs, agent health, and relevant system metrics.
+- Bundle generation must be bounded and safe to share.
+
+### RULE
+- Redaction runs before archive creation.
+- No raw database dumps, persistent volume data, private keys, tokens, passwords, or unrestricted environment files by default.
+- User can inspect included categories and redaction summary before export.
+- Bundle size and collection time are bounded.
+
+### DESIGN
+1. Define strict allowlist of source files/commands and category toggles.
+2. Add centralized redaction patterns for credentials, DSNs, tokens, private keys, cookies, and configurable personal data.
+3. Generate manifest with included files, collection timestamps, redaction counts, and checksum.
+4. Limit archive size and command execution time.
+5. Add cancellation and cleanup for partial bundles.
+6. Add test fixtures with synthetic secrets for every supported pattern.
+
+### ACCEPTANCE CRITERIA
+- [ ] Synthetic secrets are absent from generated bundle and manifest.
+- [ ] Disallowed files/directories cannot be included through user path input.
+- [ ] Raw DB/volume data is excluded by default and cannot be included through traversal.
+- [ ] Bundle size/time limits are enforced.
+- [ ] Cancellation removes partial temporary artifacts.
+- [ ] Manifest and checksum verify after generation.
+
+---
+
+## [ ] P3-09 — Add WebAuthn/passkeys as phishing-resistant authentication
+
+**Ownership boundary:** WebAuthn credential registration/authentication, recovery factors, policy enforcement. Do not redesign existing password/session authentication.
+
+### SPEC
+- Support passkeys for admin and user accounts with multiple authenticators and safe recovery.
+- Enforce correct origin and relying-party identity.
+
+### RULE
+- Origin/RP ID mismatch always fails.
+- Recovery cannot bypass account security policy.
+- Credential enrollment, revoke, and recovery events are audited.
+- Existing login remains available according to configured migration policy.
+
+### DESIGN
+1. Implement WebAuthn registration and assertion using a maintained library.
+2. Store credential ID, public key, counter/backup state, transports, and timestamps; never store private authenticator secrets.
+3. Support multiple authenticators, revoke, and recovery codes.
+4. Add policy by role/organization with machine-enforced enforcement.
+5. Add rate limits and replay/counter validation.
+
+### ACCEPTANCE CRITERIA
+- [ ] Supported browser/platform registration and login tests pass.
+- [ ] Invalid origin, RP ID, challenge, signature, and replay are rejected.
+- [ ] Revoke immediately prevents future authentication using that credential.
+- [ ] Recovery codes are one-time and stored as secure verifiers.
+- [ ] Policy enforcement is server-side and auditable.
+- [ ] Existing login regression suite remains green.
+
+---
+
+## [ ] P3-10 — Define a capability-scoped integration/plugin contract
+
+**Ownership boundary:** event/webhook integration contract and capability manifest. Arbitrary executable plugin runtime is explicitly out of scope until a separate threat model exists.
+
+### SPEC
+- Provide safe extension points for notifications, monitoring, deployment events, and secret-provider adapters.
+- Integrations must declare the exact capabilities they need.
+
+### RULE
+- No plugin inherits global-admin rights by default.
+- No arbitrary code execution in the initial SDK.
+- Network/secret access must be explicit and scoped.
+- Event delivery is versioned, bounded, idempotent, and revocable.
+
+### DESIGN
+1. Define plugin manifest with ID, version, compatibility range, requested scopes, event subscriptions, and endpoint metadata.
+2. Define versioned event schema and signature verification.
+3. Add capability evaluation and per-plugin secret references.
+4. Implement bounded delivery with retries, backoff, idempotency key, timeout, and dead-letter status.
+5. Add enable/disable/revoke and audit events.
+6. Reserve executable sandbox runtime for a later separately scoped project.
+
+### ACCEPTANCE CRITERIA
+- [ ] Plugin with no capability cannot access protected resources.
+- [ ] Scope escalation is rejected.
+- [ ] Event delivery is idempotent and bounded.
+- [ ] Failed endpoint does not block core deployment/API work.
+- [ ] Disable/revoke prevents subsequent deliveries.
+- [ ] Manifest compatibility is validated before activation.
+- [ ] No arbitrary plugin code executes in this phase.
+
+---
+
+# Cross-task dependency map
+
+| Task | Depends on | Must not duplicate |
 |---|---|---|
-| **Wave 0 — Build/release integrity** | P0-01 Docker build, P0-02 CI release gate | Clean build dan release gate terbukti |
-| **Wave 1 — Access & webhook security** | P1-01 security settings RBAC, P1-02 DB isolation, P1-03 webhook signature | Negative authorization tests lulus |
-| **Wave 2 — Supply chain & secrets** | P1-04 helper verification, P1-05 credential encryption | No unverified privileged binary; no plaintext DB credentials |
-| **Wave 3 — Runtime & recovery** | P2-01 process tree, P2-02 CI coverage, P2-03 SQLite, P2-04 restore drill, P2-05 audit | Integration tests + restore evidence |
-| **Wave 4 — Platform APIs** | P2-06 scoped tokens, UX-01 permission matrix, OPS runbooks/metrics | API contract dan operational readiness |
-| **Wave 5 — Product expansion** | P3-01 sampai P3-09 | Feature-by-feature RFC, threat model, staged rollout |
+| P0-01 Docker workspace build | Current Cargo workspace inventory | Runtime refactor |
+| P0-02 Release gate | CI check names from P2-02 | Helper signature generation (P1-04) |
+| P1-01 Global security RBAC | Existing auth/role policy | Generic audit store (P2-05); emit through event interface |
+| P1-02 DB Browser isolation | Resource registry and DB provisioning | Backup credential storage (P1-05) |
+| P1-03 Webhook verification | Provider config/secret store | Deployment rollback (P3-01) |
+| P1-04 Helper integrity | Release artifact metadata | CI gate itself (P0-02) |
+| P1-05 Backup credential encryption | Host secret/key source | DB Browser runtime credential model (P1-02) |
+| P2-01 Process tree cancellation | Agent task lifecycle | Deployment state machine |
+| P2-02 Full workspace CI | Workspace member inventory | Release dependency (P0-02) |
+| P2-03 SQLite execution model | Existing DB call-site inventory | Schema/business logic changes |
+| P2-04 Backup verification/restore drills | Backup format and encrypted credential access | DR Wizard UI (P3-07) |
+| P2-05 Audit pipeline | Event schema and persistence | Feature-specific authorization |
+| P2-06 Scoped API tokens | Existing auth middleware/policy | Browser session redesign |
+| P3-01 Health gate/rollback | Existing deployment lifecycle | Traffic shaping (P3-02) |
+| P3-02 Canary/blue-green | P3-01 health/rollback interfaces | Health probe engine |
+| P3-03 Security Center | Build/image metadata | General audit pipeline |
+| P3-04 Fleet Manager | Agent identity/heartbeat | Application deployment policy |
+| P3-05 GitOps | Manifest schema and deployment API | Traffic shaping internals |
+| P3-06 Resource Intelligence | Agent metrics | Host enrollment |
+| P3-07 DR Wizard | P2-04 restore/verification engine | Backup artifact implementation |
+| P3-08 Diagnostics | Redaction utility | General-purpose filesystem access |
+| P3-09 Passkeys | Existing authentication policy | Session architecture replacement |
+| P3-10 Integration SDK | Event and capability model | Arbitrary executable plugin runtime |
 
-## 7. Release readiness checklist
+# Automated release readiness gate
 
-- [ ] Semua P0 selesai dan diverifikasi pada clean checkout.
-- [ ] Semua P1 selesai atau ada risk acceptance tertulis dari owner (tidak disarankan untuk production).
-- [ ] CI wajib lulus pada commit SHA yang akan dirilis.
-- [ ] Docker image build dan startup smoke test lulus.
-- [ ] Migration test dari versi existing lulus; backup dan rollback plan tersedia.
-- [ ] Webhook signature, RBAC, DB isolation, secret handling, dan helper integrity diuji.
-- [ ] Backup integrity check dan restore drill memiliki bukti terbaru.
-- [ ] Release notes, upgrade guide, rollback guide, dan known issues tersedia.
-- [ ] Tidak ada secret, credential, atau private key pada source, image, artifact, atau logs.
-- [ ] Security review dan approval release tercatat.
+A release candidate is ready only when the following machine-verifiable conditions are true:
 
-## 8. Task completion template
+- [ ] P0-01 and P0-02 pass on the exact candidate commit SHA.
+- [ ] P1-01 through P1-05 pass their security negative tests.
+- [ ] P2-01 through P2-04 pass runtime and recovery tests.
+- [ ] P2-05 audit pipeline integrity and redaction tests pass.
+- [ ] P2-06 token scope/expiry/revocation tests pass if scoped tokens are enabled in the release.
+- [ ] All required CI jobs complete successfully; no required job is skipped/cancelled.
+- [ ] Docker image build and startup smoke tests pass.
+- [ ] Migration fixture from the oldest supported Pier schema/config passes and is idempotent.
+- [ ] Backup/restore fixture passes for every supported DB engine.
+- [ ] No secret-scanning, dependency-audit, or artifact-integrity gate reports an unhandled critical finding.
+- [ ] Release artifacts have source SHA, checksums, and provenance metadata.
+- [ ] Release notes and migration/rollback documentation are generated and versioned.
+- [ ] Production deployment is explicitly outside this automated release-readiness checklist.
 
-Gunakan template ini untuk setiap task baru agar implementasi dapat direview:
+# Definition of Done template for future tasks
 
-- [ ] **TASK-ID — Judul**
-  - **SPEC:** problem, scope, non-goals, compatibility, expected behavior.
-  - **RULE:** authorization, security constraints, invariants, failure behavior.
-  - **DESIGN:** affected modules, API/schema changes, data flow, migration, observability.
-  - **ACCEPTANCE CRITERIA:** testable positive/negative cases, performance/operational evidence, docs.
-  - **TEST PLAN:** unit, integration, regression, migration, failure injection.
-  - **ROLLBACK:** trigger, safe rollback steps, data compatibility.
-  - **EVIDENCE:** CI run, test output, review link, screenshots/log references (redacted).
+Every new task must use this exact structure:
 
----
+- [ ] **TASK-ID — Imperative title**
+  - **SPEC:** current observed problem, exact scope, explicit non-goals, compatibility contract, expected behavior.
+  - **RULE:** authorization, trust boundary, invariants, failure modes, privacy/security limits, resource/time limits.
+  - **DESIGN:** affected files/modules, API/schema contract, data flow, migration, observability, cleanup, rollback.
+  - **ACCEPTANCE CRITERIA:** binary/pass-fail criteria with expected inputs/outputs and negative cases.
+  - **AUTOMATED TEST PLAN:** unit, integration, regression, migration, failure injection, platform matrix.
+  - **AUTOMATED EVIDENCE:** CI run URL/SHA, test reports, benchmark, migration fixture output, artifact digest.
+  - **ROLLBACK:** deterministic rollback trigger and procedure, including data compatibility.
+  - **DEPENDENCIES:** exact task IDs; do not restate another task's implementation scope.
 
-**Maintainer note:** Kerjakan P0/P1 lebih dahulu. P3 adalah backlog ide, bukan komitmen release. Jangan menggabungkan banyak perubahan security besar dalam satu commit; buat perubahan kecil, terukur, dan reviewable. Tidak ada task dalam dokumen ini yang mengizinkan deployment atau perubahan pada production server secara otomatis.
+**Maintainer note:** Keep the backlog single-sourced. If a new finding overlaps an existing task, update that task's SPEC/RULE/DESIGN/ACCEPTANCE CRITERIA or add a clearly non-overlapping subtask; do not create duplicate tickets. P0/P1 precede feature work. All checks are automated and objective; no task is considered complete on a subjective human sign-off. No task authorizes production changes.
