@@ -175,10 +175,53 @@ fi
 # ── Check if upgrading ───────────────────────────────────────────────────────
 
 UPGRADE=false
+LEGACY_PRESENT=false
+if [[ -d "$PIER_DIR" ]] && { [[ -e "$PIER_BIN" ]] || [[ -d "$PIER_DATA" ]] || [[ -f "$PIER_ENV" ]]; }; then
+    LEGACY_PRESENT=true
+fi
+
 if systemctl is-active --quiet pier 2>/dev/null; then
     UPGRADE=true
     info "Existing Pier installation detected — upgrading in place for MOONSHIPS..."
     systemctl stop pier
+elif [[ "$LEGACY_PRESENT" == true ]]; then
+    UPGRADE=true
+    info "Existing Pier data detected — preserving it during MOONSHIPS installation..."
+fi
+
+# Back up the old runtime and application state before any existing files are
+# replaced. Copy the whole data directory, including SQLite WAL sidecars, plus
+# the environment, binaries and systemd units. Docker volumes live outside this
+# directory and are not modified by this installer.
+if [[ "$LEGACY_PRESENT" == true && "\${PIER_SKIP_BACKUP:-0}" != "1" ]]; then
+    BACKUP_ROOT="/var/backups/moonships"
+    mkdir -p "$BACKUP_ROOT"
+    chmod 700 "$BACKUP_ROOT"
+    BACKUP_DIR="$(mktemp -d "\${BACKUP_ROOT}/pre-upgrade-XXXXXX")"
+    chmod 700 "$BACKUP_DIR"
+
+    info "Creating pre-upgrade backup at \${BACKUP_DIR}..."
+    if [[ -d "$PIER_DATA" ]]; then
+        cp -a "$PIER_DATA" "\${BACKUP_DIR}/data" \
+            || error "Could not back up \${PIER_DATA}; upgrade cancelled before replacing the old installation."
+    fi
+    if [[ -f "$PIER_ENV" ]]; then
+        cp -a "$PIER_ENV" "\${BACKUP_DIR}/.env" \
+            || error "Could not back up \${PIER_ENV}; upgrade cancelled before replacing the old installation."
+    fi
+    if [[ -d "\${PIER_DIR}/bin" ]]; then
+        cp -a "\${PIER_DIR}/bin" "\${BACKUP_DIR}/bin" \
+            || error "Could not back up existing binaries; upgrade cancelled before replacing the old installation."
+    fi
+    for unit in pier.service pier-net-helper.service pier-updater.service pier-updater.path; do
+        if [[ -f "/etc/systemd/system/\${unit}" ]]; then
+            cp -a "/etc/systemd/system/\${unit}" "\${BACKUP_DIR}/\${unit}" \
+                || error "Could not back up \${unit}; upgrade cancelled before replacing the old installation."
+        fi
+    done
+    info "Pre-upgrade backup complete: \${BACKUP_DIR}"
+elif [[ "$LEGACY_PRESENT" == true ]]; then
+    warn "PIER_SKIP_BACKUP=1: automatic pre-upgrade backup was explicitly skipped."
 fi
 
 # ── Create group + user ──────────────────────────────────────────────────────
