@@ -2,11 +2,11 @@
 
 **Search query:** `user:bjo163`  
 **Pages captured:** 1–2  
-**Result count:** 142 public repository records  
+**Result count:** 142 search-visible repository records (visibility varies; one known private repository is included)  
 **Date:** 2026-11-09  
 **Destination:** `BRIDGE-ALLAH/MW`
 
-This is the exact name inventory returned by GitHub repository search at the audit baseline. It is not a complete metadata or source audit. Every entry must be classified in the repository register before import, archival, or retirement.
+This is the exact name inventory returned by GitHub repository search at the audit baseline. It includes the known private repository `bjo163/arah-saas-development`; it is not 142 public repositories. It is not a complete metadata or source audit. Every entry must be classified in the repository register before import, archival, or retirement.
 
 1. [`bjo163/e-isp_dns`](https://github.com/bjo163/e-isp_dns)
 2. [`bjo163/short-video-factory`](https://github.com/bjo163/short-video-factory)
@@ -151,9 +151,9 @@ This is the exact name inventory returned by GitHub repository search at the aud
 141. [`bjo163/hermes-agent`](https://github.com/bjo163/hermes-agent)
 142. [`bjo163/arah-saas-development`](https://github.com/bjo163/arah-saas-development)
 
-## Additional accessible private repository
+## Known private repository in the search snapshot
 
-- `bjo163/arah-saas-development` — accessible to the connected GitHub integration; not included in the public search result count.
+- `bjo163/arah-saas-development` — private, accessible to the connected GitHub integration, and already included in the 142 search records.
 
 ## Search visibility limitations
 
