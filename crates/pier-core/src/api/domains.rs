@@ -86,11 +86,15 @@ pub async fn list(
              FROM domains d
              JOIN services s ON d.service_id = s.id
              JOIN project_members pm ON pm.project_id = s.project_id
-             WHERE pm.user_id = ?1
+             JOIN project_tenants pt ON pt.project_id = s.project_id
+             WHERE pm.user_id = ?1 AND pt.tenant_id = ?2
              ORDER BY d.created_at DESC",
         )?;
         let rows: Vec<serde_json::Value> = stmt
-            .query_map([&user.id], row_to_json)?
+            .query_map(
+                rusqlite::params![&user.id, user.tenant_id.as_deref().unwrap_or("")],
+                row_to_json,
+            )?
             .filter_map(|r| r.ok())
             .collect();
         rows

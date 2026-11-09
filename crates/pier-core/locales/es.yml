@@ -2503,6 +2503,7 @@ errors:
     owner_role_not_via_invitation: El rol Owner no se puede otorgar mediante invitación
     unknown_role: "rol desconocido: %{name}"
     only_owner_can_invite_admins: solo Owner puede invitar a nuevos Admins
+    invitation_tenant_required: se requiere una membresía de tenant activa y no ambigua para invitar usuarios
     active_invitation_exists: ya existe una invitación activa para este correo electrónico
     use_account_endpoints: usa los endpoints de /account para editarte a ti mismo
     user_not_found: usuario no encontrado

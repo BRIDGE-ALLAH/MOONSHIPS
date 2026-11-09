@@ -382,3 +382,5 @@ A repository may be marked archive-eligible only after every retained capability
 - Migration 74 binds invitations to a tenant and backfills existing invitations to legacy-default. Bootstrap owner and invitation acceptance create tenant memberships; invitation acceptance writes user, membership and accepted status in one transaction.
 - Added negative tests for missing/ambiguous membership, cross-tenant project mapping, unmapped projects and a user who has a project_members row in another tenant.
 - Remaining: enumerate every project/resource API and background job for tenant predicates; implement explicit tenant administration/selection and peer grant scope; test multi-tenant migrations/backups/restores; verify no global admin surfaces leak tenant data outside the intended platform operator boundary.
+
+- Tenant context now ignores suspended tenants: the resolver joins the tenant registry and requires status='active'; the fail-closed test covers suspended membership. Regular-user resource and domain listing also joins project_tenants, closing list-view leaks left by project detail guards.

@@ -151,7 +151,12 @@ pub(crate) fn resolve_tenant_id(
     user_id: &str,
 ) -> rusqlite::Result<Option<String>> {
     let mut stmt = conn.prepare(
-        "SELECT tenant_id FROM tenant_members WHERE user_id = ?1 ORDER BY tenant_id LIMIT 2",
+        "SELECT tm.tenant_id
+         FROM tenant_members tm
+         JOIN tenants t ON t.id = tm.tenant_id
+         WHERE tm.user_id = ?1 AND t.status = 'active'
+         ORDER BY tm.tenant_id
+         LIMIT 2",
     )?;
     let tenants = stmt
         .query_map([user_id], |row| row.get::<_, String>(0))?
@@ -665,14 +670,20 @@ mod tests {
     fn tenant_resolution_fails_closed_for_missing_or_ambiguous_membership() {
         let db = rusqlite::Connection::open_in_memory().unwrap();
         db.execute_batch(
-            "CREATE TABLE tenant_members (
-                tenant_id TEXT NOT NULL,
-                user_id TEXT NOT NULL
+            "CREATE TABLE tenants (id TEXT PRIMARY KEY, status TEXT NOT NULL);
+             CREATE TABLE tenant_members (
+                 tenant_id TEXT NOT NULL,
+                 user_id TEXT NOT NULL
              );
+             INSERT INTO tenants (id, status)
+             VALUES ('tenant-a', 'active'),
+                    ('tenant-b', 'active'),
+                    ('tenant-suspended', 'suspended');
              INSERT INTO tenant_members (tenant_id, user_id)
              VALUES ('tenant-a', 'one-tenant'),
                     ('tenant-a', 'multi-tenant'),
-                    ('tenant-b', 'multi-tenant');",
+                    ('tenant-b', 'multi-tenant'),
+                    ('tenant-suspended', 'suspended-user');",
         )
         .unwrap();
 
@@ -682,6 +693,7 @@ mod tests {
             Some("tenant-a".to_string())
         );
         assert_eq!(resolve_tenant_id(&db, "multi-tenant").unwrap(), None);
+        assert_eq!(resolve_tenant_id(&db, "suspended-user").unwrap(), None);
     }
 
     #[test]
