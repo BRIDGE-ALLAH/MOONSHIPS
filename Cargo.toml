@@ -5,6 +5,7 @@ members = [
     "crates/pier-agent",
     "crates/pier-net-helper",
     "crates/pier-tests",
+    "crates/arsy-contracts",
 ]
 
 [workspace.package]
