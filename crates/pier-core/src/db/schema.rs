@@ -1835,8 +1835,12 @@ mod arsy_tenant_migration_tests {
     #[test]
     fn migration_backfills_users_and_projects_into_explicit_legacy_tenant() {
         let db = legacy_db();
-        db.execute_batch(MIGRATIONS.get(MIGRATIONS.len() - 2).expect("tenant migration"))
-            .expect("apply tenant migration");
+        db.execute_batch(
+            MIGRATIONS
+                .get(MIGRATIONS.len() - 2)
+                .expect("tenant migration"),
+        )
+        .expect("apply tenant migration");
 
         let tenant_count: i64 = db
             .query_row(
@@ -1880,7 +1884,9 @@ mod arsy_tenant_migration_tests {
     #[test]
     fn migration_is_idempotent_for_existing_legacy_assignments() {
         let db = legacy_db();
-        let migration = MIGRATIONS.get(MIGRATIONS.len() - 2).expect("tenant migration");
+        let migration = MIGRATIONS
+            .get(MIGRATIONS.len() - 2)
+            .expect("tenant migration");
         db.execute_batch(migration).expect("first application");
         db.execute_batch(migration).expect("second application");
 
@@ -1895,12 +1901,15 @@ mod arsy_tenant_migration_tests {
         assert_eq!(project_count, 1);
     }
 
-
     #[test]
     fn invitation_migration_backfills_existing_invites_to_legacy_tenant() {
         let db = legacy_db();
-        db.execute_batch(MIGRATIONS.get(MIGRATIONS.len() - 2).expect("tenant migration"))
-            .expect("apply tenant migration");
+        db.execute_batch(
+            MIGRATIONS
+                .get(MIGRATIONS.len() - 2)
+                .expect("tenant migration"),
+        )
+        .expect("apply tenant migration");
         db.execute(
             "INSERT INTO user_invitations
                 (id, email, invite_token_hash, default_global_role, expires_at)
@@ -1929,8 +1938,12 @@ mod arsy_tenant_migration_tests {
              CREATE TABLE projects (id TEXT PRIMARY KEY);",
         )
         .expect("legacy tables");
-        db.execute_batch(MIGRATIONS.get(MIGRATIONS.len() - 2).expect("tenant migration"))
-            .expect("apply tenant migration");
+        db.execute_batch(
+            MIGRATIONS
+                .get(MIGRATIONS.len() - 2)
+                .expect("tenant migration"),
+        )
+        .expect("apply tenant migration");
 
         let member_count: i64 = db
             .query_row("SELECT COUNT(*) FROM tenant_members", [], |r| r.get(0))
