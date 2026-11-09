@@ -147,6 +147,14 @@ Before importing any source:
 | W0.02 repository metadata snapshot | **Open** | This pass did not yet produce full machine-readable metadata for every repo (latest SHA, releases, license, workflows, issues, LFS/submodules). |
 | W0.03 recursive source/documentation audit | **Open** | Representative README checks only; priority source trees and implementation/tests remain to inspect. |
 | W0.04 unresolved identities | **Open** | THE BATTERIES and ZILL need code/documentation searches across all accessible repositories, not only repository-name search. |
+
+#### W0.04 exact-term search update
+Code-search queries were run against `bjo163/moonwitnessxv`, `bjo163/A-L-L-A-H.COM`, `bjo163/rocksoul`, `bjo163/rocksoul-mftl`, `bjo163/moonwitness-corpus`, and `bjo163/moonwitness-reborn`:
+- `THE BATTERIES` / `THEBATTERIES`: no relevant project hit. One A-L-L-A-H.COM match was an operating-system PowerShell flag `-DontStopIfGoingOnBatteries`, a false positive.
+- `ZILL WATCH` / `ZILL`: no relevant exact project hit in MoonWitness XV or MoonWitness Reborn. Some corpus hits were substring matches inside unrelated transliterations such as `Al-Mudzill`, not the ZILL project identity.
+- Existing audit evidence that MoonWitness XV references ZILL WATCH as a module remains a historical lead, not enough to assign a current product owner or technical scope.
+
+**Disposition:** both identities remain unresolved. Search-index absence is not proof of nonexistence; continue path-level and historical commit searches before deciding whether either is a product, module, campaign, dataset, or retired name.
 | W1.01 ARSY implementation comparison | **Open — blocker** | README-level conflict confirmed; route/schema/security parity audit required. |
 | W1.02 MOONSHIPS implementation comparison | **Open** | Pier/Axum vs Loco/SeaORM vs Tauri workbench source comparison required. |
 | W1.03 platform capability ownership | **Provisional** | Candidate matrix in this document; needs ADR and API/schema ownership map. |
