@@ -197,7 +197,7 @@ Before publishing copy, verify:
 - [ ] The master tagline, campaign line, and product descriptor are used for their intended jobs.
 - [ ] No forced slang, unsupported superlatives, or misleading security/cost claims.
 - [ ] Technical instructions remain precise and calm.
-- [ ] The copy uses MOONSHIPS as the product name; legacy Pier identifiers appear only when explaining compatibility or lineage.
+- [ ] The copy uses MOONSHIPS as the product name; historical runtime identifiers appear only when explaining compatibility or lineage.
 
 ## 10. Governance
 
