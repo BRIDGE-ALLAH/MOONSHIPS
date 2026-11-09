@@ -3,7 +3,7 @@ name = "pier-core"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
-description = "Pier — lightweight self-hosted PaaS core server"
+description = "MOONSHIPS — lightweight self-hosted infrastructure deployment platform"
 
 [[bin]]
 name = "pier"
