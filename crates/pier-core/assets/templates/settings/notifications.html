@@ -93,12 +93,12 @@
             <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <div>
                     <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">{{ t('settings_notifications.from_name_label') }}</label>
-                    <input type="text" x-model="email.from_name" placeholder="Pier"
+                    <input type="text" x-model="email.from_name" placeholder="MOONSHIPS"
                            class="w-full text-sm bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 text-gray-900 dark:text-white">
                 </div>
                 <div>
                     <label class="block text-xs font-medium text-gray-700 dark:text-gray-300 mb-1">{{ t('settings_notifications.from_address_label') }}</label>
-                    <input type="email" x-model="email.from_address" placeholder="pier@example.com"
+                    <input type="email" x-model="email.from_address" placeholder="notifications@moonships.example.com"
                            class="w-full text-sm font-mono bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 rounded-lg px-3 py-2 text-gray-900 dark:text-white">
                 </div>
                 <div class="md:col-span-2">
@@ -371,7 +371,7 @@ function notificationsPage() {
         email: {
             enabled: false, has_config: false,
             driver: 'smtp',
-            from_name: 'Pier', from_address: '', to_address: '',
+            from_name: 'MOONSHIPS', from_address: '', to_address: '',
             smtp:   { host: '', port: 587, encryption: 'starttls', username: '', password: '', has_password: false, timeout: 30 },
             brevo:  { api_key: '', has_api_key: false },
             resend: { api_key: '', has_api_key: false },
@@ -581,7 +581,7 @@ function notificationsPage() {
                 this.email = {
                     enabled: !!r.enabled, has_config: !!r.has_config,
                     driver: r.driver || 'smtp',
-                    from_name: r.from_name || 'Pier',
+                    from_name: r.from_name || 'MOONSHIPS',
                     from_address: r.from_address || '',
                     to_address: r.to_address || '',
                     smtp: {

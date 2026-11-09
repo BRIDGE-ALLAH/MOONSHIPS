@@ -203,7 +203,7 @@
          Two-phase: first GET /logs renders the snapshot, then we open
          WS to peer's URL using token returned by /logs/ws-info. The
          token sits in browser memory only — same trust boundary as
-         the operator's pier session cookie. -->
+         the operator's legacy session cookie. -->
     <div x-show="logs.open" x-cloak class="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60"
          style="top:0;left:0" @click.self="closeLogs()">
         <div class="bg-gray-950 border border-gray-800 rounded-xl shadow-xl w-full max-w-4xl p-5 space-y-3" @click.stop>

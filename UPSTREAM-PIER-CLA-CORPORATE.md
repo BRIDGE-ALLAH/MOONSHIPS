@@ -1,3 +1,5 @@
+> **Upstream reference only — not a MOONSHIPS policy or agreement.** This text is preserved from the original Pier project for historical attribution. It applies to the upstream Pier project and its rights holders; it does not establish MOONSHIPS contributor terms, trademark ownership, or permissions. Source repository: https://github.com/joveptesg/pier.
+
 # Corporate Contributor License Agreement
 
 This Corporate Contributor License Agreement ("Agreement") documents the rights
@@ -5,11 +7,11 @@ granted by a contributing organization ("Corporation") to the maintainers of
 Pier. It exists for the common case where contributions are made by employees
 whose work — and therefore copyright — belongs to their employer (for example,
 "work made for hire"). In that situation an individual cannot grant the rights in
-the [Individual CLA](CLA.md), because the individual does not own the copyright;
+the [Individual CLA](UPSTREAM-PIER-CLA.md), because the individual does not own the copyright;
 the Corporation that owns it must grant them.
 
 > **Contributing your own work as an individual?** Sign the
-> [Individual CLA](CLA.md) instead.
+> [Individual CLA](UPSTREAM-PIER-CLA.md) instead.
 
 By signing this Agreement — and by its authorized employees submitting
 contributions — the Corporation agrees to the following terms for its present and

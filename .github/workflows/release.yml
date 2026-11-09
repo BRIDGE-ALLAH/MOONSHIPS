@@ -1,17 +1,44 @@
 name: Build & Release
 
+# A release is permitted only after the CI workflow has completed successfully
+# for a push to main. All build inputs are pinned to that workflow_run.head_sha.
 on:
-  push:
+  workflow_run:
+    workflows: ["CI"]
+    types: [completed]
     branches: [main]
 
 permissions:
-  contents: write
+  contents: read
+
+concurrency:
+  group: release-main
+  cancel-in-progress: false
 
 jobs:
   build:
+    name: Build verified commit
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v5
+      - name: Check out exact CI-verified SHA
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 0
+
+      - name: Verify checked-out source SHA
+        env:
+          SOURCE_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+          python3 scripts/release_gate.py "$GITHUB_EVENT_PATH" "$GITHUB_REPOSITORY"
 
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
@@ -23,71 +50,108 @@ jobs:
             ~/.cargo/registry
             ~/.cargo/git
             target
-          key: ${{ runner.os }}-cargo-${{ hashFiles('**/Cargo.lock') }}
-          restore-keys: ${{ runner.os }}-cargo-
+          key: ${{ runner.os }}-cargo-release-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: ${{ runner.os }}-cargo-release-
 
-      - name: Build release binary
-        run: cargo build --release
+      - name: Build release binaries
+        run: cargo build --release --locked
 
-      - name: Prepare artifacts
+      - name: Prepare checksummed artifacts
         run: |
-          # cargo build --release builds the whole workspace, so pier-agent and
-          # pier-net-helper are already present alongside pier. The agent
-          # enrollment script downloads these exact filenames from the `latest`
-          # release, so publishing them here is required for fresh enrollment.
+          set -euo pipefail
           for bin in pier pier-agent pier-net-helper; do
-            cp "target/release/$bin" "$bin-linux-amd64"
-            chmod +x "$bin-linux-amd64"
+            test -x "target/release/$bin"
+            install -m 0755 "target/release/$bin" "$bin-linux-amd64"
             sha256sum "$bin-linux-amd64" > "$bin-linux-amd64.sha256"
           done
+          sha256sum pier-linux-amd64 pier-agent-linux-amd64 pier-net-helper-linux-amd64 > SHA256SUMS
 
-      - name: Upload to GitHub Release (latest)
-        uses: softprops/action-gh-release@v2
+      - name: Upload verified artifacts
+        uses: actions/upload-artifact@v4
         with:
-          tag_name: latest
-          name: "Latest Build"
-          body: |
-            Automated build from `main` branch.
-            Commit: ${{ github.sha }}
-            Built: ${{ github.event.head_commit.timestamp }}
-          prerelease: true
-          files: |
+          name: release-binaries-${{ github.event.workflow_run.head_sha }}
+          path: |
             pier-linux-amd64
             pier-linux-amd64.sha256
             pier-agent-linux-amd64
             pier-agent-linux-amd64.sha256
             pier-net-helper-linux-amd64
             pier-net-helper-linux-amd64.sha256
+            SHA256SUMS
+          if-no-files-found: error
+          retention-days: 7
+
+  publish:
+    name: Publish verified artifacts
+    needs: build
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out exact CI-verified source for release metadata
+        uses: actions/checkout@v5
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 0
+
+      - name: Verify checked-out source SHA
+        env:
+          SOURCE_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          test "$(git rev-parse HEAD)" = "$SOURCE_SHA"
+
+      - name: Download artifacts from this release run
+        uses: actions/download-artifact@v4
+        with:
+          name: release-binaries-${{ github.event.workflow_run.head_sha }}
+          path: dist
+
+      - name: Verify artifact checksums
+        working-directory: dist
+        run: |
+          set -euo pipefail
+          for file in pier-linux-amd64 pier-agent-linux-amd64 pier-net-helper-linux-amd64; do
+            sha256sum --check "$file.sha256"
+          done
+
+      - name: Move rolling latest tag to the CI-verified commit
+        env:
+          SOURCE_SHA: ${{ github.event.workflow_run.head_sha }}
+        run: git push --force origin "$SOURCE_SHA:refs/tags/latest"
+
+      - name: Publish rolling latest release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: latest
+          name: "Latest Build"
+          body: |
+            Automated build from `main`.
+            Source SHA: ${{ github.event.workflow_run.head_sha }}
+            CI run: ${{ github.event.workflow_run.html_url }}
+            Built by a release workflow gated on successful CI for the exact source SHA.
+          target_commitish: ${{ github.event.workflow_run.head_sha }}
+          prerelease: true
+          files: |
+            dist/pier-linux-amd64
+            dist/pier-linux-amd64.sha256
+            dist/pier-agent-linux-amd64
+            dist/pier-agent-linux-amd64.sha256
+            dist/pier-net-helper-linux-amd64
+            dist/pier-net-helper-linux-amd64.sha256
+            dist/SHA256SUMS
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      # ── Versioned release ────────────────────────────────────────────────
-      # `latest` above is a ROLLING release: every push overwrites the same
-      # release object, so its publish date never moves and the Releases page
-      # looks frozen (it read "April" while main was being pushed daily —
-      # issue #10). It is also load-bearing infrastructure — self-update reads
-      # releases/tags/latest and the installers download the helper from it —
-      # so it stays exactly as it is, prerelease flag included.
-      #
-      # Alongside it we cut a real release whenever the workspace version
-      # changes. That gives a visible history and something to pin to, and
-      # leaves `latest` free to keep tracking main.
-      - name: Read workspace version
+      - name: Determine whether a versioned release is new
         id: version
         run: |
-          VERSION=$(grep -m1 '^version' Cargo.toml | cut -d'"' -f2)
-          if [ -z "$VERSION" ]; then
-            echo "could not parse version from Cargo.toml" >&2
-            exit 1
-          fi
+          set -euo pipefail
+          VERSION="$(sed -n 's/^version = "\([^"]*\)"/\1/p' Cargo.toml | head -n1)"
+          test -n "$VERSION"
           echo "version=$VERSION" >> "$GITHUB_OUTPUT"
-          # Only a version bump publishes; ordinary commits just refresh
-          # `latest`. Existing tag => this version already shipped.
           if git ls-remote --exit-code --tags origin "refs/tags/v$VERSION" >/dev/null 2>&1; then
-            echo "v$VERSION already tagged — skipping versioned release"
             echo "publish=false" >> "$GITHUB_OUTPUT"
           else
-            echo "v$VERSION is new — publishing versioned release"
             echo "publish=true" >> "$GITHUB_OUTPUT"
           fi
 
@@ -95,21 +159,18 @@ jobs:
         if: steps.version.outputs.publish == 'true'
         uses: softprops/action-gh-release@v2
         with:
-          # The action creates the tag at GITHUB_SHA itself — no separate
-          # `git tag` step needed.
           tag_name: v${{ steps.version.outputs.version }}
           name: v${{ steps.version.outputs.version }}
           generate_release_notes: true
-          # Not a prerelease, so this is what GitHub shows as "Latest release"
-          # in the repo header — `latest` deliberately stays a prerelease and
-          # never claims that badge.
+          target_commitish: ${{ github.event.workflow_run.head_sha }}
           prerelease: false
           files: |
-            pier-linux-amd64
-            pier-linux-amd64.sha256
-            pier-agent-linux-amd64
-            pier-agent-linux-amd64.sha256
-            pier-net-helper-linux-amd64
-            pier-net-helper-linux-amd64.sha256
+            dist/pier-linux-amd64
+            dist/pier-linux-amd64.sha256
+            dist/pier-agent-linux-amd64
+            dist/pier-agent-linux-amd64.sha256
+            dist/pier-net-helper-linux-amd64
+            dist/pier-net-helper-linux-amd64.sha256
+            dist/SHA256SUMS
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -1,3 +1,5 @@
+> **已归档的上游参考资料 — 不是 MOONSHIPS 文档。** 此翻译来自原始 Pier 项目，仅作为历史参考保留。它不代表当前 MOONSHIPS 安装步骤或品牌信息。请参阅 [README](../../README.md) 和 [INSTALL](../../INSTALL.md) 获取最新信息。
+
 > 本文档翻译自 [README.md](../../README.md)。如有出入，请以英文版为准。
 
 <p align="center">

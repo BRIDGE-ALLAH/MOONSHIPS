@@ -135,6 +135,19 @@ pub fn api_router(state: SharedState) -> Router<SharedState> {
             .expect("webhook governor config"),
     );
 
+    // Apply one explicit body cap to both public webhook endpoints without
+    // changing the limits on unrelated public API routes.
+    let webhook_routes = Router::new()
+        .route(
+            "/github",
+            post(webhooks::github).layer(GovernorLayer::new(webhook_governor.clone())),
+        )
+        .route(
+            "/gitlab",
+            post(webhooks::gitlab).layer(GovernorLayer::new(webhook_governor)),
+        )
+        .layer(DefaultBodyLimit::max(1_048_576));
+
     let public = Router::new()
         .route(
             "/auth/login",
@@ -171,14 +184,7 @@ pub fn api_router(state: SharedState) -> Router<SharedState> {
             get(servers::install_script).layer(GovernorLayer::new(login_governor.clone())),
         )
         // Webhooks (public — GitHub/GitLab need to reach these)
-        .route(
-            "/webhooks/github",
-            post(webhooks::github).layer(GovernorLayer::new(webhook_governor.clone())),
-        )
-        .route(
-            "/webhooks/gitlab",
-            post(webhooks::gitlab).layer(GovernorLayer::new(webhook_governor)),
-        )
+        .nest("/webhooks", webhook_routes)
         // GitHub App manifest callback (public — GitHub redirects here)
         .route("/sources/github/callback", get(sources::github_callback))
         // Invitation accept — recipient is anonymous until they POST.
@@ -228,11 +234,6 @@ pub fn api_router(state: SharedState) -> Router<SharedState> {
         .route(
             "/projects/{id}/members/{user_id}",
             put(project_members::update_role).delete(project_members::remove),
-        )
-        // Security settings (delete confirmation, etc.) — self-owned.
-        .route(
-            "/security/settings",
-            get(security::get_settings).put(security::update_settings),
         )
         // Projects — list filters by membership, get/update/delete gated
         // per-project in the handler. Create is Admin-only via inline check.
@@ -530,6 +531,12 @@ pub fn api_router(state: SharedState) -> Router<SharedState> {
     //     mutations, S3 storages, sources, registries, alerts, audit log,
     //     server mutations) moves here so non-Admin users can't reach it.
     let admin_only = Router::new()
+        // Global security policy changes require a local Global Admin/Owner.
+        // The handlers additionally reject peer-token identities.
+        .route(
+            "/security/settings",
+            get(security::get_settings).put(security::update_settings),
+        )
         .route("/users", get(users::list))
         .route("/users/invite", post(users::invite))
         .route("/users/{id}", put(users::update).delete(users::remove))

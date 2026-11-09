@@ -120,7 +120,7 @@ mod tests {
             .expect("invitations/accept.html loads")
             .render(minijinja::context! { token => "tok" })
             .expect("invitations/accept.html renders");
-        assert!(invite.contains("Welcome to Pier"));
+        assert!(invite.contains("Welcome to MOONSHIPS"));
         assert!(invite.contains("Account created"));
 
         for (tpl, needle) in [
@@ -171,7 +171,7 @@ mod tests {
             ),
             (
                 "settings/updates.html",
-                "Manage Pier version and update preferences",
+                "Manage MOONSHIPS version and update preferences",
             ),
             (
                 "account/security.html",

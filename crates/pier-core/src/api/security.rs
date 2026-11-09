@@ -6,12 +6,15 @@
 //! key/value table so the preference applies to all admins (Pier is
 //! single-admin in practice — see `account.rs` module doc).
 
+use axum::extract::{Extension, State};
 use axum::response::IntoResponse;
-use axum::{extract::State, Json};
+use axum::Json;
 use rusqlite::OptionalExtension;
 use serde::{Deserialize, Serialize};
 
+use crate::auth::middleware::AuthUser;
 use crate::auth::password;
+use crate::auth::rbac::GlobalRole;
 use crate::error::{AppError, AppResult};
 use crate::state::SharedState;
 
@@ -76,8 +79,30 @@ pub fn verify_delete_password(
     Ok(())
 }
 
+/// Global security policy is local-admin-only. Peer credentials are
+/// synthetically assigned Admin for resource federation, but must never be
+/// allowed to change instance-wide security policy.
+fn is_local_global_admin(user: &AuthUser) -> bool {
+    !user.is_peer && user.global_role.at_least(GlobalRole::Admin)
+}
+
+fn require_local_global_admin(user: &AuthUser) -> AppResult<()> {
+    if is_local_global_admin(user) {
+        Ok(())
+    } else {
+        Err(AppError::Forbidden(crate::i18n::te_args(
+            "errors.rbac.requires_global_role",
+            &[("v", "Admin")],
+        )))
+    }
+}
+
 /// GET /api/v1/security/settings
-pub async fn get_settings(State(state): State<SharedState>) -> AppResult<impl IntoResponse> {
+pub async fn get_settings(
+    Extension(user): Extension<AuthUser>,
+    State(state): State<SharedState>,
+) -> AppResult<impl IntoResponse> {
+    require_local_global_admin(&user)?;
     let db = state
         .db
         .lock()
@@ -89,9 +114,11 @@ pub async fn get_settings(State(state): State<SharedState>) -> AppResult<impl In
 
 /// PUT /api/v1/security/settings
 pub async fn update_settings(
+    Extension(user): Extension<AuthUser>,
     State(state): State<SharedState>,
     Json(body): Json<SecuritySettings>,
 ) -> AppResult<impl IntoResponse> {
+    require_local_global_admin(&user)?;
     let db = state
         .db
         .lock()
@@ -108,4 +135,29 @@ pub async fn update_settings(
     Ok(Json(SecuritySettings {
         require_password_on_delete: body.require_password_on_delete,
     }))
+}
+
+#[cfg(test)]
+mod authorization_tests {
+    use super::*;
+
+    fn user(global_role: GlobalRole, is_peer: bool) -> AuthUser {
+        AuthUser {
+            id: "test-user".into(),
+            username: "test".into(),
+            role: global_role.as_str().into(),
+            global_role,
+            session_id: "test-session".into(),
+            is_peer,
+        }
+    }
+
+    #[test]
+    fn only_local_global_admin_and_owner_can_access_global_security_settings() {
+        assert!(is_local_global_admin(&user(GlobalRole::Owner, false)));
+        assert!(is_local_global_admin(&user(GlobalRole::Admin, false)));
+        assert!(!is_local_global_admin(&user(GlobalRole::User, false)));
+        assert!(!is_local_global_admin(&user(GlobalRole::Admin, true)));
+        assert!(!is_local_global_admin(&user(GlobalRole::Owner, true)));
+    }
 }

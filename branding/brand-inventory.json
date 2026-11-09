@@ -1,0 +1,215 @@
+{
+  "schema_version": 1,
+  "brand": {
+    "name": "MOONSHIPS",
+    "repository_url": "https://github.com/BRIDGE-ALLAH/MOONSHIPS",
+    "issues_url": "https://github.com/BRIDGE-ALLAH/MOONSHIPS/issues",
+    "security_url": "https://github.com/BRIDGE-ALLAH/MOONSHIPS/security/advisories/new",
+    "release_url": "https://github.com/BRIDGE-ALLAH/MOONSHIPS/releases"
+  },
+  "scan_targets": [
+    "README.md",
+    "INSTALL.md",
+    "MIGRATION.md",
+    "CONTRIBUTING.md",
+    "SECURITY.md",
+    "UPSTREAM-PIER-CLA.md",
+    "UPSTREAM-PIER-CLA-CORPORATE.md",
+    "UPSTREAM-PIER-TRADEMARK.md",
+    "Cargo.toml",
+    "crates/pier-core/Cargo.toml",
+    "crates/pier-agent/Cargo.toml",
+    "crates/pier-net-helper/Cargo.toml",
+    "crates/pier-core/tailwind.config.js",
+    ".github/workflows/ci.yml",
+    ".github/workflows/release.yml",
+    "crates/pier-core/assets/templates",
+    "crates/pier-core/locales",
+    "crates/pier-core/assets/static/moonships-icon.svg",
+    "crates/pier-core/assets/static/moonships-logo.svg",
+    "crates/pier-core/assets/static/tailwind.css",
+    "scripts/bootstrap.sh",
+    "scripts/install.sh",
+    "scripts/pier-update.sh",
+    "scripts/pier.service",
+    "scripts/pier-net-helper.service",
+    "docs",
+    "crates/pier-core/assets/static/moonships-og-banner.svg"
+  ],
+  "locale_files": [
+    "crates/pier-core/locales/en.yml",
+    "crates/pier-core/locales/es.yml",
+    "crates/pier-core/locales/zh-CN.yml"
+  ],
+  "assets": [
+    {
+      "path": "docs/logo.svg",
+      "must_contain_brand": true,
+      "references": [
+        {
+          "path": "README.md",
+          "needle": "docs/logo.svg"
+        }
+      ]
+    },
+    {
+      "path": "docs/og-banner.svg",
+      "must_contain_brand": true,
+      "references": [
+        {
+          "path": "README.md",
+          "needle": "docs/og-banner.svg"
+        }
+      ]
+    },
+    {
+      "path": "crates/pier-core/assets/static/moonships-icon.svg",
+      "must_contain_brand": true,
+      "references": [
+        {
+          "path": "crates/pier-core/assets/templates/base.html",
+          "needle": "/static/moonships-icon.svg"
+        },
+        {
+          "path": "crates/pier-core/assets/templates/auth_base.html",
+          "needle": "/static/moonships-icon.svg"
+        }
+      ]
+    },
+    {
+      "path": "crates/pier-core/assets/static/moonships-logo.svg",
+      "must_contain_brand": true,
+      "references": []
+    },
+    {
+      "path": "crates/pier-core/assets/static/moonships-og-banner.svg",
+      "must_contain_brand": true,
+      "references": [
+        {
+          "path": "crates/pier-core/assets/templates/base.html",
+          "needle": "https://raw.githubusercontent.com/BRIDGE-ALLAH/MOONSHIPS/main/crates/pier-core/assets/static/moonships-og-banner.svg"
+        },
+        {
+          "path": "crates/pier-core/assets/templates/auth_base.html",
+          "needle": "https://raw.githubusercontent.com/BRIDGE-ALLAH/MOONSHIPS/main/crates/pier-core/assets/static/moonships-og-banner.svg"
+        }
+      ]
+    }
+  ],
+  "allowlist": [
+    {
+      "path": "README.md",
+      "pattern": "(?i)pier",
+      "reason": "The README migration section names the old installation and exact Pier runtime contracts that must be preserved during in-place upgrades.",
+      "owner": "migration and installation documentation"
+    },
+    {
+      "path": "INSTALL.md",
+      "pattern": "(?i)pier",
+      "reason": "Installation and rollback instructions must retain exact legacy filesystem, account, binary, and systemd identifiers.",
+      "owner": "migration and installation documentation"
+    },
+    {
+      "path": "MIGRATION.md",
+      "pattern": "(?i)pier",
+      "reason": "This is the explicit compatibility migration guide; old identifiers are operational commands and migration source names, not the current product identity.",
+      "owner": "migration and installation documentation"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "pattern": "(?i)Pier codebase|UPSTREAM-PIER",
+      "reason": "One nominative lineage statement identifies the upstream codebase and distinguishes it from the MOONSHIPS product brand.",
+      "owner": "contribution documentation"
+    },
+    {
+      "path": "SECURITY.md",
+      "pattern": "(?i)Pier-named",
+      "reason": "The security scope explicitly distinguishes retained legacy runtime identifiers from the public product name.",
+      "owner": "security documentation"
+    },
+    {
+      "path": "UPSTREAM-PIER-*.md",
+      "pattern": "(?i)pier",
+      "reason": "These renamed files preserve upstream legal texts for historical attribution only; the header explicitly states they are not MOONSHIPS policy or agreements.",
+      "owner": "upstream attribution archive"
+    },
+    {
+      "path": "docs/i18n/UPSTREAM-PIER-README.*.md",
+      "pattern": "(?i)pier",
+      "reason": "These archived translated READMEs are inherited upstream documents; their leading notice points readers to current MOONSHIPS documentation.",
+      "owner": "upstream attribution archive"
+    },
+    {
+      "path": "Cargo.toml",
+      "pattern": "(?i)pier",
+      "reason": "Cargo workspace member names and source comments are compatibility identifiers and are not public-facing product labels.",
+      "owner": "build and runtime compatibility"
+    },
+    {
+      "path": "crates/pier-*/Cargo.toml",
+      "pattern": "(?i)pier",
+      "reason": "Crate and executable package names remain unchanged to preserve existing build and runtime contracts.",
+      "owner": "build and runtime compatibility"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "pattern": "(?i)pier",
+      "reason": "CI invokes the legacy-named updater script and the retained pier-core package/binary test target; these are compatibility identifiers.",
+      "owner": "release and CI compatibility"
+    },
+    {
+      "path": ".github/workflows/release.yml",
+      "pattern": "(?i)pier",
+      "reason": "Release artifact filenames retain legacy executable names consumed by existing installers and nodes.",
+      "owner": "release and CI compatibility"
+    },
+    {
+      "path": "crates/pier-core/tailwind.config.js",
+      "pattern": "(?i)Pier-compatible",
+      "reason": "The comment documents the retained Pier-compatible crate/runtime boundary; the UI color namespace is MOONSHIPS.",
+      "owner": "build and runtime compatibility"
+    },
+    {
+      "path": "crates/pier-core/assets/templates/*.html",
+      "pattern": "(?i)pier",
+      "reason": "Exact legacy service, updater, federation wire-header, cookie, browser-storage, container-name, and protocol identifiers are retained for compatibility; standalone public product labels are rejected by the scanner.",
+      "owner": "build and runtime compatibility"
+    },
+    {
+      "path": "crates/pier-core/locales/*.yml",
+      "pattern": "(?i)pier",
+      "reason": "Locale occurrences are retained technical identifiers shown in commands, service names, environment variables, and network labels; descriptive product copy is MOONSHIPS.",
+      "owner": "build and runtime compatibility"
+    },
+    {
+      "path": "scripts/bootstrap.sh",
+      "pattern": "(?i)pier",
+      "reason": "Bootstrap must download and install the existing binary names and preserve PIER_* configuration and filesystem/service contracts.",
+      "owner": "installer and service compatibility"
+    },
+    {
+      "path": "scripts/install.sh",
+      "pattern": "(?i)pier",
+      "reason": "Installer compatibility paths, users, service units, binary names, and PIER_* environment variables are intentionally unchanged.",
+      "owner": "installer and service compatibility"
+    },
+    {
+      "path": "scripts/pier-update.sh",
+      "pattern": "(?i)pier",
+      "reason": "The updater filename, systemd state, log tags, binary names, and environment variables are existing runtime contracts.",
+      "owner": "installer and service compatibility"
+    },
+    {
+      "path": "scripts/pier.service",
+      "pattern": "(?i)pier",
+      "reason": "The systemd unit identity and executable path are intentionally retained for existing installations.",
+      "owner": "installer and service compatibility"
+    },
+    {
+      "path": "scripts/pier-net-helper.service",
+      "pattern": "(?i)pier",
+      "reason": "The privileged helper unit identity and executable path are intentionally retained for existing installations.",
+      "owner": "installer and service compatibility"
+    }
+  ]
+}

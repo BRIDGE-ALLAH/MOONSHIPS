@@ -100,7 +100,7 @@ function emergencyExport() {
                 const blob = await res.blob();
                 const a = document.createElement('a');
                 a.href = URL.createObjectURL(blob);
-                a.download = m ? m[1] : 'pier-export.zip';
+                a.download = m ? m[1] : 'moonships-export.zip';
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);

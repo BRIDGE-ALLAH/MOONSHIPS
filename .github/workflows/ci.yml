@@ -1,0 +1,74 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  rust:
+    name: Rust format, check and unit tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Install Rust toolchain
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          components: rustfmt
+
+      - name: Cache Cargo
+        uses: actions/cache@v5
+        with:
+          path: |
+            ~/.cargo/registry
+            ~/.cargo/git
+            target
+          key: ${{ runner.os }}-cargo-ci-${{ hashFiles('**/Cargo.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-cargo-ci-
+
+      - name: Test release gate policy
+        run: python3 -m unittest discover -s scripts -p 'test_release_gate.py'
+
+      - name: Check shell syntax
+        run: bash -n scripts/bootstrap.sh scripts/install.sh scripts/pier-update.sh
+
+      - name: Check MOONSHIPS brand consistency
+        run: python3 scripts/check_branding.py --report branding-scan-report.json
+
+      - name: Test branding gate
+        run: python3 -m unittest discover -s scripts -p 'test_branding.py'
+
+      - name: Upload branding audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: branding-audit-${{ github.sha }}
+          path: branding-scan-report.json
+          if-no-files-found: ignore
+
+      - name: Check formatting
+        run: cargo fmt --all -- --check
+
+      - name: Check workspace
+        run: cargo check --workspace --locked
+
+      - name: Run core binary tests
+        run: cargo test -p pier-core --bin pier --locked
+
+  docker:
+    name: Docker image build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Build image from clean checkout
+        run: docker build --pull --no-cache --tag moonships-ci:${{ github.sha }} .

@@ -1,3 +1,5 @@
+> **Upstream reference only — not a MOONSHIPS policy or agreement.** This text is preserved from the original Pier project for historical attribution. It applies to the upstream Pier project and its rights holders; it does not establish MOONSHIPS contributor terms, trademark ownership, or permissions. Source repository: https://github.com/joveptesg/pier.
+
 # Pier Trademark Policy
 
 **TL;DR — The Pier _code_ is free; the Pier _name and logo_ are not.**
@@ -111,7 +113,7 @@ you would like to use the Pier name or logo, and we will work with you.
 ## 9. Changes to this policy
 
 We may update this policy as the project grows. The current version always lives
-at `TRADEMARK.md` in the [Pier repository](https://github.com/joveptesg/pier) and
+at `UPSTREAM-PIER-TRADEMARK.md` in the [Pier repository](https://github.com/joveptesg/pier) and
 at <https://pier.team/trademark-policy>.
 
 ---

@@ -1,46 +1,34 @@
-# Contributing to Pier
+# Contributing to MOONSHIPS
 
-Thank you for your interest in contributing to Pier!
+Thank you for your interest in contributing to MOONSHIPS.
 
-## License
+## Project and license
 
-Pier is licensed under [AGPL-3.0](LICENSE). By contributing, you agree that your contributions will be licensed under the same license.
+MOONSHIPS is distributed under [AGPL-3.0](LICENSE). Review the license and existing copyright and attribution notices before submitting or redistributing changes.
 
-## Contributor License Agreement (CLA)
+This repository is a MOONSHIPS-branded derivative of the Pier codebase. The files prefixed `UPSTREAM-PIER-` are preserved upstream legal/reference texts; they are not MOONSHIPS contributor agreements, trademark policy, or a grant of rights from the upstream trademark owner. This repository does not currently require a separate MOONSHIPS CLA.
 
-Before we can accept your contribution, you must agree to our Contributor License Agreement. This is required to allow us to offer Pier under dual licensing (AGPL-3.0 for open source + commercial license for organizations).
+## How to contribute
 
-- **Contributing your own work?** Agree to the [Individual CLA](CLA.md).
-- **Contributing on behalf of an employer** that owns the copyright in your work (e.g. work made for hire)? Your employer must sign the [Corporate CLA](CLA-corporate.md).
+1. Fork the repository.
+2. Create a focused branch for your feature or fix.
+3. Add deterministic tests for behavior changes.
+4. Run `cargo fmt --all -- --check`.
+5. Run `cargo check --workspace --locked`.
+6. Run the relevant tests; CI runs the required pull-request checks.
+7. Submit a pull request with a clear description, compatibility impact, and test evidence.
 
-## Trademark
+## Code and compatibility rules
 
-The Pier code is open source, but the **"Pier" name and logo are trademarks** and are **not** covered by the AGPL. Please read the [Trademark Policy](TRADEMARK.md) before using the Pier name or logo for anything beyond running or referring to Pier.
+- Preserve documented runtime compatibility contracts unless a separately tested migration is included.
+- Do not remove or rename existing data paths, service units, environment variables, storage keys, or binary names as cosmetic cleanup.
+- Do not commit secrets, production data, generated credentials, or local environment files.
+- Keep changes scoped and document migrations and rollback behavior.
 
-## How to Contribute
+## Reporting issues
 
-1. **Fork** the repository
-2. **Create a branch** for your feature or fix
-3. **Write tests** for your changes
-4. **Run tests** with `cargo test`
-5. **Run clippy** with `cargo clippy -- -D warnings`
-6. **Format** with `cargo fmt`
-7. **Submit a pull request**
+Use [GitHub Issues](https://github.com/BRIDGE-ALLAH/MOONSHIPS/issues). Include reproduction steps, the affected MOONSHIPS version/commit, OS, and Docker version.
 
-## Code Style
+## Security vulnerabilities
 
-- Follow standard Rust conventions
-- Run `cargo fmt` before committing
-- Run `cargo clippy` and fix all warnings
-- Write doc comments for public APIs
-- Keep functions small and focused
-
-## Reporting Issues
-
-- Use GitHub Issues
-- Include steps to reproduce
-- Include system info (OS, Docker version, Pier version)
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability, please **do not** open a public issue. See [SECURITY.md](SECURITY.md) for how to report it, what to include, and what to expect from us.
+Do not report security vulnerabilities in public issues. Follow [SECURITY.md](SECURITY.md) and use the repository's private vulnerability reporting channel.

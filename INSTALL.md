@@ -1,279 +1,58 @@
-# Pier — Installation on a Clean Ubuntu Server
+# MOONSHIPS — Installation
 
-## Quick install (one-liner)
+The current release uses a compatibility layer that retains Pier's on-disk and systemd identifiers. This allows existing deployments to be upgraded without moving application state.
 
-If you need Pier right here and now, without building from source manually:
+## Requirements
+- Linux with systemd (Ubuntu/Debian recommended)
+- Docker Engine and Docker Compose plugin
+- Git, curl, Rust 1.93+, and sudo/root access
 
-```bash
-curl -fsSL https://pier.team/install | sudo bash
-```
+## Build from source
 
-The script installs Docker, downloads the pre-built binary from [GitHub Releases](https://github.com/joveptesg/pier/releases/tag/latest) (with sha256 verification), and runs [`install.sh`](scripts/install.sh). Works on a fresh Ubuntu/Debian. For the next steps (creating an admin account at `https://SERVER_IP:8443/setup`) — see §7.
+    sudo apt-get update
+    sudo apt-get install -y curl git build-essential pkg-config libssl-dev
+    git clone https://github.com/BRIDGE-ALLAH/MOONSHIPS.git
+    cd MOONSHIPS
+    cargo build --release --package pier-core
+    sudo bash scripts/install.sh --binary target/release/pier
 
-> For alternative installation options (Docker, building from source) — see [README.md](README.md#quick-start).
+The installer checks Docker and Compose, installs the compatible binary and service units, and starts the service. It reuses the existing data directory when upgrading. Before replacing an existing Pier installation, it automatically backs up /opt/pier/data (including SQLite WAL files), /opt/pier/.env, /opt/pier/bin, and the Pier systemd units to a root-only directory under /var/backups/moonships/. If the backup cannot be completed, the upgrade stops before replacing the old installation. Docker volumes remain in Docker's storage and are not copied by this backup, so take a provider snapshot as well.
 
-If you want full control over every step (security hardening, firewall, SSH hardening, building from source) — follow sections §0–§9 below.
+## First-time setup
+Open https://SERVER_IP:8443/setup (or your configured port) and create the administrator account. The initial certificate may be self-signed; configure a domain and trusted TLS after setup.
 
----
+Allow SSH (22), HTTP (80), HTTPS (443), and the dashboard port (8443 by default) through your firewall.
 
-## 0. Server security
+## Upgrade an existing Pier installation
+1. Take a VPS/provider snapshot and verify a recent application/database backup.
+2. Save a root-only copy of /opt/pier/.env; it contains secrets.
+3. Build the MOONSHIPS-compatible binary from this repository.
+4. Run sudo bash scripts/install.sh --binary target/release/pier.
+5. Verify systemctl status pier and inspect journalctl -u pier -n 100 --no-pager.
+6. Sign in and verify projects, deployments, domains, TLS, agents, backups, and application health.
 
-### 0.1 Create a sudo user (on the server, as root)
+### Preserved runtime contracts
+- /opt/pier, including .env and data/
+- pier system account and group
+- pier.service, pier-net-helper.service, and updater units
+- /run/pier/net.sock and existing helper binaries
+- Existing Docker resources and persistent volumes
 
-```bash
-adduser deploy
-usermod -aG sudo deploy
-```
+These names are intentionally retained because the current runtime, embedded helper unit, updater, and service files refer to them. The visible product identity is MOONSHIPS; internal compatibility identifiers remain Pier until a coordinated runtime migration is implemented and tested.
 
-### 0.2 Copy your SSH key (from your local machine)
+### Rollback
+If the service fails health checks:
+1. Stop it with sudo systemctl stop pier.
+2. Restore the saved binary to /opt/pier/bin/pier.
+3. Start it with sudo systemctl start pier.
+4. If a newer build changed the database schema, restore the matching pre-upgrade database/snapshot too.
 
-If you don't have an SSH key yet, generate one first:
+Never run rm -rf /opt/pier, delete Docker volumes, or remove the Pier service account during migration.
 
-```bash
-ssh-keygen -t ed25519
-```
+## Release installation
+The release bootstrap path is available only after this repository publishes the expected latest assets (core binary, SHA-256 checksum, agent, and network helper). Until then, build from source. Do not bypass checksum verification.
 
-Copy it to the server:
+## Security
+Use SSH keys, restrict dashboard exposure, configure trusted TLS, keep Docker and the host patched, store backups off-host, and periodically test restoration. Never share setup tokens, recovery keys, environment files, or logs containing secrets.
 
-```bash
-ssh-copy-id deploy@SERVER_IP
-```
-
-### 0.3 Verify key-based login
-
-**Without closing your current session**, in a new terminal:
-
-```bash
-ssh deploy@SERVER_IP
-```
-
-It should log you in **without a password**. If it doesn't — do not proceed to the next step.
-
-### 0.4 SSH hardening (only after a successful check in 0.3)
-
-```bash
-sudo sed -i 's/^#\?PermitRootLogin.*/PermitRootLogin no/' /etc/ssh/sshd_config
-sudo sed -i 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/' /etc/ssh/sshd_config
-sudo sed -i 's/^#\?PubkeyAuthentication.*/PubkeyAuthentication yes/' /etc/ssh/sshd_config
-sudo systemctl restart sshd
-```
-
-### Firewall
-
-```bash
-sudo ufw default deny incoming
-sudo ufw default allow outgoing
-sudo ufw allow 22/tcp
-sudo ufw allow 80/tcp
-sudo ufw allow 443/tcp
-sudo ufw allow 8443/tcp
-sudo ufw --force enable
-```
-
-### fail2ban
-
-```bash
-sudo apt install -y fail2ban
-sudo systemctl enable --now fail2ban
-```
-
-### Automatic security updates
-
-```bash
-sudo apt install -y unattended-upgrades
-sudo dpkg-reconfigure -plow unattended-upgrades
-```
-
----
-
-## 1. Update the system
-
-```bash
-sudo apt update && sudo apt upgrade -y
-```
-
-## 2. Build dependencies
-
-```bash
-sudo apt install -y curl git build-essential pkg-config libssl-dev
-```
-
-## 3. Docker
-
-```bash
-# Remove old versions
-sudo apt remove -y docker docker-engine docker.io containerd runc 2>/dev/null
-
-# Add the Docker repository
-sudo install -m 0755 -d /etc/apt/keyrings
-curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /etc/apt/keyrings/docker.gpg
-sudo chmod a+r /etc/apt/keyrings/docker.gpg
-
-echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.gpg] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "$VERSION_CODENAME") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
-
-# Install
-sudo apt update
-sudo apt install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
-
-# Add the user to the docker group
-sudo usermod -aG docker $USER
-newgrp docker
-
-# Verify
-docker --version
-docker compose version
-```
-
-## 4. Rust
-
-Minimum version — **Rust 1.93+** (see `rust-version` in [Cargo.toml](Cargo.toml)). `rustup` installs the latest stable, which is enough. If you use `rustup` from apt — run `rustup update stable` first.
-
-```bash
-curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y
-source ~/.cargo/env
-rustc --version   # should be >= 1.93
-```
-
-## 5. Build and install Pier
-
-```bash
-git clone https://github.com/joveptesg/pier.git /tmp/pier
-cd /tmp/pier
-sudo bash scripts/build-from-source.sh
-```
-
-The script detects your RAM, creates swap if needed (persistent, via `/etc/fstab`), and picks the build profile and `--jobs` accordingly. On a server with ≥ 6 GB it runs in full mode (`profile = release`); on 1–2 GB it uses `release-lowmem` with `jobs = 1` and up to 4 GB of swap total. When finished, it automatically runs `install.sh`.
-
-Flags: `--no-swap`, `--profile NAME`, `--jobs N`, `--no-install`, `--port PORT`, `-y` (skip swap confirmation).
-
-> The build takes ~5–15 minutes depending on the server's power.
->
-> If you don't need the source — you can skip steps 4–5 and grab the pre-built binary:
-> ```bash
-> mkdir -p /tmp/pier && cd /tmp/pier
-> curl -fsSL -o pier https://github.com/joveptesg/pier/releases/download/latest/pier-linux-amd64
-> curl -fsSL -o pier.sha256 https://github.com/joveptesg/pier/releases/download/latest/pier-linux-amd64.sha256
-> sha256sum -c <(awk -v f=pier '{print $1"  "f}' pier.sha256)
-> chmod +x pier
-> curl -fsSL -o install.sh https://raw.githubusercontent.com/joveptesg/pier/main/scripts/install.sh
-> sudo bash install.sh --binary /tmp/pier/pier
-> ```
-
-## 6. Verify
-
-```bash
-systemctl status pier
-curl -k https://localhost:8443/health
-journalctl -u pier -f
-```
-
-## 7. First login
-
-Open in your browser:
-
-```
-https://SERVER_IP:8443/setup
-```
-
-The panel starts with a self-signed certificate — accept the browser warning. Create an admin account. After that, Pier is ready to use.
-
----
-
-## 8. Docker Hub / private registries
-
-To let Pier pull images from Docker Hub without rate limits (or from private registries), there are two ways:
-
-### Option A — `docker login` as root
-
-```bash
-sudo docker login -u YOUR_USERNAME
-# (use a PAT, not your password: https://app.docker.com/settings)
-```
-
-`install.sh` configures the systemd unit so that `/root/.docker/config.json` is visible to the pier service via a bind-mount (read-only, at `/opt/pier/host-docker`). When you rotate the PAT, just re-run `docker login` — Pier picks it up immediately, no restart needed.
-
-> **The `acl` package is required** — `install.sh` installs it automatically (apt/dnf/yum/apk). If that fails, you'll see a warning:
->
-> ```
-> [WARN] setfacl not found — the 'acl' package is not installed and could not be installed automatically...
-> ```
->
-> In that case, run:
-> ```bash
-> apt install -y acl
-> sudo bash /tmp/pier/scripts/install.sh --binary /tmp/pier/target/release/pier
-> ```
->
-> Without `acl`, a `chmod 644` fallback is applied to `config.json`, but **the next `docker login` will reset the permissions** and Pier will stop seeing it again. Installing `acl` fixes this permanently — the default ACL is inherited by any future `config.json`.
-
-### Option B — via the Pier UI
-
-Settings → Registries → **"+ Add Docker Hub"** → username + PAT → Save.
-
-Credentials are stored in Pier's database (encrypted), per-project or global. This is a good fit when you don't want to give the pier service access to `/root/.docker`, or when you need different credentials for different projects.
-
----
-
-## Ports
-
-| Port | Purpose |
-|------|-----------|
-| 22 | SSH |
-| 80 | Traefik (HTTP → HTTPS redirect, ACME) |
-| 443 | Traefik (reverse proxy for services) |
-| 8443 | Pier dashboard |
-| 10000+ | Auto-allocated container ports |
-
----
-
-## Updating Pier
-
-**Installed with the one-liner (1.4.3+):** update from the panel — *Settings → Updates → Check for Updates → Update & Restart*. A root service (`pier-updater`) re-runs the official installer, which refreshes the binaries (`pier`, `pier-net-helper`, `pier-agent`) and their systemd units, then restarts Pier. `.env` and `/opt/pier/data` are preserved.
-
-Servers installed before 1.4.3 need one manual run of the installer to get the updater (until then the panel shows a banner):
-
-```bash
-curl -fsSL https://pier.team/install | sudo bash
-systemctl is-enabled pier-net-helper pier-updater.path   # both: enabled
-ls -l /usr/local/sbin/pier-update                         # must exist
-```
-
-Updater status and log: `/var/lib/pier-updater/status.json`, `/var/lib/pier-updater/last.log`, `journalctl -u pier-updater`.
-
-**Built from source (§5):** keep updating the same way:
-
-```bash
-cd /tmp/pier
-git pull
-sudo bash scripts/build-from-source.sh
-```
-
-> A panel update installs the pre-built release binary over a source build. If you run a modified build, update from source only.
-
-**Rollback** — install a specific release instead of `latest` (database migrations are not undone, so back up `/opt/pier/data` first if you may need this):
-
-```bash
-curl -fsSL https://pier.team/install | sudo bash -s -- --release-tag v1.4.2
-```
-
----
-
-## Management
-
-```bash
-# Logs
-journalctl -u pier -f
-journalctl -u pier --since "1h ago"
-journalctl -u pier -p err
-
-# Service management
-sudo systemctl restart pier
-sudo systemctl stop pier
-sudo systemctl start pier
-
-# Configuration
-sudo nano /opt/pier/.env
-
-# Data
-ls /opt/pier/data/
-```
+See [MIGRATION.md](MIGRATION.md) for the detailed checklist.

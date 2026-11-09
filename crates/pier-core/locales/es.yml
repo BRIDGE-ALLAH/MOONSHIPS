@@ -1,4 +1,4 @@
-# Spanish (es) — machine translation of en.yml (Pier admin panel).
+# Spanish (es) — machine translation of en.yml (MOONSHIPS admin panel).
 # Same key structure as en.yml; any missing key falls back to en (i18n! fallback).
 # Machine-translated — native review advisable before production.
 
@@ -42,7 +42,7 @@ nav:
 
 # Shared chrome rendered by base.html.
 layout:
-  support_pier: Apoyar a Pier
+  support_moonships: Apoyar a MOONSHIPS
   deploy_in_progress: En curso
   # Deploy badge count: "N deployment(s)". JS picks singular/plural by count.
   deployment_one: despliegue
@@ -110,7 +110,7 @@ setup:
   title: Configuración
   proxy_error_title: El proxy inverso (Traefik) no pudo iniciarse
   proxy_error_hint: "Esto suele deberse a un límite de tasa de Docker Hub en VPS con IP compartida. Para solucionarlo manualmente, ejecuta en el servidor:"
-  proxy_error_after: "Tras el reinicio, Pier vuelve a levantar Traefik automáticamente. Este aviso desaparece en /setup."
+  proxy_error_after: "Tras el reinicio, MOONSHIPS vuelve a levantar Traefik automáticamente. Este aviso desaparece en /setup."
   create_admin: Crear cuenta de administrador
   subtitle: Configuración inicial. Crea la cuenta de administrador.
   username: Nombre de usuario
@@ -165,7 +165,7 @@ invite:
   invalid_title: Invitación no válida
   invalid_desc: Este enlace ha caducado, ya se ha usado o nunca existió. Pide a quien te invitó que te envíe uno nuevo.
   back_to_login: Volver al inicio de sesión
-  welcome: Te damos la bienvenida a Pier
+  welcome: Te damos la bienvenida a MOONSHIPS
   invited_as: Has sido invitado como
   choose_credentials: Elige un nombre de usuario y una contraseña para terminar de configurar tu cuenta.
   username: Nombre de usuario
@@ -292,7 +292,7 @@ servers_list:
   local: local
   peer: peer
   mesh_network: Red mesh
-  mesh_disabled_desc: Túnel WireGuard entre cada nodo Pier. Deshabilitado.
+  mesh_disabled_desc: Túnel WireGuard entre cada nodo MOONSHIPS. Deshabilitado.
   mesh_peers: peers
   mesh_on: activo
   enable_mesh: Habilitar mesh
@@ -322,7 +322,7 @@ servers_list:
   meshed_only_hint: Solo los servidores en mesh inyectan realmente; los peers fuera del mesh se omiten silenciosamente al desplegar.
   port_label: Puerto
   federation_tokens: Tokens de federación
-  fed_tokens_empty: No se han emitido tokens. Genera uno para permitir que un pier-core primario remoto despliegue stacks aquí.
+  fed_tokens_empty: No se han emitido tokens. Genera uno para permitir que un MOONSHIPS core primario remoto despliegue stacks aquí.
   fed_tokens_count: token(s) emitido(s)
   new_token_plus: + Nuevo token
   never_used: nunca usado
@@ -331,8 +331,8 @@ servers_list:
   label_label: Etiqueta
   label_hint: Cualquier identificador para el primario que usará este token.
   token_for: Token para
-  reveal_warning: Cópialo ahora — Pier nunca volverá a mostrarlo. Tras cerrar este diálogo solo el prefijo será visible.
-  reveal_instructions: 'En el pier-core primario: ve a <span class="font-mono">/servers</span> → la fila de este peer → pega este valor en el campo <strong>Token de federación</strong>.'
+  reveal_warning: Cópialo ahora — MOONSHIPS nunca volverá a mostrarlo. Tras cerrar este diálogo solo el prefijo será visible.
+  reveal_instructions: 'En el MOONSHIPS core primario: ve a <span class="font-mono">/servers</span> → la fila de este peer → pega este valor en el campo <strong>Token de federación</strong>.'
   copied_confirm: Lo he copiado
   mesh_settings: Ajustes del mesh
   mesh_settings_desc: Solo editable mientras el mesh está deshabilitado — cambiar la subred en un mesh activo dejaría huérfana cada IP asignada.
@@ -357,7 +357,7 @@ servers_list:
   kind_agent: Agente
   kind_agent_desc: Trabajador ligero, los metadatos permanecen aquí
   kind_peer: Núcleo peer
-  kind_peer_desc: pier-core autónomo con su propia base de datos
+  kind_peer_desc: MOONSHIPS core autónomo con su propia base de datos
   name_placeholder: Servidor de producción
   peer_token_instructions: "En el servidor de destino: Ajustes → Acceso externo → Emitir token, luego pega el token abajo."
   peer_token_label: Token de peer
@@ -405,7 +405,7 @@ servers_list:
   toast_mesh_reapplied: Mesh reaplicado
   toast_apply_partial: Apply falló parcialmente
   toast_apply_failed: Apply falló
-  disable_confirm: ¿Deshabilitar el mesh? Esto bajará wg0 en cada peer y limpiará la asignación del lado de Pier.
+  disable_confirm: ¿Deshabilitar el mesh? Esto bajará wg0 en cada peer y limpiará la asignación del lado de MOONSHIPS.
   disable_uninstall_confirm: ¿Desinstalar también los paquetes pier-net-helper / wireguard en cada peer? (OK = desinstalar, Cancelar = mantener instalados)
   toast_mesh_disabled_prefix: Mesh deshabilitado —
   toast_mesh_disabled_suffix: peer(s) tuvieron problemas
@@ -414,6 +414,7 @@ servers_list:
   toast_mesh_settings_saved: Ajustes del mesh guardados
 
 # Server detail (servers/detail.html).
+  helper_permission_denied: helper no disponible — permisos del socket
 servers_detail:
   title: Detalle del servidor
   rename_hint: Doble clic para renombrar
@@ -423,15 +424,15 @@ servers_detail:
   open_panel: Abrir panel
   promote_to_standalone: Promover a independiente
   remove: Quitar
-  promote_modal_title: "Promover agente → pier-core independiente"
+  promote_modal_title: "Promover agente → MOONSHIPS core independiente"
   promote_modal_desc_pre: "Exporta un paquete con todos los servicios, dominios, variables de entorno, programaciones de copias de seguridad y la configuración global actualmente asociada a "
-  promote_modal_desc_post: ". Aplícalo en ese servidor para que pueda funcionar como un panel Pier completo en lugar de un agente ligero."
+  promote_modal_desc_post: ". Aplícalo en ese servidor para que pueda funcionar como un panel MOONSHIPS completo en lugar de un agente ligero."
   promote_heads_up: Aviso
-  promote_warn_core: El servidor de destino debe ejecutar pier-core (misma versión mayor). Si solo tiene pier-agent, instala pier-core primero.
+  promote_warn_core: El servidor de destino debe ejecutar MOONSHIPS core (misma versión mayor). Si solo tiene pier-agent, instala MOONSHIPS core primero.
   promote_warn_empty_db: La base de datos de destino debe estar vacía (sin servicios existentes). La importación se niega a sobrescribir.
   promote_warn_secrets: "Los usuarios / sesiones / secretos de este panel <em>no</em> se exportan — crea un administrador en el nuevo panel cuando arranque."
   promote_automatic_title: Automático (recomendado)
-  promote_automatic_desc: El núcleo envía el paquete al agente, que descarga pier-core, importa el paquete, instala una unidad de systemd, se detiene a sí mismo e inicia el nuevo pier-core. Observas el registro en el destino.
+  promote_automatic_desc: El núcleo envía el paquete al agente, que descarga MOONSHIPS core, importa el paquete, instala una unidad de systemd, se detiene a sí mismo e inicia el nuevo MOONSHIPS core. Observas el registro en el destino.
   promote_detach_label: Quitar este servidor de mi panel después de que el agente acepte la promoción
   promoting: Promoviendo...
   promote_now: Promover ahora
@@ -479,7 +480,7 @@ servers_detail:
   federation_token: Token de federación
   paired: emparejado
   not_paired: no emparejado
-  federation_token_desc: "Pega el token en texto plano que este peer generó en <span class=\"font-mono\">/servers</span> → Tokens de federación → <em>Nuevo token</em>. Pier lo almacena en texto plano (mismo compromiso que <span class=\"font-mono\">agent_token</span>); nunca lo volvemos a mostrar tras guardarlo."
+  federation_token_desc: "Pega el token en texto plano que este peer generó en <span class=\"font-mono\">/servers</span> → Tokens de federación → <em>Nuevo token</em>. MOONSHIPS lo almacena en texto plano (mismo compromiso que <span class=\"font-mono\">agent_token</span>); nunca lo volvemos a mostrar tras guardarlo."
   working: "Trabajando…"
   clear: Limpiar
   agent_credential: Credencial del agente
@@ -496,8 +497,8 @@ servers_detail:
   err_fetch_metrics: No se pudieron obtener las métricas
   toast_renamed: Servidor renombrado
   toast_agent_online: El agente está en línea
-  confirm_promote: "¿Promover %{name} a pier-core independiente?"
-  confirm_promote_detail: El agente se detendrá a sí mismo y pier-core tomará el control en el host remoto.
+  confirm_promote: "¿Promover %{name} a MOONSHIPS core independiente?"
+  confirm_promote_detail: El agente se detendrá a sí mismo y MOONSHIPS core tomará el control en el host remoto.
   toast_promotion_started: Promoción iniciada en el servidor de destino
   err_bundle_export: La exportación del paquete falló
   toast_bundle_downloaded: Paquete descargado
@@ -578,7 +579,7 @@ resources_create:
   pick_from_list_button: Elegir de la lista
   enter_url_manually_button: Introducir URL manualmente
   already_deployed_suffix: "— ya desplegado"
-  repos_already_deployed_hint: repositorio(s) ya desplegado(s) en este Pier — puedes desplegarlos de nuevo (por ejemplo, un archivo compose diferente).
+  repos_already_deployed_hint: repositorio(s) ya desplegado(s) en este MOONSHIPS — puedes desplegarlos de nuevo (por ejemplo, un archivo compose diferente).
   change_repos_github: Cambiar Repositorios en GitHub ↗
   manual_url_hint: Debe ser un repositorio al que pueda acceder la instalación de tu GitHub App. La autenticación usa la fuente seleccionada arriba.
   configuration_heading: Configuración
@@ -600,7 +601,7 @@ resources_create:
   target_server_hint: Servidor donde se desplegará el recurso
   host_port_label: Puerto del Host (opcional)
   host_port_auto_placeholder: automático
-  host_port_hint: "Déjalo vacío para automático: Pier intenta el puerto estándar (por ejemplo, 5432 para Postgres) y recurre a su pool si está ocupado."
+  host_port_hint: "Déjalo vacío para automático: MOONSHIPS intenta el puerto estándar (por ejemplo, 5432 para Postgres) y recurre a su pool si está ocupado."
   btn_creating: Creando...
   btn_continue: Continuar
   btn_deploy_cluster: Desplegar Clúster
@@ -1128,6 +1129,20 @@ resources_detail:
   confirm_rollback: ¿Revertir a la versión anterior?
   toast_rollback_started: Reversión iniciada
 
+  inject_init: Proceso init (PID 1)
+  inject_init_desc: Ejecuta un proceso init como PID 1 para que la aplicación recoja procesos huérfanos y se detenga correctamente al recibir SIGTERM. Desactívalo para imágenes que deban ejecutarse como PID 1.
+  th_privileges: Privilegios
+  privilege_createrole: Puede crear roles
+  privilege_createdb: Puede crear bases de datos
+  privileges_label: Privilegios del usuario
+  privileges_hint: "Los privilegios pertenecen al usuario: se aplican a todas las bases de datos que posee. Son necesarios cuando las migraciones de la aplicación crean sus propios roles."
+  privilege_toggle_title: Haz clic para activar o desactivar
+  action_history: Historial de acciones
+  no_deployments_yet: Aún no hay implementaciones
+  no_deployments_hint: Las acciones de implementar, detener y reiniciar aparecerán aquí.
+  view_log: Ver registro
+  hide_log: Ocultar registro
+  toast_privileges_updated: Privilegios de %{name} actualizados
 sources_list:
   title: Fuentes
   heading: Fuentes
@@ -1291,7 +1306,7 @@ packages_list:
   saving: Guardando…
   save: Guardar
   mirror_intro: Paquetes almacenados en caché desde el registro upstream.
-  mirror_help: "Cada fila es un paquete público que este Pier ha obtenido al menos una vez. Los tarballs se descargan de forma diferida: solo las versiones que los clientes instalan realmente acaban en disco. Las versiones de solo metadatos viven en SQLite y no cuentan para el límite de tamaño de la caché."
+  mirror_help: "Cada fila es un paquete público que este MOONSHIPS ha obtenido al menos una vez. Los tarballs se descargan de forma diferida: solo las versiones que los clientes instalan realmente acaban en disco. Las versiones de solo metadatos viven en SQLite y no cuentan para el límite de tamaño de la caché."
   pinned_only: Solo fijados
   refreshing: Actualizando…
   refresh: Actualizar
@@ -1452,7 +1467,7 @@ domains_list:
 proxy_settings:
   title: Configuración del proxy
   heading: Proxy inverso
-  subtitle: Proxy inverso Traefik — gestionado automáticamente por Pier
+  subtitle: Proxy inverso Traefik — gestionado automáticamente por MOONSHIPS
   version_title: Versión de Traefik
   version_current: Actual
   version_latest: Última disponible
@@ -1475,7 +1490,7 @@ proxy_settings:
   platform_domain_label: Dominio de la plataforma
   active: Activo
   not_loaded: No cargado — guarda para aplicar
-  platform_domain_note: "Dominio personalizado para el propio Pier — enruta a este panel con SSL. Introdúcelo sin <code>https://</code> (p. ej. <code>pier.example.com</code>)."
+  platform_domain_note: "Dominio personalizado para el propio MOONSHIPS — enruta a este panel con SSL. Introdúcelo sin <code>https://</code> (p. ej. <code>moonships.example.com</code>)."
   acme_email_label: Correo de ACME
   acme_email_placeholder: "admin@example.com"
   acme_email_note: Correo para las notificaciones de certificados de Let's Encrypt
@@ -1597,7 +1612,7 @@ compose_list:
   create_first: Crea tu primer stack
   migrate_heading_prefix: Mover
   migrate_heading_suffix: a otro servidor
-  migrate_explainer: Pier recreará este stack en el par elegido y luego desmontará la copia local. Los stacks con estado (volúmenes con nombre) se rechazan en la API.
+  migrate_explainer: MOONSHIPS recreará este stack en el par elegido y luego desmontará la copia local. Los stacks con estado (volúmenes con nombre) se rechazan en la API.
   target_server: Servidor de destino
   select: seleccionar
   dns_warning: Los registros A de DNS todavía apuntan a este servidor. Actualízalos después del traslado para que los usuarios lleguen realmente al nuevo nodo.
@@ -1659,7 +1674,7 @@ settings_index:
   subheading: Configuración de la aplicación
   general_title: General
   app_url: URL de la aplicación
-  app_url_desc: La URL utilizada para acceder a Pier
+  app_url_desc: La URL utilizada para acceder a MOONSHIPS
   timezone: Zona horaria
   timezone_desc: Se usa para las notificaciones y las marcas de tiempo.
   timezone_now: 'Ahora: '
@@ -1696,21 +1711,21 @@ settings_index:
   parallel_build_one: ' compilación en paralelo'
   parallel_build_other: ' compilaciones en paralelo'
   max_parallel_builds: Máximo de compilaciones en paralelo
-  saved_value_range: 'Valor guardado (aplicado en el próximo reinicio de pier-core). Rango:'
+  saved_value_range: 'Valor guardado (aplicado en el próximo reinicio de MOONSHIPS core). Rango:'
   saving: Guardando…
   save: Guardar
-  env_override_notice: '<strong>Gestionado por variable de entorno.</strong> <code class="text-[11px]">PIER_RAILPACK_MAX_PARALLEL_BUILDS</code> está definida en la unidad systemd, por lo que el valor guardado se ignora. Elimina la variable de entorno y reinicia pier-core para usar el valor de la interfaz.'
+  env_override_notice: '<strong>Gestionado por variable de entorno.</strong> <code class="text-[11px]">PIER_RAILPACK_MAX_PARALLEL_BUILDS</code> está definida en la unidad systemd, por lo que el valor guardado se ignora. Elimina la variable de entorno y reinicia MOONSHIPS core para usar el valor de la interfaz.'
   restart_required: Se requiere reinicio.
   restart_required_saved: El valor guardado
   restart_required_differs: difiere del valor en tiempo de ejecución activo
   restart_required_run: Ejecuta
   restart_required_take_effect: en el host para que el cambio surta efecto.
   what_is_this: ¿Qué es esto?
-  federation_intro: 'La federación funciona en dos direcciones. Esta pestaña trata sobre la dirección <strong>entrante</strong> — otorgar a otro pier-core el derecho a controlar este.'
+  federation_intro: 'La federación funciona en dos direcciones. Esta pestaña trata sobre la dirección <strong>entrante</strong> — otorgar a otro MOONSHIPS core el derecho a controlar este.'
   federation_outgoing: 'La <strong>saliente</strong> (controlar otros servidores desde aquí) se gestiona en la página <a href="/servers" class="text-blue-500 hover:underline">Servidores</a> mediante el tipo "Peer core".'
-  federation_incoming: 'La <strong>entrante</strong> está aquí: emites un token y se lo entregas al operador de otro pier-core. Lo pega en su propio formulario "Añadir servidor → Peer core", y su panel obtiene acceso equivalente al de administrador del tuyo a través de REST.'
+  federation_incoming: 'La <strong>entrante</strong> está aquí: emites un token y se lo entregas al operador de otro MOONSHIPS core. Lo pega en su propio formulario "Añadir servidor → Peer core", y su panel obtiene acceso equivalente al de administrador del tuyo a través de REST.'
   tokens_grant_admin: Los tokens otorgan derechos completos de administrador — revócalos en cualquier momento; este core sigue funcionando de forma autónoma en cualquier caso.
-  protocol_note: 'Protocolo: las solicitudes autenticadas con la cabecera <code class="font-mono bg-gray-100 dark:bg-gray-800 px-1 rounded">X-Pier-Peer-Token</code> coinciden con una fila en <code class="font-mono bg-gray-100 dark:bg-gray-800 px-1 rounded">peer_grants</code> y se tratan como una sesión de administrador para esa llamada.'
+  protocol_note: 'Protocolo: las solicitudes autenticadas con la cabecera <code class="font-mono bg-gray-100 dark:bg-gray-800 px-1 rounded">X-MOONSHIPS-Peer-Token</code> coinciden con una fila en <code class="font-mono bg-gray-100 dark:bg-gray-800 px-1 rounded">peer_grants</code> y se tratan como una sesión de administrador para esa llamada.'
   issued_tokens: Tokens emitidos
   issue_token: Emitir token
   col_name: Nombre
@@ -1723,7 +1738,7 @@ settings_index:
   revoke: Revocar
   no_tokens: Aún no se ha emitido ningún token.
   issue_peer_token: Emitir token de peer
-  issue_peer_token_desc: Genera un token de larga duración que autoriza a otro pier-core a gestionar este panel a través de su API.
+  issue_peer_token_desc: Genera un token de larga duración que autoriza a otro MOONSHIPS core a gestionar este panel a través de su API.
   name_placeholder: Panel central
   generate: Generar
   token_issued: Token emitido
@@ -1921,17 +1936,17 @@ settings_notifications:
 
 # Settings — updates (settings/updates.html).
 settings_updates:
-  updater_running: "Actualizando Pier…"
-  updater_running_detail: "El instalador está actualizando Pier, su helper y los servicios. El panel se reinicia durante el proceso; puede tardar unos minutos."
+  updater_running: "Actualizando MOONSHIPS…"
+  updater_running_detail: "El instalador está actualizando MOONSHIPS, su helper y los servicios. El panel se reinicia durante el proceso; puede tardar unos minutos."
   updater_timeout: "La actualización no terminó en 30 minutos. Revisa el servidor: journalctl -u pier-updater"
   updater_banner_title: "Activa las actualizaciones completas con un clic"
-  updater_banner_desc: "Este servidor se instaló con un instalador antiguo, así que las actualizaciones desde el panel solo pueden reemplazar el binario de Pier, no el helper ni los servicios del sistema. Ejecuta el instalador una vez por SSH; después, cada actualización desde el panel lo actualizará todo automáticamente."
+  updater_banner_desc: "Este servidor se instaló con un instalador antiguo, así que las actualizaciones desde el panel solo pueden reemplazar el binario de MOONSHIPS, no el helper ni los servicios del sistema. Ejecuta el instalador una vez por SSH; después, cada actualización desde el panel lo actualizará todo automáticamente."
   page_title: Actualizaciones
   heading: Actualizaciones
-  subheading: Gestiona la versión de Pier y las preferencias de actualización
+  subheading: Gestiona la versión de MOONSHIPS y las preferencias de actualización
   current_version: Versión actual
   version_label: Versión
-  version_desc: Versión de Pier instalada
+  version_desc: Versión de MOONSHIPS instalada
   build_date_label: Fecha de compilación del binario
   build_date_desc: Cuándo se compiló este binario
   uptime_label: Tiempo de actividad
@@ -1946,15 +1961,15 @@ settings_updates:
   build_prefix: 'Compilación:'
   download_size_prefix: 'Tamaño de descarga:'
   install_update_label: Instalar actualización
-  install_update_desc: Pier se reiniciará automáticamente tras la actualización
+  install_update_desc: MOONSHIPS se reiniciará automáticamente tras la actualización
   update_and_restart: Actualizar y reiniciar
   update_complete_title: Actualización completada
-  update_complete_desc: Pier se ha actualizado correctamente.
+  update_complete_desc: MOONSHIPS se ha actualizado correctamente.
   update_failed: Error en la actualización
   check_failed_title: Error en la comprobación
   update_settings: Ajustes de actualización
   update_mode_label: Modo de actualización
-  update_mode_desc: Elige cómo gestiona Pier las actualizaciones disponibles
+  update_mode_desc: Elige cómo gestiona MOONSHIPS las actualizaciones disponibles
   mode_auto_label: Automático
   mode_auto_desc: Descargar e instalar las actualizaciones automáticamente
   mode_notify_label: Solo notificar
@@ -1975,22 +1990,23 @@ settings_updates:
   new_build_available: 'Nueva compilación disponible: %{build}'
   running_latest: Estás ejecutando la última versión
   check_updates_failed: 'Error al buscar actualizaciones: %{error}'
-  confirm_install: Pier descargará la actualización y se reiniciará. ¿Continuar?
+  confirm_install: MOONSHIPS descargará la actualización y se reiniciará. ¿Continuar?
   progress_downloading: Descargando actualización...
   progress_downloading_detail: Esto puede tardar un momento según tu conexión
   progress_installing: Instalando actualización...
   progress_installing_detail: Aplicando la actualización y preparando el reinicio
-  progress_restarting: Reiniciando Pier...
+  progress_restarting: Reiniciando MOONSHIPS...
   progress_restarting_detail: El servidor se está reiniciando. Por favor, espera...
   progress_reconnecting: Reconectando...
   update_failed_fallback: Error en la actualización
   update_request_failed: 'La solicitud de actualización falló: %{error}'
   progress_complete: ¡Actualización completada!
-  progress_complete_detail: Pier se ha actualizado correctamente
-  reconnect_timeout: Es posible que Pier siga reiniciándose. Intenta actualizar la página manualmente.
+  progress_complete_detail: MOONSHIPS se ha actualizado correctamente
+  reconnect_timeout: Es posible que MOONSHIPS siga reiniciándose. Intenta actualizar la página manualmente.
   save_settings_failed: Error al guardar los ajustes
   save_failed: 'Error al guardar: %{error}'
 
+  helper_unreachable_title: Helper privilegiado no disponible — las actualizaciones fallarán
 account_security:
   title: Seguridad
   heading: Seguridad
@@ -2264,7 +2280,7 @@ emergency_export:
   toast_downloaded: Archivo descargado
 support_modal:
   close: Cerrar
-  heading: ¿Te encanta Pier? Apoya nuestro trabajo.
+  heading: ¿Te encanta MOONSHIPS? Apoya nuestro trabajo.
   body_profitable: 'Ya somos rentables gracias a <span class="font-semibold text-gray-900 dark:text-white">TI</span> pero&hellip;'
   body_features: Nos gustaría crear más funciones interesantes.
   body_help: Para esto necesitamos tu ayuda para apoyar nuestro trabajo económicamente.
@@ -2328,6 +2344,7 @@ errors:
     network_not_found: No se encontró la red %{name}
     name_invalid_chars: El nombre solo debe contener letras minúsculas, números y guiones
     no_compose_content_for_service: No se encontró contenido de compose para este servicio
+    webhook_secret_too_short: El secreto del webhook debe tener al menos %{min} caracteres. Déjalo en blanco para generar uno seguro.
   projects:
     not_found: No se encontró el proyecto %{id}
     name_required: El nombre del proyecto es obligatorio
@@ -2375,6 +2392,9 @@ errors:
     password_required: La contraseña es obligatoria
     owner_not_found: No se pudo encontrar el propietario de la base de datos %{name}
     container_not_found: "El contenedor '%{name}' no se encontró. Asegúrate de que el servicio esté en ejecución."
+    command_failed: "Error al ejecutar el comando de base de datos: %{error}"
+    privileges_unsupported_engine: Los privilegios de usuario solo se pueden administrar para PostgreSQL
+    privileges_superuser: "%{name} es un superusuario; sus privilegios no se administran aquí"
   domains:
     domain_required: El dominio es obligatorio
     domain_not_found: No se encontró el dominio %{name}
@@ -2598,7 +2618,7 @@ errors:
     test_failed: "Falló la prueba de S3: %{v}"
   promote:
     server_not_found: No se encontró el servidor %{v}
-    local_server_full_core: No se puede promover el servidor local (este ya es un pier-core completo)
+    local_server_full_core: No se puede promover el servidor local (este ya es un MOONSHIPS core completo)
     local_server: No se puede promover el servidor local
     agent_unreachable: "agente inaccesible: %{v}"
     agent_rejected: "agente: %{v}"
@@ -2680,3 +2700,9 @@ errors:
     task_run_not_found: no se encontró la ejecución de la tarea
     task_already_status: la tarea ya está %{v}
 
+# Test-only fixtures exercised by the src/i18n unit tests. Not referenced by any
+# template; kept here because the unit tests share this compiled-in catalog and
+# need a stable `%{name}` interpolation sample (no section-1 screen has one yet).
+test_fixtures:
+  plain: Spike works
+  interp: "Hello, %{name}"

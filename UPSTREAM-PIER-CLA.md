@@ -1,3 +1,5 @@
+> **Upstream reference only — not a MOONSHIPS policy or agreement.** This text is preserved from the original Pier project for historical attribution. It applies to the upstream Pier project and its rights holders; it does not establish MOONSHIPS contributor terms, trademark ownership, or permissions. Source repository: https://github.com/joveptesg/pier.
+
 # Contributor License Agreement
 
 ## Individual Contributor License Agreement

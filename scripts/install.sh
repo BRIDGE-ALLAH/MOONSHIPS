@@ -2,8 +2,8 @@
 set -euo pipefail
 
 # ============================================================================
-# Pier PaaS — Install Script
-# Installs Pier as a native systemd service on Linux (Ubuntu/Debian/RHEL)
+# MOONSHIPS — Install Script
+# Installs MOONSHIPS as a native systemd service on Linux (Ubuntu/Debian/RHEL)
 # Usage:
 #   sudo bash install.sh --binary /path/to/pier
 #   sudo bash install.sh --binary ./target/release/pier
@@ -26,6 +26,14 @@ NC='\033[0m'
 info()  { echo -e "${GREEN}[INFO]${NC}  $*"; }
 warn()  { echo -e "${YELLOW}[WARN]${NC}  $*"; }
 error() { echo -e "${RED}[ERROR]${NC} $*"; exit 1; }
+
+abort_backup() {
+    if [[ "${UPGRADE:-false}" == true ]]; then
+        warn "Pre-upgrade backup failed; restarting the untouched Pier service..."
+        systemctl start pier || warn "Could not restart the existing Pier service automatically."
+    fi
+    error "$1"
+}
 
 # ── Parse arguments ──────────────────────────────────────────────────────────
 
@@ -175,10 +183,53 @@ fi
 # ── Check if upgrading ───────────────────────────────────────────────────────
 
 UPGRADE=false
+LEGACY_PRESENT=false
+if [[ -d "$PIER_DIR" ]] && { [[ -e "$PIER_BIN" ]] || [[ -d "$PIER_DATA" ]] || [[ -f "$PIER_ENV" ]]; }; then
+    LEGACY_PRESENT=true
+fi
+
 if systemctl is-active --quiet pier 2>/dev/null; then
     UPGRADE=true
-    info "Existing Pier installation detected — upgrading..."
+    info "Existing legacy installation detected — upgrading in place for MOONSHIPS..."
     systemctl stop pier
+elif [[ "$LEGACY_PRESENT" == true ]]; then
+    UPGRADE=true
+    info "Existing Pier data detected — preserving it during MOONSHIPS installation..."
+fi
+
+# Back up the old runtime and application state before any existing files are
+# replaced. Copy the whole data directory, including SQLite WAL sidecars, plus
+# the environment, binaries and systemd units. Docker volumes live outside this
+# directory and are not modified by this installer.
+if [[ "$LEGACY_PRESENT" == true && "${PIER_SKIP_BACKUP:-0}" != "1" ]]; then
+    BACKUP_ROOT="/var/backups/moonships"
+    mkdir -p "$BACKUP_ROOT" || abort_backup "Could not create backup directory; upgrade cancelled."
+    chmod 700 "$BACKUP_ROOT" || abort_backup "Could not secure backup directory; upgrade cancelled."
+    BACKUP_DIR="$(mktemp -d "${BACKUP_ROOT}/pre-upgrade-XXXXXX")" || abort_backup "Could not allocate backup directory; upgrade cancelled."
+    chmod 700 "$BACKUP_DIR" || abort_backup "Could not secure pre-upgrade backup; upgrade cancelled."
+
+    info "Creating pre-upgrade backup at ${BACKUP_DIR}..."
+    if [[ -d "$PIER_DATA" ]]; then
+        cp -a "$PIER_DATA" "${BACKUP_DIR}/data" \
+            || abort_backup "Could not back up ${PIER_DATA}; upgrade cancelled before replacing the old installation."
+    fi
+    if [[ -f "$PIER_ENV" ]]; then
+        cp -a "$PIER_ENV" "${BACKUP_DIR}/.env" \
+            || abort_backup "Could not back up ${PIER_ENV}; upgrade cancelled before replacing the old installation."
+    fi
+    if [[ -d "${PIER_DIR}/bin" ]]; then
+        cp -a "${PIER_DIR}/bin" "${BACKUP_DIR}/bin" \
+            || abort_backup "Could not back up existing binaries; upgrade cancelled before replacing the old installation."
+    fi
+    for unit in pier.service pier-net-helper.service pier-updater.service pier-updater.path; do
+        if [[ -f "/etc/systemd/system/${unit}" ]]; then
+            cp -a "/etc/systemd/system/${unit}" "${BACKUP_DIR}/${unit}" \
+                || abort_backup "Could not back up ${unit}; upgrade cancelled before replacing the old installation."
+        fi
+    done
+    info "Pre-upgrade backup complete: ${BACKUP_DIR}"
+elif [[ "$LEGACY_PRESENT" == true ]]; then
+    warn "PIER_SKIP_BACKUP=1: automatic pre-upgrade backup was explicitly skipped."
 fi
 
 # ── Create group + user ──────────────────────────────────────────────────────
@@ -302,7 +353,7 @@ if [[ -f "$HELPER_SRC" ]]; then
     install -m755 "$HELPER_SRC" "$HELPER_BIN"
     info "Installed pier-net-helper from $HELPER_SRC"
 elif curl -fsSL -o "$HELPER_BIN" \
-        "https://github.com/joveptesg/pier/releases/download/latest/pier-net-helper-linux-amd64" 2>/dev/null; then
+        "https://github.com/BRIDGE-ALLAH/MOONSHIPS/releases/download/latest/pier-net-helper-linux-amd64" 2>/dev/null; then
     chmod 0755 "$HELPER_BIN"
     info "Installed pier-net-helper from release"
 else
@@ -320,8 +371,8 @@ if [[ -x "$HELPER_BIN" ]]; then
     else
     cat > /etc/systemd/system/pier-net-helper.service <<'PIER_HELPER_UNIT_EOF'
 [Unit]
-Description=Pier Network Helper (privileged WireGuard mesh operations)
-Documentation=https://github.com/joveptesg/pier
+Description=MOONSHIPS Network Helper (privileged WireGuard mesh operations)
+Documentation=https://github.com/BRIDGE-ALLAH/MOONSHIPS
 After=network-pre.target
 Before=pier-agent.service pier.service
 
@@ -531,7 +582,7 @@ else
     info "Generating systemd unit"
     cat > "$PIER_SERVICE" <<EOF
 [Unit]
-Description=Pier PaaS
+Description=MOONSHIPS
 After=network.target docker.service pier-net-helper.service
 Requires=docker.service
 # Pull the privileged helper up with pier. Self-update and mesh ops go
@@ -588,10 +639,10 @@ systemctl enable pier
 
 if [[ "$UPGRADE" == true ]]; then
     systemctl start pier
-    info "Pier upgraded and restarted"
+    info "MOONSHIPS upgraded and restarted"
 else
     systemctl start pier
-    info "Pier installed and started"
+    info "MOONSHIPS installed and started"
 fi
 
 # ── Wait for startup ─────────────────────────────────────────────────────────
@@ -612,9 +663,9 @@ done
 if [[ "$PIER_READY" != true ]]; then
     if ! systemctl is-active --quiet pier; then
         echo ""
-        error "Pier failed to start. Check logs: journalctl -u pier --no-pager -n 50"
+        error "MOONSHIPS failed to start. Check logs: journalctl -u pier --no-pager -n 50"
     fi
-    warn "Pier process is running but did not respond on :${PIER_PORT} within 30s — continuing anyway"
+    warn "MOONSHIPS process is running but did not respond on :${PIER_PORT} within 30s — continuing anyway"
 fi
 
 # ── Firewall (ufw) ───────────────────────────────────────────────────────────
@@ -671,7 +722,7 @@ fi
 
 echo ""
 echo -e "${GREEN}════════════════════════════════════════════════════════════${NC}"
-echo -e "${GREEN}  Pier PaaS installed successfully!${NC}"
+echo -e "${GREEN}  MOONSHIPS installed successfully!${NC}"
 echo -e "${GREEN}════════════════════════════════════════════════════════════${NC}"
 echo ""
 echo -e "  Dashboard:  ${YELLOW}https://${PUBLIC_IP}:${PIER_PORT}${NC}"

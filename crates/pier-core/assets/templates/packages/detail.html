@@ -152,7 +152,7 @@
             <div class="flex flex-col items-center justify-center gap-2">
                 <button type="button" id="proxy-dl-btn"
                         data-package="{{ package.name }}"
-                        onclick="pierProxyDownload(this)"
+                        onclick="moonshipsProxyDownload(this)"
                         class="inline-flex items-center gap-2 px-4 py-2 text-xs font-medium bg-blue-500 hover:bg-blue-600 text-white rounded-lg disabled:opacity-60 disabled:cursor-wait">
                     <svg id="proxy-dl-spinner" style="display:none" class="animate-spin h-3.5 w-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -166,7 +166,7 @@
             <p>{{ t('packages_detail.proxy_run_prefix') }} <code class="font-mono">npm install {{ package.name }}</code> {{ t('packages_detail.proxy_run_suffix') }}</p>
         </div>
         <script>
-            async function pierProxyDownload(btn) {
+            async function moonshipsProxyDownload(btn) {
                 const name = btn.dataset.package;
                 const spinner = document.getElementById('proxy-dl-spinner');
                 const label = document.getElementById('proxy-dl-label');

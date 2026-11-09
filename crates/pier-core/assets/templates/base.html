@@ -3,11 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{{ t('nav.dashboard') }}{% endblock %} — Pier</title>
-    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32x32.png">
-    <link rel="icon" type="image/png" sizes="16x16" href="/static/favicon-16x16.png">
-    <link rel="apple-touch-icon" sizes="180x180" href="/static/apple-touch-icon.png">
-    <link rel="icon" type="image/png" sizes="192x192" href="/static/android-chrome-192x192.png">
+    <meta name="application-name" content="MOONSHIPS">
+    <meta property="og:site_name" content="MOONSHIPS">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="MOONSHIPS — Your Infrastructure. Your Rules. Your Universe.">
+    <meta property="og:description" content="Open-source, self-hosted infrastructure control plane.">
+    <meta property="og:image" content="https://raw.githubusercontent.com/BRIDGE-ALLAH/MOONSHIPS/main/crates/pier-core/assets/static/moonships-og-banner.svg">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="theme-color" content="#0b1020">
+    <title>{% block title %}{{ t('nav.dashboard') }}{% endblock %} — MOONSHIPS</title>
+    <link rel="icon" type="image/svg+xml" href="/static/moonships-icon.svg">
+    
+    <link rel="icon" type="image/svg+xml" sizes="180x180" href="/static/moonships-icon.svg">
+    <link rel="icon" type="image/svg+xml" sizes="192x192" href="/static/moonships-icon.svg">
     <script>
         /* Instant dark mode — prevent white flash */
         if (localStorage.getItem('pier-theme') !== 'light') {
@@ -44,16 +52,16 @@
                 <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
             </button>
             <div class="flex items-center gap-2.5">
-                <img src="/static/apple-touch-icon.png" alt="" width="32" height="32" class="w-8 h-8 rounded-lg">
-                <span class="text-lg tracking-wide text-gray-900 dark:text-white" style="font-family: 'Allerta Stencil', sans-serif;">[ PIER ]</span>
+                <img src="/static/moonships-icon.svg" alt="" width="32" height="32" class="w-8 h-8 rounded-lg">
+                <span class="text-lg tracking-wide text-gray-900 dark:text-white" style="font-family: 'Allerta Stencil', sans-serif;">[ MOONSHIPS ]</span>
             </div>
         </div>
         <div class="flex items-center gap-3">
-            <a href="https://pier.team" target="_blank" rel="noopener noreferrer"
+            <a href="https://github.com/BRIDGE-ALLAH/MOONSHIPS" target="_blank" rel="noopener noreferrer"
                class="text-xs text-gray-400 dark:text-gray-600 hover:text-gray-600 dark:hover:text-gray-300 transition-colors">v{{ version }}</a>
             <button @click="$dispatch('support-open')"
                     class="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                    aria-label="{{ t('layout.support_pier') }}">
+                    aria-label="{{ t('layout.support_moonships') }}">
                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"/></svg>
             </button>
             <!-- Language switcher -->
