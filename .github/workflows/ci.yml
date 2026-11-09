@@ -44,5 +44,5 @@ jobs:
       - name: Check workspace
         run: cargo check --workspace --locked
 
-      - name: Run core library unit tests
-        run: cargo test -p pier-core --lib --locked
+      - name: Run core binary tests
+        run: cargo test -p pier-core --bin pier --locked
