@@ -1,3 +1,5 @@
+> **Archivierte Upstream-Referenz — keine MOONSHIPS-Dokumentation.** Diese Übersetzung stammt aus dem ursprünglichen Pier-Projekt und wird nur als historische Referenz aufbewahrt. Sie beschreibt weder die aktuelle MOONSHIPS-Installation noch die MOONSHIPS-Markenidentität. Aktuelle Informationen: [README](../../README.md) und [INSTALL](../../INSTALL.md).
+
 > Übersetzung von [README.md](../../README.md). Bei Abweichungen gilt die englische Version.
 
 <p align="center">
