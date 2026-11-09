@@ -4,7 +4,9 @@
     "bjo163_public_search_results": 142,
     "bridge_allah_org_search_results": 20,
     "unique_union_repositories": 162,
-    "priority_repositories_metadata_added": 16
+    "priority_repositories_metadata_added": 16,
+    "metadata_api_coverage": 21,
+    "coverage_note": "This snapshot currently includes 5 initial sample repositories plus all 16 priority repositories. It is not yet full metadata coverage for all 162 unique repositories. Fields are whatever GitHub repository API exposed; language may be null even for multi-language repositories, and license null/NOASSERTION is not a legal conclusion."
   },
   "repositories": [
     {
