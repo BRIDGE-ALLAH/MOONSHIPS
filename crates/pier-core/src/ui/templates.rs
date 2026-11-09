@@ -171,7 +171,7 @@ mod tests {
             ),
             (
                 "settings/updates.html",
-                "Manage Pier version and update preferences",
+                "Manage MOONSHIPS version and update preferences",
             ),
             (
                 "account/security.html",
