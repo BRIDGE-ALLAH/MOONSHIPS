@@ -1,0 +1,80 @@
+/* MOONSHIPS Brand System v1 — Space Punk / Underground Future.
+   Canonical tokens: branding/brand-tokens.json
+   Keep operational UI legible; campaign texture belongs outside dense workflows. */
+:root {
+  color-scheme: light;
+  --ms-void: #090B10;
+  --ms-carbon: #151922;
+  --ms-paper: #F4F1E8;
+  --ms-chalk: #FFFDF7;
+  --ms-acid: #C7F464;
+  --ms-orbit: #69D8F2;
+  --ms-ultraviolet: #9B8CFF;
+  --ms-riot: #FF6B4A;
+  --ms-muted: #9299A6;
+  --ms-focus: #8FCB36;
+}
+html.dark { color-scheme: dark; }
+.ms-shell-header {
+  position: relative;
+  isolation: isolate;
+}
+.ms-shell-header::after {
+  content: "";
+  position: absolute;
+  inset: auto 0 -1px;
+  height: 2px;
+  pointer-events: none;
+  background: linear-gradient(90deg, var(--ms-acid) 0%, var(--ms-orbit) 38%, var(--ms-ultraviolet) 72%, transparent 100%);
+  opacity: .78;
+}
+.ms-brand-wordmark {
+  font-family: 'Allerta Stencil', ui-sans-serif, system-ui, sans-serif;
+  letter-spacing: .075em;
+}
+.ms-brand-kicker {
+  color: var(--ms-muted);
+  font: 700 .65rem/1.2 ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: .16em;
+  text-transform: uppercase;
+}
+.ms-brand-signal {
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+}
+.ms-brand-signal::before {
+  content: "";
+  width: .42rem;
+  height: .42rem;
+  flex: none;
+  border-radius: 1px;
+  background: var(--ms-acid);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--ms-acid) 18%, transparent);
+  transform: rotate(45deg);
+}
+.ms-auth-card {
+  border-top: 2px solid var(--ms-acid) !important;
+}
+.ms-primary-action {
+  background: var(--ms-acid) !important;
+  color: var(--ms-void) !important;
+  font-weight: 750 !important;
+  letter-spacing: .015em;
+  transition: filter 150ms ease, transform 150ms ease;
+}
+.ms-primary-action:hover:not(:disabled) {
+  filter: brightness(.94);
+}
+.ms-primary-action:active:not(:disabled) {
+  transform: translateY(1px);
+}
+.ms-brand-focus:focus-visible,
+.ms-primary-action:focus-visible {
+  outline: 2px solid var(--ms-orbit);
+  outline-offset: 3px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .ms-primary-action { transition: none; }
+  .ms-primary-action:active:not(:disabled) { transform: none; }
+}
