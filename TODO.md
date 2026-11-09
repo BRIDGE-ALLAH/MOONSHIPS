@@ -330,7 +330,7 @@ For each task:
 7. Generate a report listing remaining Pier references grouped into intentional runtime compatibility vs public-facing regression.
 
 ### ACCEPTANCE CRITERIA
-- [x] CI branding scan passes on the candidate branch (run 42592051587, commit f533eac8b3de20bd6e500636acec64e404bc1f99).
+- [x] CI branding scan passes on the latest candidate commit `0b50cf3abbdba6a5ae54911b5694d4cc0bacfb5e` (run [42593077084](https://github.com/BRIDGE-ALLAH/MOONSHIPS/actions/runs/42593077084)); branding unit tests also pass.
 - [x] Every remaining Pier match is either removed from public copy or documented in the path-scoped compatibility allowlist with reason and owner.
 - [ ] No public title, header, support link, installer banner, README hero, OG metadata, or release URL points to the old product identity.
 - [ ] Legacy runtime identifiers remain unchanged and are covered by compatibility tests.
@@ -955,7 +955,7 @@ Every new task must use this exact structure:
 ### Execution evidence and remaining external blocker
 
 - Source/docs/UI/installer/locale/assets branding changes are implemented on `rebrand/moonships-full-brand`; Open Graph image references use an absolute raw-GitHub URL so social crawlers can resolve the image after merge.
-- The branding gate, its unit tests, release-gate tests, shell syntax, Rust formatting, workspace check, and core binary tests passed on commit `f533eac8b3de20bd6e500636acec64e404bc1f99`.
-- A clean Docker build was still running at the time of this update; its result must be checked on the final commit.
-- **External repository metadata is not complete:** `GET /repos/BRIDGE-ALLAH/MOONSHIPS` reports `homepage=https://pier.team`. The connected GitHub integration exposes repository metadata as read-only and has no repository-settings write action. A repository administrator must clear that website field or replace it with the official MOONSHIPS website. The repository description should also be updated to begin with `MOONSHIPS —`.
-- Branch-protection enforcement of the branding check cannot be verified with the current connection. Do not mark P1-06 complete until repository homepage/description and required-check enforcement are confirmed.
+- The branding gate, its unit tests, release-gate tests, shell syntax, Rust formatting, workspace check, and core binary tests passed on commit `0b50cf3abbdba6a5ae54911b5694d4cc0bacfb5e` in [CI run 42593077084](https://github.com/BRIDGE-ALLAH/MOONSHIPS/actions/runs/42593077084). The Docker image clean build also completed successfully in that same run.
+- **Repository homepage updated and verified:** `GET /repos/BRIDGE-ALLAH/MOONSHIPS` now reports `homepage=https://moonwitness.biz.id`; the old `https://pier.team` homepage is no longer configured.
+- **Repository description formatting remains outstanding:** the current description is `Moonships`; update it to begin with `MOONSHIPS —` and retain a concise product summary. The connected GitHub integration has no repository-settings write action, so this field cannot be changed from this session.
+- Branch-protection enforcement of the branding check cannot be verified with the current connection. Keep P1-06 open until the description format and required-check enforcement are confirmed. The PR remains open and has not been merged.
