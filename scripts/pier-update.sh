@@ -26,7 +26,7 @@ REQUEST=/opt/pier/data/update-request
 STATE_DIR=/var/lib/pier-updater
 STATUS="${STATE_DIR}/status.json"
 LOG="${STATE_DIR}/last.log"
-REPO="${PIER_UPDATE_REPO:-BRIDGE-ALLAH/MOONSHIPS}"
+REPO="${PIER_UPDATE_REPO:-BRIDGE-ALLAH/MW}"
 REF="${PIER_UPDATE_REF:-main}"
 
 # Consume the request first: the path unit uses PathExists=, so a request left
