@@ -7,11 +7,11 @@ set -euo pipefail
 # as a systemd service on a fresh Ubuntu/Debian server.
 #
 # Usage:
-#   curl -fsSL https://raw.githubusercontent.com/BRIDGE-ALLAH/MOONSHIPS/main/scripts/bootstrap.sh | sudo bash
-#   curl -fsSL https://raw.githubusercontent.com/BRIDGE-ALLAH/MOONSHIPS/main/scripts/bootstrap.sh | sudo bash -s -- --port 9000
+#   curl -fsSL https://raw.githubusercontent.com/BRIDGE-ALLAH/MW/main/scripts/bootstrap.sh | sudo bash
+#   curl -fsSL https://raw.githubusercontent.com/BRIDGE-ALLAH/MW/main/scripts/bootstrap.sh | sudo bash -s -- --port 9000
 #
 # Or directly:
-#   curl -fsSL https://raw.githubusercontent.com/BRIDGE-ALLAH/MOONSHIPS/main/scripts/bootstrap.sh | sudo bash
+#   curl -fsSL https://raw.githubusercontent.com/BRIDGE-ALLAH/MW/main/scripts/bootstrap.sh | sudo bash
 #
 # This script:
 #   1. Installs Docker CE + Compose plugin (if missing)
@@ -25,7 +25,7 @@ set -euo pipefail
 # PIER_SKIP_FIREWALL=1 (honoured by install.sh).
 # ============================================================================
 
-REPO="BRIDGE-ALLAH/MOONSHIPS"
+REPO="BRIDGE-ALLAH/MW"
 REF="${PIER_REF:-main}"
 RELEASE_TAG="${PIER_RELEASE_TAG:-latest}"
 BINARY_NAME="pier-linux-amd64"
