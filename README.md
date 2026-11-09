@@ -17,6 +17,7 @@ This repository is the single long-term working home for the wider MW ecosystem.
 The ecosystem is being consolidated as a modular monorepo: one source of truth, explicit domain ownership, shared platform foundations, and multiple bounded product experiences. **ARSY is the designated highest technical control plane** for identity, trust, governance, system awareness, policy, and orchestration. Domain products retain their specialized responsibilities and must not create competing authorities.
 
 The consolidation is being tracked in:
+- [MW Universe OS Target Architecture](docs/MW_UNIVERSE_OS_BLUEPRINT.md)
 - [Ecosystem Consolidation Audit](docs/ECOSYSTEM_CONSOLIDATION_AUDIT.md)
 - [Ecosystem Repository Register](docs/ECOSYSTEM_REPOSITORY_REGISTER.md)
 - [Complete public bjo163 repository index](docs/ECOSYSTEM_PUBLIC_REPOSITORY_INDEX.md)
