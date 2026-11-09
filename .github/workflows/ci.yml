@@ -35,6 +35,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-cargo-ci-
 
+      - name: Check shell syntax
+        run: bash -n scripts/bootstrap.sh scripts/install.sh scripts/pier-update.sh
+
       - name: Check formatting
         run: cargo fmt --all -- --check
 
