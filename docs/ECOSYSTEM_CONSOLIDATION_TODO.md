@@ -351,3 +351,9 @@ A repository may be marked archive-eligible only after every retained capability
 - ARSY parity matrix added. It separates MW/Pier's current project RBAC from MOONWITNESS ARSY's single-operator token and signed deployment-operation controls, and from the legacy A-L-L-A-H.COM gateway lineage.
 - Source review confirms MW's AuthUser has no tenant/org field; its project membership/RBAC is not a general tenant hierarchy. MOONWITNESS ARSY currently maps deployment tenant_id to owner_id and uses one configured operator principal. These are distinct, concrete migration gaps.
 - Next implementation gate is typed ARSY contracts and deterministic project/owner-to-tenant mapping. No runtime auth, schema, database or API behavior changed in this pass.
+## 2026-11-10 ARSY contracts implementation increment
+
+- Added isolated workspace crate `crates/arsy-contracts` with transport-neutral serde models for principals, tenant scope, resources, authorization requests/decisions, capability grants, two-person approvals, operations and audit events.
+- Added structural validation and six unit tests. The contract requires explicit tenant scope, rejects self-approval, requires an idempotency key of at least eight characters, pins stable enum serialization and rejects unknown scope fields.
+- This is additive and does not modify existing authentication/session semantics, API routes, database schema, authorization decisions or production data. It does not claim signature verification or policy enforcement.
+- CI/build result for the new head is pending verification. If it fails, fix before expanding the integration surface.
