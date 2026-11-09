@@ -22,6 +22,13 @@ fn render(state: &SharedState, template: &str, ctx: minijinja::Value) -> PageRes
     Ok(Html(html).into_response())
 }
 
+// ── Public Marketing Page ───────────────────────────────────
+
+/// GET / and /welcome — public MOONSHIPS product landing page.
+pub async fn landing_page(State(state): State<SharedState>) -> PageResult {
+    render(&state, "landing.html", minijinja::context! {})
+}
+
 // ── Auth Pages ──────────────────────────────────────────────
 
 /// GET /login
