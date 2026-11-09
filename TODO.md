@@ -952,10 +952,27 @@ Every new task must use this exact structure:
 **Maintainer note:** Keep the backlog single-sourced. If a new finding overlaps an existing task, update that task's SPEC/RULE/DESIGN/ACCEPTANCE CRITERIA or add a clearly non-overlapping subtask; do not create duplicate tickets. P0/P1 precede feature work. All checks are automated and objective; no task is considered complete on a subjective human sign-off. No task authorizes production changes.
 
 
-### Execution evidence and remaining external blocker
+### Historical branding execution note — superseded by repository consolidation
 
-- Source/docs/UI/installer/locale/assets branding changes are implemented on `rebrand/moonships-full-brand`; Open Graph image references use an absolute raw-GitHub URL so social crawlers can resolve the image after merge.
-- The branding gate, its unit tests, release-gate tests, shell syntax, Rust formatting, workspace check, and core binary tests passed on commit `0b50cf3abbdba6a5ae54911b5694d4cc0bacfb5e` in [CI run 42593077084](https://github.com/BRIDGE-ALLAH/MOONSHIPS/actions/runs/42593077084). The Docker image clean build also completed successfully in that same run.
-- **Repository homepage updated and verified:** `GET /repos/BRIDGE-ALLAH/MOONSHIPS` now reports `homepage=https://moonwitness.biz.id`; the old `https://pier.team` homepage is no longer configured.
-- **Repository description formatting remains outstanding:** the current description is `Moonships`; update it to begin with `MOONSHIPS —` and retain a concise product summary. The connected GitHub integration has no repository-settings write action, so this field cannot be changed from this session.
-- Branch-protection enforcement of the branding check cannot be verified with the current connection. Keep P1-06 open until the description format and required-check enforcement are confirmed. The PR remains open and has not been merged.
+The earlier rebrand branch/PR and CI evidence below describe the pre-consolidation repository state. They are historical records only; they are not the current branch, merge, or CI status. The canonical repository is now `BRIDGE-ALLAH/MW`, and current work is tracked in [Issue #18](https://github.com/BRIDGE-ALLAH/MW/issues/18).
+
+### Current execution evidence — 2026-11-09
+
+- [x] Canonical repository identity is `BRIDGE-ALLAH/MW`; MOONSHIPS remains the infrastructure product identity inside MW.
+- [x] Repository clone instructions, README links, Cargo metadata and selected installer/updater references were aligned to MW in the main branch.
+- [x] Branding inventory was updated to recognize intentional Pier/MOONSHIPS references in ecosystem audit/security documents without removing those references.
+- [x] Stale raw-GitHub Open Graph asset references in the branding inventory were corrected to `BRIDGE-ALLAH/MW`.
+- [x] Branding consistency gate passed on CI run [42631664698](https://github.com/BRIDGE-ALLAH/MW/actions/runs/42631664698) for commit `0a1dd77a02faa56497e3015f388fa398e164afca`.
+- [x] Branding gate tests, brand-system tests, release-gate policy tests, shell syntax checks and Rust formatting passed in that run.
+- [x] Deep source audit, federation security review, gateway fixture review, and upstream lineage verification were added under `docs/` and linked from README.
+- [ ] Workspace `cargo check`, core binary tests, and Docker image build were still running when this status snapshot was recorded; do not treat them as passed until the workflow run completes successfully.
+- [ ] Full route-to-permission and tenant-ownership parity matrix remains open.
+- [ ] Federation TLS certificate validation and WebSocket token exposure remain P0 integration blockers; see [Federation Security Review](docs/FEDERATION_SECURITY_REVIEW_2026-11-09.md).
+- [ ] Peer endpoint URL validation, redirect policy, DNS rebinding and SSRF tests remain open.
+- [ ] Gateway dummy IDP private-key fixture packaging and secret-scan review remain open; no gateway source import is approved.
+- [ ] Exact upstream commit ancestry, third-party notices, dependency license scan and build reproducibility remain open for all candidate repositories.
+- [ ] No ecosystem source code has been imported into MW as part of this audit.
+- [ ] No source repositories have been deleted, archived or modified.
+- [ ] No production deployment, production configuration change, destructive migration or history rewrite has been performed.
+
+**Safety rule:** a passed branding check is not a passed security review or a completed ecosystem consolidation. Only checkboxes backed by the exact CI run, source SHA, test output and required provenance evidence may be marked complete.
