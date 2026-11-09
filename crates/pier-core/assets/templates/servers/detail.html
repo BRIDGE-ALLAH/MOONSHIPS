@@ -510,7 +510,7 @@ function serverDetail(serverId) {
                     throw new Error(err.error || '{{ t('servers_detail.err_bundle_export') }}');
                 }
                 const blob = await res.blob();
-                const fname = 'pier-bundle-' + (this.server.name || this.serverId).replace(/[^a-z0-9-]+/gi, '_') + '.json';
+                const fname = 'moonships-bundle-' + (this.server.name || this.serverId).replace(/[^a-z0-9-]+/gi, '_') + '.json';
                 const a = document.createElement('a');
                 a.href = URL.createObjectURL(blob);
                 a.download = fname;
