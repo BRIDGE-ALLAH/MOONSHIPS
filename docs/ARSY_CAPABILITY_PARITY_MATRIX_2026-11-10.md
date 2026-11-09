@@ -89,12 +89,26 @@ Expected result: no cross-tenant read/write, no owner bypass, no self-approval w
 ### Gate D — release
 Clean-checkout Rust build/tests, PostgreSQL contract integration, migration forward/backward rehearsal, backup/restore, API compatibility, tenant negative tests, secret/license scans and operator runbook.
 
-## 6. First implementation increment (additive, no runtime behavior change)
+
+## 6.1 Additive SQLite tenant foundation (migration 73)
+
+The audit branch now adds migration 73 in `crates/pier-core/src/db/schema.rs`:
+
+- `tenants`: tenant registry with active/suspended/archived lifecycle.
+- `tenant_members`: explicit user membership and owner/admin/member role.
+- `project_tenants`: one tenant mapping per existing project, with provenance (`legacy_backfill`, `operator_assignment`, `migration`).
+- Existing users are backfilled into `legacy-default`; their tenant role is mapped from the existing typed global role (owner/admin/user → owner/admin/member).
+- Existing projects are mapped to `legacy-default` with `legacy_backfill` provenance.
+- All writes use additive table creation and `INSERT OR IGNORE`; no existing user/project row is rewritten or deleted.
+
+Three focused SQLite tests cover role and project backfill, idempotent replay, and an empty installation. This migration is intentionally data-foundation only: current AuthUser, routes, SQL query scoping and RBAC behavior remain unchanged. Before multi-tenant enforcement, add explicit operator assignment and conflict checks, tenant-aware AuthUser propagation, route-level tenant predicates, and cross-tenant negative tests. Do not interpret the legacy default tenant as proof that historical projects were independently tenant-isolated.
+
+## 7. First implementation increment (additive, no runtime behavior change)
 
 The audit branch now contains `crates/arsy-contracts` as an isolated Rust workspace crate. It defines serde contracts for principal, tenant scope, resource, authorization request/decision, signed capability grant, two-person approval, operation envelope and audit event. Structural validation is explicit; self-approval and missing tenant scope are rejected. Unit tests cover mandatory tenant context, explicit scope, self-approval, idempotency-key length, stable principal serialization and strict unknown-field rejection.
 
 This crate does **not** authenticate users, evaluate policy, verify cryptographic signatures, connect to SQLite/PostgreSQL, alter existing routes or change the current login/session behavior. Its first use is a typed boundary for subsequent integration. CI must pass before this increment is treated as accepted.
 
-## 7. Current decision
+## 8. Current decision
 
 **Do not wholesale port either Fastify application.** Keep MW/Pier as the live operational baseline; use MOONWITNESS ARSY as the stronger reference for signed deployment authorization and durable operations; use A-L-L-A-H.COM as a legacy source only, with its LLM gateway quarantined. First implementation increment is the versioned ARSY contract and tenant mapping, not a new login system or database replacement.
