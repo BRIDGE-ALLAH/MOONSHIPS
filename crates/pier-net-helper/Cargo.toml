@@ -3,7 +3,7 @@ name = "pier-net-helper"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
-description = "Pier — privileged network helper (WireGuard mesh setup on the host)"
+description = "MOONSHIPS — privileged network helper (WireGuard mesh setup on the host)"
 
 [[bin]]
 name = "pier-net-helper"
