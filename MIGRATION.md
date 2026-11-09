@@ -28,7 +28,7 @@ Changing only one of these values can prevent service startup, break SQLite acce
 
 The installer automatically creates a root-only pre-upgrade backup under /var/backups/moonships/pre-upgrade-XXXXXX before replacing any existing binary or service unit. It copies /opt/pier/data (including SQLite WAL sidecars), /opt/pier/.env, /opt/pier/bin, and the existing Pier systemd units. A backup failure aborts the upgrade before replacement. Docker volumes are not part of /opt/pier/data; a VPS/provider snapshot remains strongly recommended.
 
-    git clone https://github.com/BRIDGE-ALLAH/MOONSHIPS.git
+    git clone https://github.com/BRIDGE-ALLAH/MW.git
     cd MOONSHIPS
     cargo build --release --package pier-core
     sudo cp /opt/pier/bin/pier /opt/pier/bin/pier.pre-moonships
