@@ -9,6 +9,20 @@ MOONSHIPS brings applications, containers, Docker Compose stacks, databases, dom
 
 MOONSHIPS is a separately branded derivative of the Pier codebase. Upstream copyright and license notices are retained. The archived `UPSTREAM-PIER-*` documents are historical upstream legal references; they are not MOONSHIPS contributor agreements or MOONSHIPS trademark policy.
 
+
+## MW Universe OS — the canonical ecosystem repository
+
+This repository is the single long-term working home for the wider MW ecosystem. MOONSHIPS remains the infrastructure operations product identity; **MW** is the canonical repository and ecosystem workspace.
+
+The ecosystem is being consolidated as a modular monorepo: one source of truth, explicit domain ownership, shared platform foundations, and multiple bounded product experiences. **ARSY is the designated highest technical control plane** for identity, trust, governance, system awareness, policy, and orchestration. Domain products retain their specialized responsibilities and must not create competing authorities.
+
+The consolidation is being tracked in:
+- [Ecosystem Consolidation Audit](docs/ECOSYSTEM_CONSOLIDATION_AUDIT.md)
+- [Ecosystem Repository Register](docs/ECOSYSTEM_REPOSITORY_REGISTER.md)
+
+These documents distinguish verified implementation from prototypes, plans, legacy sources, and unresolved candidates. No legacy repository is considered migrated or safe to archive merely because it appears in the register.
+
+
 ## What you can do
 - **Deploy applications:** Git-based deployments, Dockerfiles, images, Compose, and Railpack auto-builds.
 - **Operate containers:** lifecycle, logs, stats, networks, and images.
@@ -22,7 +36,7 @@ MOONSHIPS is a separately branded derivative of the Pier codebase. Upstream copy
 ### Build and install from source
 Requirements: Linux, Docker Engine, Docker Compose plugin, Git, curl, and Rust 1.93+.
 
-    git clone https://github.com/BRIDGE-ALLAH/MOONSHIPS.git
+    git clone https://github.com/BRIDGE-ALLAH/MW.git
     cd MOONSHIPS
     cargo build --release --package pier-core
     sudo bash scripts/install.sh --binary target/release/pier
