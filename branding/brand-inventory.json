@@ -2,10 +2,10 @@
   "schema_version": 1,
   "brand": {
     "name": "MOONSHIPS",
-    "repository_url": "https://github.com/BRIDGE-ALLAH/MOONSHIPS",
-    "issues_url": "https://github.com/BRIDGE-ALLAH/MOONSHIPS/issues",
-    "security_url": "https://github.com/BRIDGE-ALLAH/MOONSHIPS/security/advisories/new",
-    "release_url": "https://github.com/BRIDGE-ALLAH/MOONSHIPS/releases"
+    "repository_url": "https://github.com/BRIDGE-ALLAH/MW",
+    "issues_url": "https://github.com/BRIDGE-ALLAH/MW/issues",
+    "security_url": "https://github.com/BRIDGE-ALLAH/MW/security/advisories/new",
+    "release_url": "https://github.com/BRIDGE-ALLAH/MW/releases"
   },
   "scan_targets": [
     "README.md",
