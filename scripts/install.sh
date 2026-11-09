@@ -27,6 +27,14 @@ info()  { echo -e "${GREEN}[INFO]${NC}  $*"; }
 warn()  { echo -e "${YELLOW}[WARN]${NC}  $*"; }
 error() { echo -e "${RED}[ERROR]${NC} $*"; exit 1; }
 
+abort_backup() {
+    if [[ "${UPGRADE:-false}" == true ]]; then
+        warn "Pre-upgrade backup failed; restarting the untouched Pier service..."
+        systemctl start pier || warn "Could not restart the existing Pier service automatically."
+    fi
+    error "$1"
+}
+
 # ── Parse arguments ──────────────────────────────────────────────────────────
 
 BINARY_PATH=""
@@ -203,20 +211,20 @@ if [[ "$LEGACY_PRESENT" == true && "\${PIER_SKIP_BACKUP:-0}" != "1" ]]; then
     info "Creating pre-upgrade backup at \${BACKUP_DIR}..."
     if [[ -d "$PIER_DATA" ]]; then
         cp -a "$PIER_DATA" "\${BACKUP_DIR}/data" \
-            || error "Could not back up \${PIER_DATA}; upgrade cancelled before replacing the old installation."
+            || abort_backup "Could not back up \${PIER_DATA}; upgrade cancelled before replacing the old installation."
     fi
     if [[ -f "$PIER_ENV" ]]; then
         cp -a "$PIER_ENV" "\${BACKUP_DIR}/.env" \
-            || error "Could not back up \${PIER_ENV}; upgrade cancelled before replacing the old installation."
+            || abort_backup "Could not back up \${PIER_ENV}; upgrade cancelled before replacing the old installation."
     fi
     if [[ -d "\${PIER_DIR}/bin" ]]; then
         cp -a "\${PIER_DIR}/bin" "\${BACKUP_DIR}/bin" \
-            || error "Could not back up existing binaries; upgrade cancelled before replacing the old installation."
+            || abort_backup "Could not back up existing binaries; upgrade cancelled before replacing the old installation."
     fi
     for unit in pier.service pier-net-helper.service pier-updater.service pier-updater.path; do
         if [[ -f "/etc/systemd/system/\${unit}" ]]; then
             cp -a "/etc/systemd/system/\${unit}" "\${BACKUP_DIR}/\${unit}" \
-                || error "Could not back up \${unit}; upgrade cancelled before replacing the old installation."
+                || abort_backup "Could not back up \${unit}; upgrade cancelled before replacing the old installation."
         fi
     done
     info "Pre-upgrade backup complete: \${BACKUP_DIR}"
