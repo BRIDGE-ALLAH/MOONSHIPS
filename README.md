@@ -20,6 +20,7 @@ The consolidation is being tracked in:
 - [MW Universe OS Target Architecture](docs/MW_UNIVERSE_OS_BLUEPRINT.md)
 - [Ecosystem Consolidation TODO](docs/ECOSYSTEM_CONSOLIDATION_TODO.md)
 - [Ecosystem Consolidation Audit](docs/ECOSYSTEM_CONSOLIDATION_AUDIT.md)
+- [BRIDGE-ALLAH organization repository audit (2026-11-09)](docs/ECOSYSTEM_ORG_REPOSITORY_AUDIT_2026-11-09.md)
 - [Ecosystem Repository Register](docs/ECOSYSTEM_REPOSITORY_REGISTER.md)
 - [Complete public bjo163 repository index](docs/ECOSYSTEM_PUBLIC_REPOSITORY_INDEX.md)
 
