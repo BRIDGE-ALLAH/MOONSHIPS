@@ -127,6 +127,10 @@ pub struct AuthUser {
     /// Typed system role used by RBAC guards and policy checks. Populated
     /// from `users.global_role` (or synthesised for peer-token requests).
     pub global_role: GlobalRole,
+    /// Tenant resolved from exactly one active membership. None means missing
+    /// or ambiguous membership and must be treated as unscoped by tenant-aware
+    /// handlers; peer principals intentionally have no tenant.
+    pub tenant_id: Option<String>,
     /// ID of the session cookie this request authenticated with. Lets handlers
     /// distinguish "current session" from other active sessions (e.g. to avoid
     /// revoking the caller's own session in /account/sessions).
@@ -137,6 +141,27 @@ pub struct AuthUser {
     /// federation header rather than a local user credential. Peer requests
     /// bypass project-membership checks but cannot mutate user records.
     pub is_peer: bool,
+}
+
+
+/// Resolve a request tenant only when the user has exactly one membership.
+/// Zero or multiple memberships are deliberately unscoped until an explicit
+/// tenant-selection mechanism is introduced; callers must not guess.
+pub(crate) fn resolve_tenant_id(
+    conn: &rusqlite::Connection,
+    user_id: &str,
+) -> rusqlite::Result<Option<String>> {
+    let mut stmt = conn.prepare(
+        "SELECT tenant_id FROM tenant_members WHERE user_id = ?1 ORDER BY tenant_id LIMIT 2",
+    )?;
+    let tenants = stmt
+        .query_map([user_id], |row| row.get::<_, String>(0))?
+        .collect::<rusqlite::Result<Vec<_>>>()?;
+    Ok(if tenants.len() == 1 {
+        tenants.into_iter().next()
+    } else {
+        None
+    })
 }
 
 /// Middleware that checks for a valid session cookie OR a peer-core bearer token.
@@ -204,6 +229,7 @@ pub async fn require_auth(
                 // but are filtered out of user-management routes by the
                 // `is_peer` flag in `rbac::policy::can`.
                 global_role: GlobalRole::Admin,
+                tenant_id: None,
                 session_id: String::new(),
                 is_peer: true,
             });
@@ -292,11 +318,13 @@ pub async fn require_auth(
                     return Ok(None);
                 };
                 if password::verify_password(&basic_pass, &hash)? {
+                    let tenant_id = resolve_tenant_id(&db, &id)?;
                     Ok(Some(AuthUser {
                         id,
                         username,
                         role,
                         global_role: GlobalRole::parse(&global_role).unwrap_or(GlobalRole::User),
+                        tenant_id,
                         session_id: String::new(),
                         is_peer: false,
                     }))
@@ -393,6 +421,7 @@ pub async fn require_auth(
                             role: row.get(2)?,
                             global_role: GlobalRole::parse(&global_role_str)
                                 .unwrap_or(GlobalRole::User),
+                            tenant_id: None,
                             session_id: sid.clone(),
                             is_peer: false,
                         },
@@ -400,7 +429,9 @@ pub async fn require_auth(
                     ))
                 },
             );
-            if let Ok((user, stored_ua)) = result {
+            if let Ok((mut user, stored_ua)) = result {
+                user.tenant_id = resolve_tenant_id(&db, &user.id)
+                    .map_err(|e| anyhow::anyhow!("tenant membership lookup failed: {e}"))?;
                 // Device binding: if the request's UA fingerprint no longer
                 // matches the one the session was minted with, the cookie is
                 // being replayed from a different browser/OS — revoke it rather
@@ -629,6 +660,30 @@ fn login_redirect_for_path(path_and_query: &str) -> String {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn tenant_resolution_fails_closed_for_missing_or_ambiguous_membership() {
+        let db = rusqlite::Connection::open_in_memory().unwrap();
+        db.execute_batch(
+            "CREATE TABLE tenant_members (
+                tenant_id TEXT NOT NULL,
+                user_id TEXT NOT NULL
+             );
+             INSERT INTO tenant_members (tenant_id, user_id)
+             VALUES ('tenant-a', 'one-tenant'),
+                    ('tenant-a', 'multi-tenant'),
+                    ('tenant-b', 'multi-tenant');",
+        )
+        .unwrap();
+
+        assert_eq!(resolve_tenant_id(&db, "no-membership").unwrap(), None);
+        assert_eq!(
+            resolve_tenant_id(&db, "one-tenant").unwrap(),
+            Some("tenant-a".to_string())
+        );
+        assert_eq!(resolve_tenant_id(&db, "multi-tenant").unwrap(), None);
+    }
+
+
     use super::*;
 
     #[test]
