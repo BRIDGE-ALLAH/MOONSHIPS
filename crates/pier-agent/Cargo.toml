@@ -3,7 +3,7 @@ name = "pier-agent"
 version.workspace = true
 edition.workspace = true
 license.workspace = true
-description = "Pier — remote server agent for monitoring and Docker operations"
+description = "MOONSHIPS — remote server agent for monitoring and Docker operations"
 
 [[bin]]
 name = "pier-agent"
