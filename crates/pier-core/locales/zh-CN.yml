@@ -103,7 +103,7 @@ dashboard:
 
 # Shared auth-page chrome (auth_base.html).
 auth:
-  tagline: 部署一切，掌控一切。
+  tagline: 你的基础设施，由你做主。
 
 # First-run admin setup (setup.html).
 setup:
