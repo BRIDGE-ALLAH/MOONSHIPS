@@ -41,6 +41,20 @@ jobs:
       - name: Check shell syntax
         run: bash -n scripts/bootstrap.sh scripts/install.sh scripts/pier-update.sh
 
+      - name: Check MOONSHIPS brand consistency
+        run: python3 scripts/check_branding.py --report branding-scan-report.json
+
+      - name: Test branding gate
+        run: python3 -m unittest discover -s scripts -p 'test_branding.py'
+
+      - name: Upload branding audit report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: branding-audit-${{ github.sha }}
+          path: branding-scan-report.json
+          if-no-files-found: ignore
+
       - name: Check formatting
         run: cargo fmt --all -- --check
 
