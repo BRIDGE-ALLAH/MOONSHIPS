@@ -198,3 +198,17 @@ A copied README or plan is not a migrated capability.
 - No claims of completed migration, feature parity or production readiness without tests.
 - No automatic source archival.
 - Preserve upstream licenses, NOTICE files, copyrights, trademarks and provenance.
+
+
+## 12. Additional baseline findings from the MW repository itself
+
+A second pass inspected the current MW TODO, Cargo workspace manifest, and MOONWITNESS platform ownership map.
+
+- MW already has a detailed 61 KB engineering backlog. Its opening section is still titled **MOONSHIPS — Consolidated Engineering Backlog**, and its metadata says branch `rebrand/moonships-full-brand`. That branch label is stale relative to the renamed repository's current `main` default branch and should be corrected only after checking the actual TODO ownership/status convention.
+- The root Cargo workspace still declares `repository = https://github.com/BRIDGE-ALLAH/MOONSHIPS`. This is a stale repository metadata reference after the rename; it should become `https://github.com/BRIDGE-ALLAH/MW` in a small metadata-only change.
+- README installation instructions still clone `BRIDGE-ALLAH/MOONSHIPS.git`. GitHub may redirect this URL, but canonical documentation should use `BRIDGE-ALLAH/MW.git`.
+- The existing MW backlog is intentionally rigorous about preserving Pier runtime identifiers, AGPL-3.0 obligations, customer data, and no unattended destructive production operations. These constraints remain binding during consolidation.
+- MOONWITNESS has a detailed capability ownership map (document 33) that already assigns ARSY the control-plane role for caller identity, authorization, policy/approval integration, orchestration and canonical audit. It also states HEADQUARTER is the operator UI, Docker connector is read-only, and queue transport is not business truth. This work must be reconciled into MW's architecture rather than recreated from scratch.
+- MOONWITNESS ownership map records an existing Docker workload ownership ADR and multiple tracked issues. Reuse these decisions as migration inputs after validating their source commit and current status; do not open duplicate implementation work without comparing existing issue/PR state.
+
+These are documentation/metadata alignment findings only. No runtime compatibility identifiers, services, paths, database schema, or deployment behavior were changed.
