@@ -33,7 +33,8 @@
     "scripts/pier-update.sh",
     "scripts/pier.service",
     "scripts/pier-net-helper.service",
-    "docs"
+    "docs",
+    "crates/pier-core/assets/static/moonships-og-banner.svg"
   ],
   "locale_files": [
     "crates/pier-core/locales/en.yml",
@@ -79,6 +80,20 @@
       "path": "crates/pier-core/assets/static/moonships-logo.svg",
       "must_contain_brand": true,
       "references": []
+    },
+    {
+      "path": "crates/pier-core/assets/static/moonships-og-banner.svg",
+      "must_contain_brand": true,
+      "references": [
+        {
+          "path": "crates/pier-core/assets/templates/base.html",
+          "needle": "/static/moonships-og-banner.svg"
+        },
+        {
+          "path": "crates/pier-core/assets/templates/auth_base.html",
+          "needle": "/static/moonships-og-banner.svg"
+        }
+      ]
     }
   ],
   "allowlist": [
