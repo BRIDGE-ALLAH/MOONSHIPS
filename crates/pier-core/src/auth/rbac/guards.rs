@@ -139,6 +139,24 @@ pub fn enforce_resource_role(
     enforce_project_role(user, &project_id, min, &db)
 }
 
+
+fn project_belongs_to_tenant(
+    conn: &Connection,
+    project_id: &str,
+    tenant_id: &str,
+) -> rusqlite::Result<bool> {
+    use rusqlite::OptionalExtension;
+
+    let mapped: Option<String> = conn
+        .query_row(
+            "SELECT tenant_id FROM project_tenants WHERE project_id = ?1",
+            [project_id],
+            |row| row.get(0),
+        )
+        .optional()?;
+    Ok(mapped.as_deref() == Some(tenant_id))
+}
+
 /// Look up the caller's effective role within `project_id` and return it,
 /// or fail with 403 if the role is below `min`. The DB connection is
 /// short-lived — we open it inside the helper so handlers don't need to
@@ -159,6 +177,21 @@ pub fn enforce_project_role(
             role: ProjectRole::Admin,
             via_global_admin: true,
         });
+    }
+
+    let tenant_id = user.tenant_id.as_deref().ok_or_else(|| {
+        AppError::Forbidden(crate::i18n::te_args(
+            "errors.rbac.not_project_member",
+            &[("v", project_id)],
+        ))
+    })?;
+    let in_tenant = project_belongs_to_tenant(conn, project_id, tenant_id)
+        .map_err(|e| AppError::Internal(anyhow::anyhow!("project tenant lookup: {e}")))?;
+    if !in_tenant {
+        return Err(AppError::Forbidden(crate::i18n::te_args(
+            "errors.rbac.not_project_member",
+            &[("v", project_id)],
+        )));
     }
 
     let role = membership::role_for(conn, &user.id, project_id)
@@ -182,4 +215,25 @@ pub fn enforce_project_role(
         role,
         via_global_admin: false,
     })
+}
+
+
+#[cfg(test)]
+mod tenant_tests {
+    use super::*;
+
+    #[test]
+    fn project_tenant_check_denies_cross_tenant_and_unmapped_projects() {
+        let db = Connection::open_in_memory().unwrap();
+        db.execute_batch(
+            "CREATE TABLE project_tenants (project_id TEXT PRIMARY KEY, tenant_id TEXT NOT NULL);
+             INSERT INTO project_tenants (project_id, tenant_id)
+             VALUES ('project-a', 'tenant-a'), ('project-b', 'tenant-b');",
+        )
+        .unwrap();
+
+        assert!(project_belongs_to_tenant(&db, "project-a", "tenant-a").unwrap());
+        assert!(!project_belongs_to_tenant(&db, "project-a", "tenant-b").unwrap());
+        assert!(!project_belongs_to_tenant(&db, "unmapped-project", "tenant-a").unwrap());
+    }
 }
