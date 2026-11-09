@@ -1,4 +1,4 @@
-<p align="center"><img src="crates/pier-core/assets/static/moonships-logo.svg" alt="MOONSHIPS — Your Infrastructure. Your Rules. Your Universe." width="640"></p>
+<p align="center"><img src="docs/og-banner.svg" alt="MOONSHIPS — Your Infrastructure. Your Rules. Your Universe." width="640"></p>
 
 **An open-source, self-hosted platform for deploying and operating infrastructure you control.**
 
