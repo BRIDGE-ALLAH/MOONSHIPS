@@ -2,8 +2,8 @@
 set -euo pipefail
 
 # ============================================================================
-# Pier PaaS — Install Script
-# Installs Pier as a native systemd service on Linux (Ubuntu/Debian/RHEL)
+# MOONSHIPS — Install Script
+# Installs MOONSHIPS as a native systemd service on Linux (Ubuntu/Debian/RHEL)
 # Usage:
 #   sudo bash install.sh --binary /path/to/pier
 #   sudo bash install.sh --binary ./target/release/pier
@@ -177,7 +177,7 @@ fi
 UPGRADE=false
 if systemctl is-active --quiet pier 2>/dev/null; then
     UPGRADE=true
-    info "Existing Pier installation detected — upgrading..."
+    info "Existing Pier installation detected — upgrading in place for MOONSHIPS..."
     systemctl stop pier
 fi
 
@@ -302,7 +302,7 @@ if [[ -f "$HELPER_SRC" ]]; then
     install -m755 "$HELPER_SRC" "$HELPER_BIN"
     info "Installed pier-net-helper from $HELPER_SRC"
 elif curl -fsSL -o "$HELPER_BIN" \
-        "https://github.com/joveptesg/pier/releases/download/latest/pier-net-helper-linux-amd64" 2>/dev/null; then
+        "https://github.com/BRIDGE-ALLAH/MOONSHIPS/releases/download/latest/pier-net-helper-linux-amd64" 2>/dev/null; then
     chmod 0755 "$HELPER_BIN"
     info "Installed pier-net-helper from release"
 else
@@ -320,8 +320,8 @@ if [[ -x "$HELPER_BIN" ]]; then
     else
     cat > /etc/systemd/system/pier-net-helper.service <<'PIER_HELPER_UNIT_EOF'
 [Unit]
-Description=Pier Network Helper (privileged WireGuard mesh operations)
-Documentation=https://github.com/joveptesg/pier
+Description=MOONSHIPS Network Helper (privileged WireGuard mesh operations)
+Documentation=https://github.com/BRIDGE-ALLAH/MOONSHIPS
 After=network-pre.target
 Before=pier-agent.service pier.service
 
@@ -531,7 +531,7 @@ else
     info "Generating systemd unit"
     cat > "$PIER_SERVICE" <<EOF
 [Unit]
-Description=Pier PaaS
+Description=MOONSHIPS
 After=network.target docker.service pier-net-helper.service
 Requires=docker.service
 # Pull the privileged helper up with pier. Self-update and mesh ops go
@@ -588,10 +588,10 @@ systemctl enable pier
 
 if [[ "$UPGRADE" == true ]]; then
     systemctl start pier
-    info "Pier upgraded and restarted"
+    info "MOONSHIPS upgraded and restarted"
 else
     systemctl start pier
-    info "Pier installed and started"
+    info "MOONSHIPS installed and started"
 fi
 
 # ── Wait for startup ─────────────────────────────────────────────────────────
@@ -612,9 +612,9 @@ done
 if [[ "$PIER_READY" != true ]]; then
     if ! systemctl is-active --quiet pier; then
         echo ""
-        error "Pier failed to start. Check logs: journalctl -u pier --no-pager -n 50"
+        error "MOONSHIPS failed to start. Check logs: journalctl -u pier --no-pager -n 50"
     fi
-    warn "Pier process is running but did not respond on :${PIER_PORT} within 30s — continuing anyway"
+    warn "MOONSHIPS process is running but did not respond on :${PIER_PORT} within 30s — continuing anyway"
 fi
 
 # ── Firewall (ufw) ───────────────────────────────────────────────────────────
@@ -671,7 +671,7 @@ fi
 
 echo ""
 echo -e "${GREEN}════════════════════════════════════════════════════════════${NC}"
-echo -e "${GREEN}  Pier PaaS installed successfully!${NC}"
+echo -e "${GREEN}  MOONSHIPS installed successfully!${NC}"
 echo -e "${GREEN}════════════════════════════════════════════════════════════${NC}"
 echo ""
 echo -e "  Dashboard:  ${YELLOW}https://${PUBLIC_IP}:${PIER_PORT}${NC}"
