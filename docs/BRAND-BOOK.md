@@ -174,7 +174,7 @@ The machine-readable source of truth is [brand-tokens.json](../branding/brand-to
 
 ## 7. Product UI expression
 
-The product interface is an operational tool, not a campaign poster. Apply the DNA through controlled details:
+The product interface is an operational tool, not a campaign poster. Operational UI stays legible and trustworthy. Apply the DNA through controlled details:
 - Deep neutral surfaces and strong text hierarchy.
 - Acid accent for primary actions and selected brand signals, with accessible contrast.
 - Cyan and violet for secondary information only where semantic meaning is clear.
