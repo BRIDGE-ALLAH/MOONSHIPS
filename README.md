@@ -1,6 +1,6 @@
 <p align="center"><img src="docs/og-banner.svg" alt="MOONSHIPS — Your Infrastructure. Your Rules. Your Universe." width="640"></p>
 
-**An open-source, self-hosted platform for deploying and operating infrastructure you control.**
+> **An open-source, self-hosted platform for deploying and operating infrastructure you control.**
 
 MOONSHIPS brings applications, containers, Docker Compose stacks, databases, domains, TLS, backups, and server operations into one lightweight control plane—from a small VPS to a fleet of servers.
 
