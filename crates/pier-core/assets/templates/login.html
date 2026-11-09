@@ -2,7 +2,7 @@
 {% block title %}{{ t('login.title') }}{% endblock %}
 
 {% block content %}
-<div class="bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800/50 rounded-xl p-6" x-data="{
+<div class="ms-auth-card bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800/50 rounded-xl p-6" x-data="{
     step: 'password',
     username: '', password: '', showPw: false,
     partialToken: '', code: '',
@@ -91,7 +91,7 @@
         <div x-show="error" x-cloak class="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-500/10 border border-red-200 dark:border-red-500/20 rounded-lg px-3 py-2" x-text="error"></div>
 
         <button type="submit" :disabled="loading"
-                class="w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 disabled:opacity-50
+                class="ms-primary-action w-full py-2.5 px-4 bg-blue-600 hover:bg-blue-700 disabled:opacity-50
                        rounded-lg text-sm font-medium text-white transition-colors">
             <span x-show="!loading">{{ t('login.sign_in') }}</span>
             <span x-show="loading" x-cloak>{{ t('login.signing_in') }}</span>
