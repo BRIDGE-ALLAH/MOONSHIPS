@@ -2,8 +2,8 @@
 set -euo pipefail
 
 # ============================================================================
-# Pier PaaS — Bootstrap Installer
-# Downloads the latest pre-built binary from GitHub Releases and installs Pier
+# MOONSHIPS — Bootstrap Installer
+# Downloads the latest pre-built binary from GitHub Releases and installs MOONSHIPS
 # as a systemd service on a fresh Ubuntu/Debian server.
 #
 # Usage:
@@ -25,7 +25,7 @@ set -euo pipefail
 # PIER_SKIP_FIREWALL=1 (honoured by install.sh).
 # ============================================================================
 
-REPO="joveptesg/pier"
+REPO="BRIDGE-ALLAH/MOONSHIPS"
 REF="${PIER_REF:-main}"
 RELEASE_TAG="${PIER_RELEASE_TAG:-latest}"
 BINARY_NAME="pier-linux-amd64"
