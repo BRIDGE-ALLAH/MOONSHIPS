@@ -89,6 +89,12 @@ Expected result: no cross-tenant read/write, no owner bypass, no self-approval w
 ### Gate D — release
 Clean-checkout Rust build/tests, PostgreSQL contract integration, migration forward/backward rehearsal, backup/restore, API compatibility, tenant negative tests, secret/license scans and operator runbook.
 
-## 6. Current decision
+## 6. First implementation increment (additive, no runtime behavior change)
+
+The audit branch now contains `crates/arsy-contracts` as an isolated Rust workspace crate. It defines serde contracts for principal, tenant scope, resource, authorization request/decision, signed capability grant, two-person approval, operation envelope and audit event. Structural validation is explicit; self-approval and missing tenant scope are rejected. Unit tests cover mandatory tenant context, explicit scope, self-approval, idempotency-key length, stable principal serialization and strict unknown-field rejection.
+
+This crate does **not** authenticate users, evaluate policy, verify cryptographic signatures, connect to SQLite/PostgreSQL, alter existing routes or change the current login/session behavior. Its first use is a typed boundary for subsequent integration. CI must pass before this increment is treated as accepted.
+
+## 7. Current decision
 
 **Do not wholesale port either Fastify application.** Keep MW/Pier as the live operational baseline; use MOONWITNESS ARSY as the stronger reference for signed deployment authorization and durable operations; use A-L-L-A-H.COM as a legacy source only, with its LLM gateway quarantined. First implementation increment is the versioned ARSY contract and tenant mapping, not a new login system or database replacement.
