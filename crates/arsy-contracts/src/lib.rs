@@ -362,7 +362,10 @@ mod tests {
     fn authorization_request_requires_tenant_and_complete_scope() {
         let request = AuthorizationRequest {
             principal: principal(),
-            scope: Scope { tenant_id: " ".into(), ..scope() },
+            scope: Scope {
+                tenant_id: " ".into(),
+                ..scope()
+            },
             action: "deployment:read".into(),
             resource: resource(),
             purpose: "operator-request".into(),
