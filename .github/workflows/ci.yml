@@ -47,6 +47,9 @@ jobs:
       - name: Test branding gate
         run: python3 -m unittest discover -s scripts -p 'test_branding.py'
 
+      - name: Test MOONSHIPS brand system
+        run: python3 -m unittest discover -s scripts -p 'test_brand_system.py'
+
       - name: Upload branding audit report
         if: always()
         uses: actions/upload-artifact@v4
