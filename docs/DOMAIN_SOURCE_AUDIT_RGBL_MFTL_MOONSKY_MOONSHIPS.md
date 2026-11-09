@@ -122,3 +122,15 @@ A domain may keep a separate schema or deployable process inside the monorepo wh
 3. Inspect MOONSKY auth/session implementation, migrations, webhook verification, WebSocket auth, secrets, Compose exposure and production bootstrap behavior.
 4. Compare `mwx-ships` source with current MW for features, data model, worker semantics, security and license.
 5. Record candidate import paths in MW only after provenance and compatibility gates pass.
+
+
+## 7. Build and license evidence from manifest checks
+
+Additional root manifest checks found:
+- RGBL (`bjo163/moonwitness-corpus`) declares corpus build, typecheck, tests, upstream registry validation, corpus/edition/materialization/quality audits, release-freeze validation and release verification scripts. This is a substantial validation toolchain, but none of these commands were run in this audit.
+- MFTL (`bjo163/rocksoul-mftl`) declares validation, index generation, API build, Node test suite and CI build scripts. This is evidence of a testable project structure, not a passing current CI result.
+- MOONSKY (`bjo163/moonsky`) declares build, typecheck, test, lint and database migration scripts; Node >=24 and pnpm 10.33.4 are required.
+- A root `LICENSE`, `LICENSE.md` and `NOTICE` were not found at the inspected default-branch paths for RGBL, MFTL or MOONSKY. This is a **legal provenance blocker** until the actual licensing terms are located and verified. Do not import or redistribute source/assets from these repositories until this is resolved.
+- The absence of a root license file in these checked paths does not prove there is no license elsewhere in the repository or in individual assets/dependencies; it means the audit has not verified a grant permitting reuse.
+
+The source packages use different toolchains and runtime baselines (RGBL Node >=24 / pnpm 10.33.4; MFTL Node >=22 with npm workspaces; MOONSKY Node >=24 / pnpm 10.33.4). A consolidated MW build matrix must pin and isolate these toolchains rather than flattening package managers or runtime versions without compatibility tests.
