@@ -16,7 +16,7 @@ The current release uses a compatibility layer that retains Pier's on-disk and s
     cargo build --release --package pier-core
     sudo bash scripts/install.sh --binary target/release/pier
 
-The installer checks Docker and Compose, installs the compatible binary and service units, and starts the service. It reuses the existing data directory when upgrading.
+The installer checks Docker and Compose, installs the compatible binary and service units, and starts the service. It reuses the existing data directory when upgrading. Before replacing an existing Pier installation, it automatically backs up /opt/pier/data (including SQLite WAL files), /opt/pier/.env, /opt/pier/bin, and the Pier systemd units to a root-only directory under /var/backups/moonships/. If the backup cannot be completed, the upgrade stops before replacing the old installation. Docker volumes remain in Docker's storage and are not copied by this backup, so take a provider snapshot as well.
 
 ## First-time setup
 Open https://SERVER_IP:8443/setup (or your configured port) and create the administrator account. The initial certificate may be self-signed; configure a domain and trusted TLS after setup.
