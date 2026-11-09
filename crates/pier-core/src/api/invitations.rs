@@ -86,11 +86,12 @@ pub async fn accept(
             .map_err(|e| anyhow::anyhow!("DB lock: {e}"))?;
         let row: Option<(String, String, String, Option<String>)> = db
             .query_row(
-                "SELECT id, email, default_global_role, tenant_id
-                 FROM user_invitations
-                 WHERE invite_token_hash = ?1
-                   AND accepted_at IS NULL
-                   AND datetime(expires_at) > datetime('now')",
+                "SELECT i.id, i.email, i.default_global_role, i.tenant_id
+                 FROM user_invitations i
+                 JOIN tenants t ON t.id = i.tenant_id AND t.status = 'active'
+                 WHERE i.invite_token_hash = ?1
+                   AND i.accepted_at IS NULL
+                   AND datetime(i.expires_at) > datetime('now')",
                 [&token_hash],
                 |r| {
                     Ok((

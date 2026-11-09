@@ -34,7 +34,7 @@ fn default_strip_prefix() -> bool {
 /// GET /api/v1/domains
 ///
 /// Global Admin+ and peers see every domain. Plain Users see only domains
-/// whose service belongs to a project they're a member of.
+/// whose service belongs to a project in their single active tenant.
 pub async fn list(
     State(state): State<SharedState>,
     axum::Extension(user): axum::Extension<AuthUser>,

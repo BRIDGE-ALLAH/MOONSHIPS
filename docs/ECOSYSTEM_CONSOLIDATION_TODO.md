@@ -384,3 +384,4 @@ A repository may be marked archive-eligible only after every retained capability
 - Remaining: enumerate every project/resource API and background job for tenant predicates; implement explicit tenant administration/selection and peer grant scope; test multi-tenant migrations/backups/restores; verify no global admin surfaces leak tenant data outside the intended platform operator boundary.
 
 - Tenant context now ignores suspended tenants: the resolver joins the tenant registry and requires status='active'; the fail-closed test covers suspended membership. Regular-user resource and domain listing also joins project_tenants, closing list-view leaks left by project detail guards.
+- Invitation redemption now joins the tenant registry and returns the same not-found response if the target tenant is suspended; resource/domain list queries also include project_tenants, not just project_members.

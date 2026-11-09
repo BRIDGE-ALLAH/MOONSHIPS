@@ -2593,7 +2593,7 @@ async fn service_has_running_container(state: &SharedState, service_id: &str) ->
 /// GET /api/v1/resources — list deployed resources visible to the caller.
 ///
 /// Global Admin+ and peer requests see every resource. Plain Users see only
-/// resources whose `project_id` matches a project they're a member of.
+/// resources in projects they belong to within their single active tenant.
 pub async fn list(
     State(state): State<SharedState>,
     axum::Extension(user): axum::Extension<AuthUser>,
