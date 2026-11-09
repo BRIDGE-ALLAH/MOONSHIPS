@@ -1,5 +1,26 @@
 # MW Ecosystem Consolidation — Execution TODO
 
+## 2026-11-09 execution snapshot
+
+This snapshot separates completed evidence collection from remaining acceptance work. A task remains open until its full acceptance criteria pass; source-tree inspection alone does not close build, security, license or migration gates.
+
+| Workstream | Current status | Evidence / remaining gate |
+|---|---|---|
+| W0.01 repository visibility inventory | Baseline captured | 142 public bjo163 search results, 20 visible BRIDGE-ALLAH repos, 1 separately accessible bjo163 repo; rerun at final audit and reconcile any inaccessible/history gaps |
+| W0.02 metadata | Partial | Search/list JSON snapshot exists; languages, releases, tags, latest commits, licenses/files, workflows, CI, submodules/LFS and assets remain incomplete |
+| W0.03 recursive source audit | Partial | Priority tree audit added for 15 repos; full recursive audit of all accessible candidates and file-level review remain open |
+| W0.04 unresolved names | Partial | ZILL WATCH confirmed as a HEADQUARTER prototype module; THE BATTERIES appears in narrative/source catalog only, technical referent unresolved |
+| W1.01 ARSY comparison | Partial / blocked | Fastify source findings recorded; Rust/Axum parity, full route/auth/tenant matrix and security-negative tests remain open |
+| W1.02 MOONSHIPS comparison | Partial | Current MW retained; mwx-ships and Tauri workbench assessed at source/docs level; feature/security parity and CI evidence remain open |
+| W1.03 platform capability ownership | Drafted | Proposed ADR-0001–0009 and domain ownership map added; owner ratification and source-backed contracts remain open |
+| W1.04 identity, data, UI and gateway | Drafted | Preserve current baselines; provider/gateway/ORM/storage selections remain gated on prototypes and security/license review |
+| W2–W6 | Not started / gated | License/SBOM, secret and dependency scans, import ledger, code imports, unified routes, release/restore and legacy retirement must follow W1 |
+
+**Current safety posture:** no source repository was modified, archived or deleted. No runtime code was imported. No production system or customer data was touched. The draft PR is not merged and no CI-green claim is made.
+
+---
+
+
 **Canonical repository:** `BRIDGE-ALLAH/MW`  
 **Parent tracker:** [Issue #18](https://github.com/BRIDGE-ALLAH/MW/issues/18)  
 **Execution model:** sequential dependency waves; read-only audit before imports; no destructive source-repository actions.
