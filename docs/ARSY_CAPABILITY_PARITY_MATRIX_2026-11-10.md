@@ -101,7 +101,9 @@ The audit branch now adds migration 73 in `crates/pier-core/src/db/schema.rs`:
 - Existing projects are mapped to `legacy-default` with `legacy_backfill` provenance.
 - All writes use additive table creation and `INSERT OR IGNORE`; no existing user/project row is rewritten or deleted.
 
-Three focused SQLite tests cover role and project backfill, idempotent replay, and an empty installation. This migration is intentionally data-foundation only: current AuthUser, routes, SQL query scoping and RBAC behavior remain unchanged. Before multi-tenant enforcement, add explicit operator assignment and conflict checks, tenant-aware AuthUser propagation, route-level tenant predicates, and cross-tenant negative tests. Do not interpret the legacy default tenant as proof that historical projects were independently tenant-isolated.
+Three focused SQLite tests cover role and project backfill, idempotent replay, and an empty installation. - The Rust contract crate now also defines typed tenant, tenant membership, tenant role, lifecycle status and project-to-tenant mapping records; legacy global-role conversion is explicit and rejects unknown values. Two additional tests cover role mapping and missing tenant assignment.
+
+This migration is intentionally data-foundation only: current AuthUser, routes, SQL query scoping and RBAC behavior remain unchanged. Before multi-tenant enforcement, add explicit operator assignment and conflict checks, tenant-aware AuthUser propagation, route-level tenant predicates, and cross-tenant negative tests. Do not interpret the legacy default tenant as proof that historical projects were independently tenant-isolated.
 
 ## 7. First implementation increment (additive, no runtime behavior change)
 
