@@ -11,7 +11,7 @@ use anyhow::{anyhow, Result};
 use rusqlite::{params, Connection, OptionalExtension};
 use sha2::{Digest, Sha256};
 
-use crate::auth::middleware::AuthUser;
+use crate::auth::middleware::{resolve_tenant_id, AuthUser};
 use crate::auth::rbac::GlobalRole;
 
 /// Prefix prepended to every issued token. Lets a leaked token be recognised
@@ -113,6 +113,7 @@ pub fn lookup(conn: &Connection, plaintext: &str) -> Result<Option<AuthUser>> {
         username,
         role,
         global_role: GlobalRole::parse(&global_role).unwrap_or(GlobalRole::User),
+        tenant_id: resolve_tenant_id(conn, &user_id)?,
         session_id: String::new(),
         is_peer: false,
     }))
