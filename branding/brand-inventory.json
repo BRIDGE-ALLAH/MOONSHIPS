@@ -34,7 +34,9 @@
     "scripts/pier.service",
     "scripts/pier-net-helper.service",
     "docs",
-    "crates/pier-core/assets/static/moonships-og-banner.svg"
+    "crates/pier-core/assets/static/moonships-og-banner.svg",
+    "branding/brand-tokens.json",
+    "crates/pier-core/assets/static/moonships-brand.css"
   ],
   "locale_files": [
     "crates/pier-core/locales/en.yml",

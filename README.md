@@ -50,6 +50,10 @@ The installer automatically backs up the existing data directory, environment, b
 - Railpack builds: 4 GB RAM and 40+ GB free disk recommended.
 - Linux with systemd for the native installer.
 
+## Brand identity
+
+MOONSHIPS follows the **Space Punk / Underground Future** direction: Grunge texture, Riot conviction, Funky energy, and Gen-Z cultural fluency. The canonical rules and design tokens live in [Brand Book v1](docs/BRAND-BOOK.md) and [brand-tokens.json](branding/brand-tokens.json).
+
 ## Project and license
 This repository retains compatibility identifiers from the Pier codebase during migration. Existing copyright notices, license files, and applicable upstream attribution are preserved. Review [LICENSE](LICENSE) and comply with AGPL-3.0 when redistributing modified builds.
 

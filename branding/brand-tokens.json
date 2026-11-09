@@ -1,0 +1,67 @@
+{
+  "schema_version": 1,
+  "brand": "MOONSHIPS",
+  "direction": "Space Punk / Underground Future",
+  "taglines": {
+    "master": "Your Infrastructure. Your Rules.",
+    "campaign": "No Permission Needed.",
+    "movement": "Build Beyond the Default.",
+    "descriptor": "An open-source, self-hosted control plane for applications, containers, databases, and servers."
+  },
+  "colors": {
+    "void": {
+      "value": "#090B10",
+      "role": "Primary dark canvas"
+    },
+    "carbon": {
+      "value": "#151922",
+      "role": "Elevated dark surface"
+    },
+    "paper": {
+      "value": "#F4F1E8",
+      "role": "Warm light canvas"
+    },
+    "chalk": {
+      "value": "#FFFDF7",
+      "role": "High-contrast text"
+    },
+    "acid": {
+      "value": "#C7F464",
+      "role": "Signature action and brand signal"
+    },
+    "orbit": {
+      "value": "#69D8F2",
+      "role": "Technical highlight"
+    },
+    "ultraviolet": {
+      "value": "#9B8CFF",
+      "role": "Expressive secondary accent"
+    },
+    "riot": {
+      "value": "#FF6B4A",
+      "role": "Rare campaign or warning accent"
+    },
+    "muted": {
+      "value": "#9299A6",
+      "role": "Secondary text"
+    }
+  },
+  "typography": {
+    "display": "Heavy condensed or stencil-like sans for short campaign headlines only",
+    "interface": "System sans-serif stack",
+    "technical": "System monospace",
+    "wordmark_font": "Allerta Stencil (self-hosted, wordmark only)"
+  },
+  "principles": [
+    "Grunge gives texture",
+    "Riot gives conviction",
+    "Funky gives energy",
+    "Gen-Z gives cultural fluency",
+    "Operational UI stays legible and trustworthy"
+  ],
+  "accessibility": {
+    "respect_reduced_motion": true,
+    "minimum_body_text_contrast_target": "WCAG AA",
+    "do_not_use_brand_colors_as_semantic_status_substitutes": true
+  }
+}
