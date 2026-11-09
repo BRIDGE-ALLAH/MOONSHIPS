@@ -11,7 +11,7 @@ The current release uses a compatibility layer that retains Pier's on-disk and s
 
     sudo apt-get update
     sudo apt-get install -y curl git build-essential pkg-config libssl-dev
-    git clone https://github.com/BRIDGE-ALLAH/MOONSHIPS.git
+    git clone https://github.com/BRIDGE-ALLAH/MW.git
     cd MOONSHIPS
     cargo build --release --package pier-core
     sudo bash scripts/install.sh --binary target/release/pier
