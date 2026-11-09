@@ -304,6 +304,43 @@ For each task:
 - [ ] Logs, traces, API responses, and error snapshots contain no credential plaintext.
 - [ ] Migration is idempotent and has a tested rollback/restore fixture.
 
+## [ ] P1-06 — Add an automated public-brand consistency gate
+
+**Ownership boundary:** branding inventory, public copy/assets/metadata, and a CI check that distinguishes public product identity from compatibility identifiers. Do not rename Pier runtime interfaces in this task.
+
+### SPEC
+- Public-facing product identity must consistently read MOONSHIPS across repository metadata, README/install/migration docs, dashboard title and auth surfaces, support/update links, locale-visible copy, favicon/logo/OG artwork, installer output, and release download URLs.
+- Some Pier strings are intentional runtime compatibility identifiers (crate/binary names, systemd units, filesystem paths, environment variables, helper/socket names, and existing storage keys). They must be allowlisted and must not be blindly replaced.
+- Current branch has MOONSHIPS logo/icon/OG assets and updates key dashboard/docs/installer surfaces, but a complete automated sweep is needed before declaring the rebrand closed.
+
+### RULE
+- A public user-facing brand reference may not accidentally regress to Pier.
+- Runtime compatibility identifiers may remain only when explicitly listed in a versioned allowlist with a reason and owner.
+- Do not rename runtime identifiers as a cosmetic cleanup.
+- Do not change browser storage keys without a dual-read/migration strategy that preserves existing preferences.
+- All locale files must preserve the same key set and placeholder structure.
+
+### DESIGN
+1. Create a machine-readable branding inventory with approved public brand string, canonical repository URL, support URL, release URL, logo/icon paths, and explicit legacy compatibility allowlist.
+2. Add a CI script that scans public-facing files and reports unapproved old-brand references with file/line and category.
+3. Scan README/docs, package metadata, template-visible text, metadata tags, locale values, installer/bootstrap output and URLs, service display descriptions, and asset alt/title text.
+4. Exclude source identifiers and runtime contracts only through narrow exact-path/pattern allowlist entries; do not broadly exclude all Rust or shell files.
+5. Add locale parity checks for keys, interpolation placeholders, and required product name.
+6. Validate all brand assets exist, are referenced by the intended surfaces, and are valid SVG/XML.
+7. Generate a report listing remaining Pier references grouped into intentional runtime compatibility vs public-facing regression.
+
+### ACCEPTANCE CRITERIA
+- [ ] CI branding scan passes on the candidate branch.
+- [ ] Every remaining Pier match is either removed from public copy or documented in the narrow compatibility allowlist.
+- [ ] No public title, header, support link, installer banner, README hero, OG metadata, or release URL points to the old product identity.
+- [ ] Legacy runtime identifiers remain unchanged and are covered by compatibility tests.
+- [ ] Locale files have identical required keys and placeholder signatures.
+- [ ] Logo, icon, and OG assets validate and render in a build smoke test.
+- [ ] The report is deterministic and includes zero unclassified matches.
+- [ ] The check runs on every pull request and cannot be skipped for a release candidate.
+
+---
+
 ---
 
 # Wave 2 — Runtime reliability and operability (P2)
