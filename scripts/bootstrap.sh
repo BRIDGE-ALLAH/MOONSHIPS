@@ -7,11 +7,11 @@ set -euo pipefail
 # as a systemd service on a fresh Ubuntu/Debian server.
 #
 # Usage:
-#   curl -fsSL https://pier.team/install | sudo bash
-#   curl -fsSL https://pier.team/install | sudo bash -s -- --port 9000
+#   curl -fsSL https://raw.githubusercontent.com/BRIDGE-ALLAH/MOONSHIPS/main/scripts/bootstrap.sh | sudo bash
+#   curl -fsSL https://raw.githubusercontent.com/BRIDGE-ALLAH/MOONSHIPS/main/scripts/bootstrap.sh | sudo bash -s -- --port 9000
 #
 # Or directly:
-#   curl -fsSL https://raw.githubusercontent.com/joveptesg/pier/main/scripts/bootstrap.sh | sudo bash
+#   curl -fsSL https://raw.githubusercontent.com/BRIDGE-ALLAH/MOONSHIPS/main/scripts/bootstrap.sh | sudo bash
 #
 # This script:
 #   1. Installs Docker CE + Compose plugin (if missing)
@@ -67,7 +67,7 @@ while [[ $# -gt 0 ]]; do
 Usage: sudo bash bootstrap.sh [options]
 
 Options:
-  --port PORT            HTTP listen port for Pier dashboard (default: 8443)
+  --port PORT            HTTP listen port for MOONSHIPS dashboard (default: 8443)
   --ref REF              Git ref for install.sh (branch/tag/commit, default: main)
   --release-tag TAG      GitHub release tag to download binary from (default: latest)
   --help, -h             Show this help
@@ -108,7 +108,7 @@ trap 'rm -rf "$WORK_DIR"' EXIT
 
 echo ""
 echo -e "${CYAN}════════════════════════════════════════════════════════════${NC}"
-echo -e "${CYAN}  Pier PaaS — Bootstrap Installer${NC}"
+echo -e "${CYAN}  MOONSHIPS — Bootstrap Installer${NC}"
 echo -e "${CYAN}  Repo: ${REPO}  Ref: ${REF}  Release: ${RELEASE_TAG}${NC}"
 echo -e "${CYAN}════════════════════════════════════════════════════════════${NC}"
 echo ""
@@ -181,7 +181,7 @@ fi
 BINARY_URL="https://github.com/${REPO}/releases/download/${RELEASE_TAG}/${BINARY_NAME}"
 SHA_URL="${BINARY_URL}.sha256"
 
-step "Downloading Pier binary from ${RELEASE_TAG} release..."
+step "Downloading MOONSHIPS binary from ${RELEASE_TAG} release..."
 
 if ! curl -fsSL "$BINARY_URL" -o "${WORK_DIR}/pier"; then
     error "Failed to download ${BINARY_URL}
