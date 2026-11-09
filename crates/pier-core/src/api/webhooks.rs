@@ -239,7 +239,10 @@ impl SignatureCheck<'_> {
 /// Require at least one configured service secret to authenticate a push
 /// before deserializing its untrusted payload. A second, resource-specific check
 /// in `dispatch_push` ensures that only services with the matching secret run.
-fn verify_any_service_signature(state: &SharedState, signature: &SignatureCheck<'_>) -> AppResult<()> {
+fn verify_any_service_signature(
+    state: &SharedState,
+    signature: &SignatureCheck<'_>,
+) -> AppResult<()> {
     let secrets = {
         let db = state
             .db
