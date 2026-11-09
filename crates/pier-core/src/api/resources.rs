@@ -2593,7 +2593,7 @@ async fn service_has_running_container(state: &SharedState, service_id: &str) ->
 /// GET /api/v1/resources — list deployed resources visible to the caller.
 ///
 /// Global Admin+ and peer requests see every resource. Plain Users see only
-/// resources whose `project_id` matches a project they're a member of.
+/// resources in projects they belong to within their single active tenant.
 pub async fn list(
     State(state): State<SharedState>,
     axum::Extension(user): axum::Extension<AuthUser>,
@@ -2653,11 +2653,17 @@ pub async fn list(
                     (SELECT domain FROM domains WHERE service_id = s.id ORDER BY created_at LIMIT 1) AS primary_domain
              FROM services s
              JOIN project_members pm ON pm.project_id = s.project_id
-             WHERE s.catalog_id IS NOT NULL AND pm.user_id = ?1
+             JOIN project_tenants pt ON pt.project_id = s.project_id
+             WHERE s.catalog_id IS NOT NULL
+               AND pm.user_id = ?1
+               AND pt.tenant_id = ?2
              ORDER BY s.created_at DESC",
         )?;
         let rows: Vec<serde_json::Value> = stmt
-            .query_map([&user.id], row_to_json)?
+            .query_map(
+                rusqlite::params![&user.id, user.tenant_id.as_deref().unwrap_or("")],
+                row_to_json,
+            )?
             .filter_map(|r| r.ok())
             .collect();
         rows

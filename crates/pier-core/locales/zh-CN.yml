@@ -2504,6 +2504,7 @@ errors:
     owner_role_not_via_invitation: 无法通过邀请授予 Owner 角色
     unknown_role: "未知角色：%{name}"
     only_owner_can_invite_admins: 只有 Owner 才能邀请新的 Admin
+    invitation_tenant_required: 邀请用户需要有效且明确的租户成员身份
     active_invitation_exists: 此电子邮件已存在一个有效的邀请
     use_account_endpoints: 请使用 /account 端点来编辑自己
     user_not_found: 未找到用户

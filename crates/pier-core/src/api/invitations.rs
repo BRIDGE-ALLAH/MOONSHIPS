@@ -77,25 +77,37 @@ pub async fn accept(
     let pw_hash;
     let email;
     let role;
+    let tenant_id;
 
     {
         let db = state
             .db
             .lock()
             .map_err(|e| anyhow::anyhow!("DB lock: {e}"))?;
-        let row: Option<(String, String, String)> = db
+        let row: Option<(String, String, String, Option<String>)> = db
             .query_row(
-                "SELECT id, email, default_global_role
-                 FROM user_invitations
-                 WHERE invite_token_hash = ?1
-                   AND accepted_at IS NULL
-                   AND datetime(expires_at) > datetime('now')",
+                "SELECT i.id, i.email, i.default_global_role, i.tenant_id
+                 FROM user_invitations i
+                 JOIN tenants t ON t.id = i.tenant_id AND t.status = 'active'
+                 WHERE i.invite_token_hash = ?1
+                   AND i.accepted_at IS NULL
+                   AND datetime(i.expires_at) > datetime('now')",
                 [&token_hash],
-                |r| Ok((r.get(0)?, r.get(1)?, r.get(2)?)),
+                |r| {
+                    Ok((
+                        r.get::<_, String>(0)?,
+                        r.get::<_, String>(1)?,
+                        r.get::<_, String>(2)?,
+                        r.get::<_, Option<String>>(3)?,
+                    ))
+                },
             )
             .optional()?;
-        let (invite_id, email_v, role_v) =
+        let (invite_id, email_v, role_v, tenant_id_v) =
             row.ok_or_else(|| AppError::NotFound(crate::i18n::te("errors.invitations.not_found")))?;
+        tenant_id = tenant_id_v.ok_or_else(|| {
+            AppError::Internal(anyhow::anyhow!("invitation has no tenant assignment"))
+        })?;
 
         password::validate_password_strength(&body.password, &[&username, &email_v])
             .map_err(AppError::BadRequest)?;
@@ -105,24 +117,32 @@ pub async fn accept(
         role = role_v;
 
         let tx_now = chrono::Utc::now().to_rfc3339();
-        // We don't have a tx wrapper handy; do the two writes inline, the
-        // unique index on `invite_token_hash` + `accepted_at IS NULL` lookup
-        // earlier in the same lock window keeps this safe from concurrent
-        // double-accepts.
-        db.execute(
+        let tx = db.unchecked_transaction()?;
+        tx.execute(
             "INSERT INTO users
                 (id, username, email, password, role, global_role,
                  is_active, created_at, updated_at)
              VALUES (?1, ?2, ?3, ?4, 'user', ?5, 1, ?6, ?6)",
             params![new_user_id, username, email, pw_hash, role, tx_now],
         )?;
-        db.execute(
+        tx.execute(
+            "INSERT INTO tenant_members (tenant_id, user_id, tenant_role)
+             VALUES (?1, ?2, CASE ?3 WHEN 'admin' THEN 'admin' ELSE 'member' END)",
+            params![tenant_id, new_user_id, role],
+        )?;
+        let accepted = tx.execute(
             "UPDATE user_invitations
                 SET accepted_at = ?1,
                     accepted_user_id = ?2
-              WHERE id = ?3",
+              WHERE id = ?3 AND accepted_at IS NULL",
             params![tx_now, new_user_id, invite_id],
         )?;
+        if accepted != 1 {
+            return Err(AppError::NotFound(crate::i18n::te(
+                "errors.invitations.not_found",
+            )));
+        }
+        tx.commit()?;
     }
 
     audit::log(
@@ -134,6 +154,7 @@ pub async fn accept(
         Some(serde_json::json!({
             "email": email,
             "global_role": role,
+            "tenant_id": tenant_id,
         })),
     );
     Ok(Json(serde_json::json!({

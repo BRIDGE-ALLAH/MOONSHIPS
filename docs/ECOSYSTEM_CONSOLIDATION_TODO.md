@@ -1,5 +1,26 @@
 # MW Ecosystem Consolidation — Execution TODO
 
+## 2026-11-09 execution snapshot
+
+This snapshot separates completed evidence collection from remaining acceptance work. A task remains open until its full acceptance criteria pass; source-tree inspection alone does not close build, security, license or migration gates.
+
+| Workstream | Current status | Evidence / remaining gate |
+|---|---|---|
+| W0.01 repository visibility inventory | Baseline captured | 142 public bjo163 search results, 20 visible BRIDGE-ALLAH repos, 1 separately accessible bjo163 repo; rerun at final audit and reconcile any inaccessible/history gaps |
+| W0.02 metadata | Partial | Search/list JSON snapshot exists; languages, releases, tags, latest commits, licenses/files, workflows, CI, submodules/LFS and assets remain incomplete |
+| W0.03 recursive source audit | Partial | Priority tree audit added for 16 repos, including the MOONWITNESS HEADQUARTER prototype/source registry; full recursive audit of all accessible candidates and file-level review remain open |
+| W0.04 unresolved names | Partial | ZILL WATCH confirmed as a HEADQUARTER prototype module; THE BATTERIES appears in MOONWITNESS narrative/source catalog only; owner-wide bjo163 search yielded false positives, technical referent unresolved |
+| W1.01 ARSY comparison | Partial / blocked | Fastify source findings recorded; Rust/Axum parity, full route/auth/tenant matrix and security-negative tests remain open |
+| W1.02 MOONSHIPS comparison | Partial | Current MW retained; mwx-ships and Tauri workbench assessed at source/docs level; feature/security parity and CI evidence remain open |
+| W1.03 platform capability ownership | Drafted | Proposed ADR-0001–0009 and domain ownership map added; owner ratification and source-backed contracts remain open |
+| W1.04 identity, data, UI and gateway | Drafted | Preserve current baselines; provider/gateway/ORM/storage selections remain gated on prototypes and security/license review |
+| W2–W6 | Not started / gated | License/SBOM, secret and dependency scans, import ledger, code imports, unified routes, release/restore and legacy retirement must follow W1 |
+
+**Current safety posture:** no source repository was modified, archived or deleted. No runtime code was imported. No production system or customer data was touched. The draft PR is not merged and no CI-green claim is made.
+
+---
+
+
 **Canonical repository:** `BRIDGE-ALLAH/MW`  
 **Parent tracker:** [Issue #18](https://github.com/BRIDGE-ALLAH/MW/issues/18)  
 **Execution model:** sequential dependency waves; read-only audit before imports; no destructive source-repository actions.
@@ -323,3 +344,44 @@ A repository may be marked archive-eligible only after every retained capability
 
 **Forbidden:** automatic deletion, force-push, history rewrite, secret publication, or archive before verified acceptance.
 
+## 2026-11-10 follow-on execution
+
+- CI for the preceding PR head `6e69754eca2d8a1e0d2f31dde5c63e394bd2c3cd` completed successfully (GitHub Actions run 42655941865). This validates that commit's configured workflow only; it is not a production, migration, security or integration acceptance.
+- Repository metadata API snapshot now covers 21 of 162 unique repositories visible in the combined search baseline: 5 initial samples plus 16 priority repos. Remaining 141 metadata records and repository history gaps are still open.
+- ARSY parity matrix added. It separates MW/Pier's current project RBAC from MOONWITNESS ARSY's single-operator token and signed deployment-operation controls, and from the legacy A-L-L-A-H.COM gateway lineage.
+- Source review confirms MW's AuthUser has no tenant/org field; its project membership/RBAC is not a general tenant hierarchy. MOONWITNESS ARSY currently maps deployment tenant_id to owner_id and uses one configured operator principal. These are distinct, concrete migration gaps.
+- Next implementation gate is typed ARSY contracts and deterministic project/owner-to-tenant mapping. No runtime auth, schema, database or API behavior changed in this pass.
+## 2026-11-10 ARSY contracts implementation increment
+
+- Added isolated workspace crate `crates/arsy-contracts` with transport-neutral serde models for principals, tenant scope, resources, authorization requests/decisions, capability grants, two-person approvals, operations and audit events.
+- Added structural validation and six unit tests. The contract requires explicit tenant scope, rejects self-approval, requires an idempotency key of at least eight characters, pins stable enum serialization and rejects unknown scope fields.
+- This is additive and does not modify existing authentication/session semantics, API routes, database schema, authorization decisions or production data. It does not claim signature verification or policy enforcement.
+- CI/build result for the new head is pending verification. If it fails, fix before expanding the integration surface.
+
+## 2026-11-10 tenant foundation migration
+
+- Added SQLite migration 73: `tenants`, `tenant_members`, and `project_tenants`.
+- Backfills existing users and projects into the explicit `legacy-default` tenant; user tenant roles are mapped from the existing typed global roles. Project mapping provenance is recorded as `legacy_backfill`.
+- Migration is additive and idempotent; it does not rewrite/delete existing account or project records and does not change current route authorization.
+- Added three focused SQLite tests for role/project backfill, repeat application, and empty installation.
+- Remaining before enforcement: explicit tenant assignment API/CLI, tenant propagation in authenticated principal, tenant-scoped SQL predicates, migration/restore rehearsal, and cross-tenant negative tests. Legacy single-tenant mapping is not evidence of prior isolation.
+
+- Extended `mw-arsy-contracts` with typed Tenant, TenantMembership, TenantRole, TenantStatus and ProjectTenantMapping; explicit legacy global-role conversion fails closed on unknown role values. Two additional unit tests added.
+
+## 2026-11-10 visible repository inventory completion
+
+- Expanded the combined GitHub search baseline to all 162 visible repository records (142 `bjo163` public search results + 20 `BRIDGE-ALLAH` organization search results), deduplicated by full repository name.
+- 21 of 162 records have richer repository API metadata; remaining 141 explicitly preserve only fields exposed by search, with unavailable fields set to null. No invented timestamps, language or license values.
+- Coverage is complete for the current search result set only, not for historical transferred/deleted/private/unindexed repositories. Continue targeted historical source discovery and licensing verification before final sign-off.
+
+## 2026-11-10 tenant propagation and first project vertical slice
+
+- AuthUser.tenant_id resolves only for exactly one membership; missing or ambiguous membership fails closed for tenant-scoped routes. Session, Basic and bearer API-token paths use the same resolver; peer principals remain unscoped.
+- Project listing for regular users joins the explicit project-to-tenant mapping. Project detail/update/delete and resource project-role guards reject cross-tenant and unmapped projects before project membership checks.
+- Project creation writes the project and project_tenants assignment in one transaction. Platform Owner/Admin remain platform-wide; peer project creation is gated until a peer grant has an explicit tenant.
+- Migration 74 binds invitations to a tenant and backfills existing invitations to legacy-default. Bootstrap owner and invitation acceptance create tenant memberships; invitation acceptance writes user, membership and accepted status in one transaction.
+- Added negative tests for missing/ambiguous membership, cross-tenant project mapping, unmapped projects and a user who has a project_members row in another tenant.
+- Remaining: enumerate every project/resource API and background job for tenant predicates; implement explicit tenant administration/selection and peer grant scope; test multi-tenant migrations/backups/restores; verify no global admin surfaces leak tenant data outside the intended platform operator boundary.
+
+- Tenant context now ignores suspended tenants: the resolver joins the tenant registry and requires status='active'; the fail-closed test covers suspended membership. Regular-user resource and domain listing also joins project_tenants, closing list-view leaks left by project detail guards.
+- Invitation redemption now joins the tenant registry and returns the same not-found response if the target tenant is suspended; resource/domain list queries also include project_tenants, not just project_members.

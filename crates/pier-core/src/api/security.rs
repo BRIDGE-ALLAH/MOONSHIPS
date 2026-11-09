@@ -147,6 +147,7 @@ mod authorization_tests {
             username: "test".into(),
             role: global_role.as_str().into(),
             global_role,
+            tenant_id: None,
             session_id: "test-session".into(),
             is_peer,
         }

@@ -1,0 +1,12 @@
+[package]
+name = "mw-arsy-contracts"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+description = "Versioned, transport-neutral contracts for the MW ARSY control plane"
+
+[dependencies]
+serde = { workspace = true }
+
+[dev-dependencies]
+serde_json = { workspace = true }

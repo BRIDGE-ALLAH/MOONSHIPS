@@ -1625,6 +1625,79 @@ const MIGRATIONS: &[&str] = &[
     CREATE INDEX IF NOT EXISTS idx_webhook_deliveries_received
         ON webhook_deliveries(received_at);
     "#,
+    // Migration 73: additive ARSY tenant foundation.
+    //
+    // MW currently has global users and project membership, but no tenant
+    // boundary. Preserve existing single-installation behavior by backfilling
+    // every existing user and project into one explicit legacy tenant.
+    // This creates mapping data only: no route or authorization behavior reads
+    // these tables yet. Tenant enforcement must be introduced separately after
+    // migration/backfill and negative cross-tenant tests are accepted.
+    r#"
+    CREATE TABLE IF NOT EXISTS tenants (
+        id          TEXT PRIMARY KEY NOT NULL,
+        slug        TEXT NOT NULL UNIQUE,
+        name        TEXT NOT NULL,
+        status      TEXT NOT NULL DEFAULT 'active'
+                    CHECK (status IN ('active', 'suspended', 'archived')),
+        created_at  TEXT NOT NULL DEFAULT (datetime('now')),
+        updated_at  TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+
+    CREATE TABLE IF NOT EXISTS tenant_members (
+        tenant_id       TEXT NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
+        user_id         TEXT NOT NULL REFERENCES users(id) ON DELETE CASCADE,
+        tenant_role     TEXT NOT NULL DEFAULT 'member'
+                        CHECK (tenant_role IN ('owner', 'admin', 'member')),
+        created_at      TEXT NOT NULL DEFAULT (datetime('now')),
+        PRIMARY KEY (tenant_id, user_id)
+    );
+    CREATE INDEX IF NOT EXISTS idx_tenant_members_user
+        ON tenant_members(user_id);
+    CREATE INDEX IF NOT EXISTS idx_tenant_members_tenant_role
+        ON tenant_members(tenant_id, tenant_role);
+
+    CREATE TABLE IF NOT EXISTS project_tenants (
+        project_id      TEXT PRIMARY KEY NOT NULL
+                        REFERENCES projects(id) ON DELETE CASCADE,
+        tenant_id       TEXT NOT NULL
+                        REFERENCES tenants(id) ON DELETE RESTRICT,
+        mapping_source  TEXT NOT NULL DEFAULT 'legacy_backfill'
+                        CHECK (mapping_source IN ('legacy_backfill', 'operator_assignment', 'migration')),
+        created_at      TEXT NOT NULL DEFAULT (datetime('now'))
+    );
+    CREATE INDEX IF NOT EXISTS idx_project_tenants_tenant
+        ON project_tenants(tenant_id);
+
+    INSERT OR IGNORE INTO tenants (id, slug, name)
+    VALUES ('legacy-default', 'legacy-default', 'Legacy MW Workspace');
+
+    INSERT OR IGNORE INTO tenant_members (tenant_id, user_id, tenant_role)
+    SELECT
+        'legacy-default',
+        id,
+        CASE global_role
+            WHEN 'owner' THEN 'owner'
+            WHEN 'admin' THEN 'admin'
+            ELSE 'member'
+        END
+    FROM users;
+
+    INSERT OR IGNORE INTO project_tenants (project_id, tenant_id, mapping_source)
+    SELECT id, 'legacy-default', 'legacy_backfill'
+    FROM projects;
+    "#,
+    // Migration 74: bind invitations to a tenant so accepted users inherit
+    // the inviter's tenant membership instead of becoming unscoped.
+    r#"
+    ALTER TABLE user_invitations
+        ADD COLUMN tenant_id TEXT REFERENCES tenants(id);
+    UPDATE user_invitations
+       SET tenant_id = 'legacy-default'
+     WHERE tenant_id IS NULL;
+    CREATE INDEX IF NOT EXISTS idx_user_invitations_tenant
+        ON user_invitations(tenant_id);
+    "#,
 ];
 
 /// One-time cleanup of `port_allocations` rows that repeat a container port.
@@ -1714,4 +1787,171 @@ pub fn run_migrations(conn: &Connection) -> Result<()> {
     }
 
     Ok(())
+}
+
+#[cfg(test)]
+mod arsy_tenant_migration_tests {
+    use super::*;
+    use rusqlite::params;
+
+    fn legacy_db() -> Connection {
+        let db = Connection::open_in_memory().expect("in-memory database");
+        db.execute_batch(
+            "CREATE TABLE users (id TEXT PRIMARY KEY, global_role TEXT NOT NULL);
+             CREATE TABLE projects (id TEXT PRIMARY KEY);
+             CREATE TABLE user_invitations (
+                 id TEXT PRIMARY KEY,
+                 email TEXT NOT NULL,
+                 invite_token_hash TEXT NOT NULL UNIQUE,
+                 default_global_role TEXT NOT NULL,
+                 invited_by TEXT,
+                 expires_at TEXT NOT NULL,
+                 accepted_at TEXT,
+                 accepted_user_id TEXT,
+                 created_at TEXT NOT NULL DEFAULT (datetime('now'))
+             );",
+        )
+        .expect("legacy tables");
+        db.execute(
+            "INSERT INTO users (id, global_role) VALUES (?1, ?2)",
+            params!["owner-1", "owner"],
+        )
+        .expect("insert owner");
+        db.execute(
+            "INSERT INTO users (id, global_role) VALUES (?1, ?2)",
+            params!["admin-1", "admin"],
+        )
+        .expect("insert admin");
+        db.execute(
+            "INSERT INTO users (id, global_role) VALUES (?1, ?2)",
+            params!["user-1", "user"],
+        )
+        .expect("insert user");
+        db.execute("INSERT INTO projects (id) VALUES ('project-1')", [])
+            .expect("insert project");
+        db
+    }
+
+    #[test]
+    fn migration_backfills_users_and_projects_into_explicit_legacy_tenant() {
+        let db = legacy_db();
+        db.execute_batch(
+            MIGRATIONS
+                .get(MIGRATIONS.len() - 2)
+                .expect("tenant migration"),
+        )
+        .expect("apply tenant migration");
+
+        let tenant_count: i64 = db
+            .query_row(
+                "SELECT COUNT(*) FROM tenants WHERE id = 'legacy-default'",
+                [],
+                |r| r.get(0),
+            )
+            .expect("tenant count");
+        let member_count: i64 = db
+            .query_row("SELECT COUNT(*) FROM tenant_members", [], |r| r.get(0))
+            .expect("member count");
+        let project_tenant: String = db
+            .query_row(
+                "SELECT tenant_id FROM project_tenants WHERE project_id = 'project-1'",
+                [],
+                |r| r.get(0),
+            )
+            .expect("project tenant");
+        let owner_role: String = db
+            .query_row(
+                "SELECT tenant_role FROM tenant_members WHERE user_id = 'owner-1'",
+                [],
+                |r| r.get(0),
+            )
+            .expect("owner role");
+        let admin_role: String = db
+            .query_row(
+                "SELECT tenant_role FROM tenant_members WHERE user_id = 'admin-1'",
+                [],
+                |r| r.get(0),
+            )
+            .expect("admin role");
+
+        assert_eq!(tenant_count, 1);
+        assert_eq!(member_count, 3);
+        assert_eq!(project_tenant, "legacy-default");
+        assert_eq!(owner_role, "owner");
+        assert_eq!(admin_role, "admin");
+    }
+
+    #[test]
+    fn migration_is_idempotent_for_existing_legacy_assignments() {
+        let db = legacy_db();
+        let migration = MIGRATIONS
+            .get(MIGRATIONS.len() - 2)
+            .expect("tenant migration");
+        db.execute_batch(migration).expect("first application");
+        db.execute_batch(migration).expect("second application");
+
+        let member_count: i64 = db
+            .query_row("SELECT COUNT(*) FROM tenant_members", [], |r| r.get(0))
+            .expect("member count");
+        let project_count: i64 = db
+            .query_row("SELECT COUNT(*) FROM project_tenants", [], |r| r.get(0))
+            .expect("project count");
+
+        assert_eq!(member_count, 3);
+        assert_eq!(project_count, 1);
+    }
+
+    #[test]
+    fn invitation_migration_backfills_existing_invites_to_legacy_tenant() {
+        let db = legacy_db();
+        db.execute_batch(
+            MIGRATIONS
+                .get(MIGRATIONS.len() - 2)
+                .expect("tenant migration"),
+        )
+        .expect("apply tenant migration");
+        db.execute(
+            "INSERT INTO user_invitations
+                (id, email, invite_token_hash, default_global_role, expires_at)
+             VALUES ('invite-1', 'alice@example.test', 'hash-1', 'user', '2099-01-01')",
+            [],
+        )
+        .expect("insert legacy invitation");
+
+        db.execute_batch(MIGRATIONS.last().expect("invitation tenant migration"))
+            .expect("apply invitation tenant migration");
+        let tenant_id: String = db
+            .query_row(
+                "SELECT tenant_id FROM user_invitations WHERE id = 'invite-1'",
+                [],
+                |row| row.get(0),
+            )
+            .expect("backfilled invitation tenant");
+        assert_eq!(tenant_id, "legacy-default");
+    }
+
+    #[test]
+    fn migration_handles_empty_installation_without_synthetic_members() {
+        let db = Connection::open_in_memory().expect("in-memory database");
+        db.execute_batch(
+            "CREATE TABLE users (id TEXT PRIMARY KEY, global_role TEXT NOT NULL);
+             CREATE TABLE projects (id TEXT PRIMARY KEY);",
+        )
+        .expect("legacy tables");
+        db.execute_batch(
+            MIGRATIONS
+                .get(MIGRATIONS.len() - 2)
+                .expect("tenant migration"),
+        )
+        .expect("apply tenant migration");
+
+        let member_count: i64 = db
+            .query_row("SELECT COUNT(*) FROM tenant_members", [], |r| r.get(0))
+            .expect("member count");
+        let project_count: i64 = db
+            .query_row("SELECT COUNT(*) FROM project_tenants", [], |r| r.get(0))
+            .expect("project count");
+        assert_eq!(member_count, 0);
+        assert_eq!(project_count, 0);
+    }
 }

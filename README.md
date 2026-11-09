@@ -29,6 +29,16 @@ The consolidation is being tracked in:
 - [MW-GATEWAY provenance and test-fixture security review](docs/MW_GATEWAY_PROVENANCE_SECURITY_REVIEW_2026-11-09.md)
 - [Upstream lineage verification across platform candidates](docs/UPSTREAM_LINEAGE_VERIFICATION_2026-11-09.md)
 - [Ecosystem Repository Register](docs/ECOSYSTEM_REPOSITORY_REGISTER.md)
+- [W0/W1 refreshed inventory and architecture reconciliation (2026-11-09)](docs/W0_W1_RECONCILIATION_AUDIT_2026-11-09.md)
+- [Priority recursive source-tree audit (2026-11-09)](docs/ECOSYSTEM_PRIORITY_SOURCE_TREE_AUDIT_2026-11-09.md)
+- [Proposed ecosystem architecture decisions ADR-0001–0009 (2026-11-09)](docs/ECOSYSTEM_ARCHITECTURE_DECISIONS_2026-11-09.md)
+- [Ecosystem migration matrix and acceptance gates (2026-11-09)](docs/ECOSYSTEM_MIGRATION_MATRIX_2026-11-09.md)
+- [ARSY capability parity matrix and tenant/security gates (2026-11-10)](docs/ARSY_CAPABILITY_PARITY_MATRIX_2026-11-10.md)
+- [ARSY contracts crate (additive Rust types and tests)](crates/arsy-contracts/src/lib.rs)
+- [SQLite migration 73: tenant registry and legacy project/user mapping](crates/pier-core/src/db/schema.rs)
+- [Typed ARSY tenant and membership contracts](crates/arsy-contracts/src/lib.rs)
+- [Repository metadata API snapshot (2026-11-10)](docs/ecosystem/inventory/github-repository-metadata-2026-11-10.json)
+- [Machine-readable GitHub repository inventory snapshot (2026-11-09)](docs/ecosystem/inventory/github-repository-search-2026-11-09.json)
 - [Complete public bjo163 repository index](docs/ECOSYSTEM_PUBLIC_REPOSITORY_INDEX.md)
 
 These documents distinguish verified implementation from prototypes, plans, legacy sources, and unresolved candidates. No legacy repository is considered migrated or safe to archive merely because it appears in the register.

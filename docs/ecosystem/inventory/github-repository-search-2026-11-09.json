@@ -1,0 +1,3683 @@
+{
+  "schema_version": "1.0",
+  "captured_at": "2026-11-09",
+  "canonical_repository": "BRIDGE-ALLAH/MW",
+  "source": "GitHub connected-account repository search/list APIs",
+  "coverage": {
+    "bjo163_public_search_results": 142,
+    "bjo163_search_pages": [
+      100,
+      42
+    ],
+    "bridge_allah_org_search_results": 20,
+    "connected_account_visible_repositories": 21,
+    "accessible_bjo163_non_search_listing": 1,
+    "note": "Search index is not a complete historical ownership registry. API fields unavailable from this endpoint (timestamps, releases, languages, license, issue/PR counts, workflows, LFS/submodules) are intentionally omitted, not inferred."
+  },
+  "bjo163_public_repositories": [
+    {
+      "github_id": "1171695176",
+      "full_name": "bjo163/e-isp_dns",
+      "owner": "bjo163",
+      "name": "e-isp_dns",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 12722,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/e-isp_dns",
+      "clone_url": "https://github.com/bjo163/e-isp_dns.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1137598007",
+      "full_name": "bjo163/short-video-factory",
+      "owner": "bjo163",
+      "name": "short-video-factory",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 7213,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/short-video-factory",
+      "clone_url": "https://github.com/bjo163/short-video-factory.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1137596192",
+      "full_name": "bjo163/social-auto-upload",
+      "owner": "bjo163",
+      "name": "social-auto-upload",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 12628,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/social-auto-upload",
+      "clone_url": "https://github.com/bjo163/social-auto-upload.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1116651053",
+      "full_name": "bjo163/go-whatsapp-web-multidevice",
+      "owner": "bjo163",
+      "name": "go-whatsapp-web-multidevice",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 6416,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/go-whatsapp-web-multidevice",
+      "clone_url": "https://github.com/bjo163/go-whatsapp-web-multidevice.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "965769417",
+      "full_name": "bjo163/orbit",
+      "owner": "bjo163",
+      "name": "orbit",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 0,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/orbit",
+      "clone_url": "https://github.com/bjo163/orbit.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "857532522",
+      "full_name": "bjo163/aichat",
+      "owner": "bjo163",
+      "name": "aichat",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 3670,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/aichat",
+      "clone_url": "https://github.com/bjo163/aichat.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "985982236",
+      "full_name": "bjo163/wwebjs-api",
+      "owner": "bjo163",
+      "name": "wwebjs-api",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 597,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/wwebjs-api",
+      "clone_url": "https://github.com/bjo163/wwebjs-api.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1112250973",
+      "full_name": "bjo163/AI-Clipping-Software",
+      "owner": "bjo163",
+      "name": "AI-Clipping-Software",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 32,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/AI-Clipping-Software",
+      "clone_url": "https://github.com/bjo163/AI-Clipping-Software.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1441811048",
+      "full_name": "bjo163/dx-platform",
+      "owner": "bjo163",
+      "name": "dx-platform",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 74248,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/dx-platform",
+      "clone_url": "https://github.com/bjo163/dx-platform.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "972909590",
+      "full_name": "bjo163/collection-databases",
+      "owner": "bjo163",
+      "name": "collection-databases",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 4743,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/collection-databases",
+      "clone_url": "https://github.com/bjo163/collection-databases.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1035376959",
+      "full_name": "bjo163/ponc",
+      "owner": "bjo163",
+      "name": "ponc",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 2945,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/ponc",
+      "clone_url": "https://github.com/bjo163/ponc.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1442794156",
+      "full_name": "bjo163/rockcode",
+      "owner": "bjo163",
+      "name": "rockcode",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 222,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/rockcode",
+      "clone_url": "https://github.com/bjo163/rockcode.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1449080021",
+      "full_name": "bjo163/a-r-s-y",
+      "owner": "bjo163",
+      "name": "a-r-s-y",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 319,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/a-r-s-y",
+      "clone_url": "https://github.com/bjo163/a-r-s-y.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1173163411",
+      "full_name": "bjo163/clickhouse",
+      "owner": "bjo163",
+      "name": "clickhouse",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 1,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/clickhouse",
+      "clone_url": "https://github.com/bjo163/clickhouse.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1360138669",
+      "full_name": "bjo163/rocksoul-mftl",
+      "owner": "bjo163",
+      "name": "rocksoul-mftl",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 2416,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/rocksoul-mftl",
+      "clone_url": "https://github.com/bjo163/rocksoul-mftl.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1369148384",
+      "full_name": "bjo163/ecosystem-foundation",
+      "owner": "bjo163",
+      "name": "ecosystem-foundation",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 47,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/ecosystem-foundation",
+      "clone_url": "https://github.com/bjo163/ecosystem-foundation.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1369295481",
+      "full_name": "bjo163/AQEL",
+      "owner": "bjo163",
+      "name": "AQEL",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 27,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/AQEL",
+      "clone_url": "https://github.com/bjo163/AQEL.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1445164691",
+      "full_name": "bjo163/rocksoul",
+      "owner": "bjo163",
+      "name": "rocksoul",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 1134,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/rocksoul",
+      "clone_url": "https://github.com/bjo163/rocksoul.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "856385224",
+      "full_name": "bjo163/platformatic",
+      "owner": "bjo163",
+      "name": "platformatic",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 21103,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/platformatic",
+      "clone_url": "https://github.com/bjo163/platformatic.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1038902426",
+      "full_name": "bjo163/MoneyPrinterV2",
+      "owner": "bjo163",
+      "name": "MoneyPrinterV2",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 100,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/MoneyPrinterV2",
+      "clone_url": "https://github.com/bjo163/MoneyPrinterV2.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1367769692",
+      "full_name": "bjo163/surealdb-rebrand-mwdb",
+      "owner": "bjo163",
+      "name": "surealdb-rebrand-mwdb",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 52419,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/surealdb-rebrand-mwdb",
+      "clone_url": "https://github.com/bjo163/surealdb-rebrand-mwdb.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1376358556",
+      "full_name": "bjo163/mw-blueprint",
+      "owner": "bjo163",
+      "name": "mw-blueprint",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 0,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/mw-blueprint",
+      "clone_url": "https://github.com/bjo163/mw-blueprint.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1441332249",
+      "full_name": "bjo163/echolog",
+      "owner": "bjo163",
+      "name": "echolog",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 579,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/echolog",
+      "clone_url": "https://github.com/bjo163/echolog.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "632762874",
+      "full_name": "bjo163/argon-react-native",
+      "owner": "bjo163",
+      "name": "argon-react-native",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "master",
+      "size_kb": 36337,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/argon-react-native",
+      "clone_url": "https://github.com/bjo163/argon-react-native.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "909767114",
+      "full_name": "bjo163/DACS",
+      "owner": "bjo163",
+      "name": "DACS",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 95296,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/DACS",
+      "clone_url": "https://github.com/bjo163/DACS.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "855984283",
+      "full_name": "bjo163/openplatform",
+      "owner": "bjo163",
+      "name": "openplatform",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "master",
+      "size_kb": 43601,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/openplatform",
+      "clone_url": "https://github.com/bjo163/openplatform.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1004377545",
+      "full_name": "bjo163/jawara",
+      "owner": "bjo163",
+      "name": "jawara",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 2013,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/jawara",
+      "clone_url": "https://github.com/bjo163/jawara.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "960121884",
+      "full_name": "bjo163/0llm",
+      "owner": "bjo163",
+      "name": "0llm",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 5840,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/0llm",
+      "clone_url": "https://github.com/bjo163/0llm.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "853732354",
+      "full_name": "bjo163/zen-patform",
+      "owner": "bjo163",
+      "name": "zen-patform",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 1274,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/zen-patform",
+      "clone_url": "https://github.com/bjo163/zen-patform.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1448458366",
+      "full_name": "bjo163/arsy-base",
+      "owner": "bjo163",
+      "name": "arsy-base",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 0,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/arsy-base",
+      "clone_url": "https://github.com/bjo163/arsy-base.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "957734277",
+      "full_name": "bjo163/agent",
+      "owner": "bjo163",
+      "name": "agent",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 2850,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/agent",
+      "clone_url": "https://github.com/bjo163/agent.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1132021437",
+      "full_name": "bjo163/react2shell",
+      "owner": "bjo163",
+      "name": "react2shell",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 20,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/react2shell",
+      "clone_url": "https://github.com/bjo163/react2shell.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1433703243",
+      "full_name": "bjo163/moonwitnessxv",
+      "owner": "bjo163",
+      "name": "moonwitnessxv",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 376340,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/moonwitnessxv",
+      "clone_url": "https://github.com/bjo163/moonwitnessxv.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "856066596",
+      "full_name": "bjo163/deepkit-framework",
+      "owner": "bjo163",
+      "name": "deepkit-framework",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "master",
+      "size_kb": 69534,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/deepkit-framework",
+      "clone_url": "https://github.com/bjo163/deepkit-framework.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "994744383",
+      "full_name": "bjo163/openspeedtest",
+      "owner": "bjo163",
+      "name": "openspeedtest",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 31164,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/openspeedtest",
+      "clone_url": "https://github.com/bjo163/openspeedtest.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1010745134",
+      "full_name": "bjo163/idx-bei",
+      "owner": "bjo163",
+      "name": "idx-bei",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 2609,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/idx-bei",
+      "clone_url": "https://github.com/bjo163/idx-bei.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1259255690",
+      "full_name": "bjo163/caveman",
+      "owner": "bjo163",
+      "name": "caveman",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 2364,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/caveman",
+      "clone_url": "https://github.com/bjo163/caveman.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1364130241",
+      "full_name": "bjo163/crayon",
+      "owner": "bjo163",
+      "name": "crayon",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 0,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/crayon",
+      "clone_url": "https://github.com/bjo163/crayon.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "853713163",
+      "full_name": "bjo163/zenpi",
+      "owner": "bjo163",
+      "name": "zenpi",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 68,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/zenpi",
+      "clone_url": "https://github.com/bjo163/zenpi.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "957422464",
+      "full_name": "bjo163/AX",
+      "owner": "bjo163",
+      "name": "AX",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 310,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/AX",
+      "clone_url": "https://github.com/bjo163/AX.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1137271187",
+      "full_name": "bjo163/x-dns",
+      "owner": "bjo163",
+      "name": "x-dns",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 27,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/x-dns",
+      "clone_url": "https://github.com/bjo163/x-dns.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1160716965",
+      "full_name": "bjo163/universe-genieacs-docker",
+      "owner": "bjo163",
+      "name": "universe-genieacs-docker",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "master",
+      "size_kb": 1418,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/universe-genieacs-docker",
+      "clone_url": "https://github.com/bjo163/universe-genieacs-docker.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1441574188",
+      "full_name": "bjo163/mooncripsy",
+      "owner": "bjo163",
+      "name": "mooncripsy",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 531,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/mooncripsy",
+      "clone_url": "https://github.com/bjo163/mooncripsy.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1360647858",
+      "full_name": "bjo163/rocksoul-superhero",
+      "owner": "bjo163",
+      "name": "rocksoul-superhero",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 292,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/rocksoul-superhero",
+      "clone_url": "https://github.com/bjo163/rocksoul-superhero.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1432894990",
+      "full_name": "bjo163/moonframe",
+      "owner": "bjo163",
+      "name": "moonframe",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 7856,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/moonframe",
+      "clone_url": "https://github.com/bjo163/moonframe.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "988041414",
+      "full_name": "bjo163/coolify",
+      "owner": "bjo163",
+      "name": "coolify",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "v4.x",
+      "size_kb": 37393,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/coolify",
+      "clone_url": "https://github.com/bjo163/coolify.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1001213066",
+      "full_name": "bjo163/docker-quick-elastic-netflow",
+      "owner": "bjo163",
+      "name": "docker-quick-elastic-netflow",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 18,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/docker-quick-elastic-netflow",
+      "clone_url": "https://github.com/bjo163/docker-quick-elastic-netflow.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "997377661",
+      "full_name": "bjo163/hestiacp",
+      "owner": "bjo163",
+      "name": "hestiacp",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 8,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/hestiacp",
+      "clone_url": "https://github.com/bjo163/hestiacp.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "853407787",
+      "full_name": "bjo163/FR",
+      "owner": "bjo163",
+      "name": "FR",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 22446,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/FR",
+      "clone_url": "https://github.com/bjo163/FR.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "911346413",
+      "full_name": "bjo163/zenworld",
+      "owner": "bjo163",
+      "name": "zenworld",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 31915,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/zenworld",
+      "clone_url": "https://github.com/bjo163/zenworld.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1360793560",
+      "full_name": "bjo163/rocksoul-community",
+      "owner": "bjo163",
+      "name": "rocksoul-community",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 98,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/rocksoul-community",
+      "clone_url": "https://github.com/bjo163/rocksoul-community.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1352578929",
+      "full_name": "bjo163/rocksoul-mind",
+      "owner": "bjo163",
+      "name": "rocksoul-mind",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "master",
+      "size_kb": 39170,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/rocksoul-mind",
+      "clone_url": "https://github.com/bjo163/rocksoul-mind.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1368399160",
+      "full_name": "bjo163/mw-edge-dev",
+      "owner": "bjo163",
+      "name": "mw-edge-dev",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 609,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/mw-edge-dev",
+      "clone_url": "https://github.com/bjo163/mw-edge-dev.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1434319718",
+      "full_name": "bjo163/rocksoul-game",
+      "owner": "bjo163",
+      "name": "rocksoul-game",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 283,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/rocksoul-game",
+      "clone_url": "https://github.com/bjo163/rocksoul-game.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "852976732",
+      "full_name": "bjo163/zenix-wa",
+      "owner": "bjo163",
+      "name": "zenix-wa",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 595,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/zenix-wa",
+      "clone_url": "https://github.com/bjo163/zenix-wa.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1038905347",
+      "full_name": "bjo163/mycocolink",
+      "owner": "bjo163",
+      "name": "mycocolink",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 2979,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/mycocolink",
+      "clone_url": "https://github.com/bjo163/mycocolink.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1404167103",
+      "full_name": "bjo163/interstellar-commedy",
+      "owner": "bjo163",
+      "name": "interstellar-commedy",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 0,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/interstellar-commedy",
+      "clone_url": "https://github.com/bjo163/interstellar-commedy.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1402295734",
+      "full_name": "bjo163/mwx-ships",
+      "owner": "bjo163",
+      "name": "mwx-ships",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "master",
+      "size_kb": 727,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/mwx-ships",
+      "clone_url": "https://github.com/bjo163/mwx-ships.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1398961217",
+      "full_name": "bjo163/antikythera-time",
+      "owner": "bjo163",
+      "name": "antikythera-time",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 824,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/antikythera-time",
+      "clone_url": "https://github.com/bjo163/antikythera-time.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1360791230",
+      "full_name": "bjo163/rocksoul-platform",
+      "owner": "bjo163",
+      "name": "rocksoul-platform",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 121,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/rocksoul-platform",
+      "clone_url": "https://github.com/bjo163/rocksoul-platform.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1417904003",
+      "full_name": "bjo163/moonwitness-xii-season-global-championships",
+      "owner": "bjo163",
+      "name": "moonwitness-xii-season-global-championships",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 524,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/moonwitness-xii-season-global-championships",
+      "clone_url": "https://github.com/bjo163/moonwitness-xii-season-global-championships.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1448368870",
+      "full_name": "bjo163/freellmapi",
+      "owner": "bjo163",
+      "name": "freellmapi",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 24146,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/freellmapi",
+      "clone_url": "https://github.com/bjo163/freellmapi.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "499929470",
+      "full_name": "bjo163/netbox-geographical-views",
+      "owner": "bjo163",
+      "name": "netbox-geographical-views",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 10,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/netbox-geographical-views",
+      "clone_url": "https://github.com/bjo163/netbox-geographical-views.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "953985188",
+      "full_name": "bjo163/code-index-mcp",
+      "owner": "bjo163",
+      "name": "code-index-mcp",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "master",
+      "size_kb": 46,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/code-index-mcp",
+      "clone_url": "https://github.com/bjo163/code-index-mcp.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "982577174",
+      "full_name": "bjo163/dify",
+      "owner": "bjo163",
+      "name": "dify",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 91719,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/dify",
+      "clone_url": "https://github.com/bjo163/dify.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "858328913",
+      "full_name": "bjo163/picopilot",
+      "owner": "bjo163",
+      "name": "picopilot",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 5571,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/picopilot",
+      "clone_url": "https://github.com/bjo163/picopilot.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1000894129",
+      "full_name": "bjo163/dev-start-net",
+      "owner": "bjo163",
+      "name": "dev-start-net",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 4318,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/dev-start-net",
+      "clone_url": "https://github.com/bjo163/dev-start-net.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1368297928",
+      "full_name": "bjo163/mw-edge",
+      "owner": "bjo163",
+      "name": "mw-edge",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 123,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/mw-edge",
+      "clone_url": "https://github.com/bjo163/mw-edge.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1372831865",
+      "full_name": "bjo163/dev-mw-blueprint",
+      "owner": "bjo163",
+      "name": "dev-mw-blueprint",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 152,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/dev-mw-blueprint",
+      "clone_url": "https://github.com/bjo163/dev-mw-blueprint.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1431944135",
+      "full_name": "bjo163/rea",
+      "owner": "bjo163",
+      "name": "rea",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 109787,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/rea",
+      "clone_url": "https://github.com/bjo163/rea.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1446634829",
+      "full_name": "bjo163/rocksouldx",
+      "owner": "bjo163",
+      "name": "rocksouldx",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "dev",
+      "size_kb": 498560,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/rocksouldx",
+      "clone_url": "https://github.com/bjo163/rocksouldx.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "514555874",
+      "full_name": "bjo163/clix-zabbix-sync",
+      "owner": "bjo163",
+      "name": "clix-zabbix-sync",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 22,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/clix-zabbix-sync",
+      "clone_url": "https://github.com/bjo163/clix-zabbix-sync.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "860935669",
+      "full_name": "bjo163/SuperAGI",
+      "owner": "bjo163",
+      "name": "SuperAGI",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 63445,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/SuperAGI",
+      "clone_url": "https://github.com/bjo163/SuperAGI.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1006570765",
+      "full_name": "bjo163/mycocolink-isolir",
+      "owner": "bjo163",
+      "name": "mycocolink-isolir",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 97,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/mycocolink-isolir",
+      "clone_url": "https://github.com/bjo163/mycocolink-isolir.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "946770580",
+      "full_name": "bjo163/wf",
+      "owner": "bjo163",
+      "name": "wf",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "master",
+      "size_kb": 198321,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/wf",
+      "clone_url": "https://github.com/bjo163/wf.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1402670474",
+      "full_name": "bjo163/moonwitness-x",
+      "owner": "bjo163",
+      "name": "moonwitness-x",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 15475,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/moonwitness-x",
+      "clone_url": "https://github.com/bjo163/moonwitness-x.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1400943596",
+      "full_name": "bjo163/mwx-isp",
+      "owner": "bjo163",
+      "name": "mwx-isp",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 30733,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/mwx-isp",
+      "clone_url": "https://github.com/bjo163/mwx-isp.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "852962599",
+      "full_name": "bjo163/zen_wa",
+      "owner": "bjo163",
+      "name": "zen_wa",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 14,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/zen_wa",
+      "clone_url": "https://github.com/bjo163/zen_wa.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1028064898",
+      "full_name": "bjo163/kcbnet-mobile-spa",
+      "owner": "bjo163",
+      "name": "kcbnet-mobile-spa",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 9096,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/kcbnet-mobile-spa",
+      "clone_url": "https://github.com/bjo163/kcbnet-mobile-spa.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1432698384",
+      "full_name": "bjo163/moonships",
+      "owner": "bjo163",
+      "name": "moonships",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 5884,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/moonships",
+      "clone_url": "https://github.com/bjo163/moonships.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1376370559",
+      "full_name": "bjo163/moonwitness-II",
+      "owner": "bjo163",
+      "name": "moonwitness-II",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 378,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/moonwitness-II",
+      "clone_url": "https://github.com/bjo163/moonwitness-II.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1001347495",
+      "full_name": "bjo163/grusher",
+      "owner": "bjo163",
+      "name": "grusher",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 2302,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/grusher",
+      "clone_url": "https://github.com/bjo163/grusher.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1264225544",
+      "full_name": "bjo163/espectre",
+      "owner": "bjo163",
+      "name": "espectre",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 32530,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/espectre",
+      "clone_url": "https://github.com/bjo163/espectre.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "855888187",
+      "full_name": "bjo163/lobe-chat",
+      "owner": "bjo163",
+      "name": "lobe-chat",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 233773,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/lobe-chat",
+      "clone_url": "https://github.com/bjo163/lobe-chat.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1404198011",
+      "full_name": "bjo163/dhgs",
+      "owner": "bjo163",
+      "name": "dhgs",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 2352,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/dhgs",
+      "clone_url": "https://github.com/bjo163/dhgs.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "995537145",
+      "full_name": "bjo163/trustpositif",
+      "owner": "bjo163",
+      "name": "trustpositif",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 93,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/trustpositif",
+      "clone_url": "https://github.com/bjo163/trustpositif.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "858489991",
+      "full_name": "bjo163/agentic",
+      "owner": "bjo163",
+      "name": "agentic",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 5742,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/agentic",
+      "clone_url": "https://github.com/bjo163/agentic.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "858481572",
+      "full_name": "bjo163/devika",
+      "owner": "bjo163",
+      "name": "devika",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 6115,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/devika",
+      "clone_url": "https://github.com/bjo163/devika.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1137575958",
+      "full_name": "bjo163/ViralCutter",
+      "owner": "bjo163",
+      "name": "ViralCutter",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 25208,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/ViralCutter",
+      "clone_url": "https://github.com/bjo163/ViralCutter.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1360992471",
+      "full_name": "bjo163/rocksoul-jizz",
+      "owner": "bjo163",
+      "name": "rocksoul-jizz",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 161,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/rocksoul-jizz",
+      "clone_url": "https://github.com/bjo163/rocksoul-jizz.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1370026663",
+      "full_name": "bjo163/MoonMesh",
+      "owner": "bjo163",
+      "name": "MoonMesh",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 48,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/MoonMesh",
+      "clone_url": "https://github.com/bjo163/MoonMesh.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1362087918",
+      "full_name": "bjo163/rocksoul-world",
+      "owner": "bjo163",
+      "name": "rocksoul-world",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 342,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/rocksoul-world",
+      "clone_url": "https://github.com/bjo163/rocksoul-world.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1342428408",
+      "full_name": "bjo163/rocksoul-aws",
+      "owner": "bjo163",
+      "name": "rocksoul-aws",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 102842,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/rocksoul-aws",
+      "clone_url": "https://github.com/bjo163/rocksoul-aws.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1421692020",
+      "full_name": "bjo163/HBD-ALLAH",
+      "owner": "bjo163",
+      "name": "HBD-ALLAH",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 23,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/HBD-ALLAH",
+      "clone_url": "https://github.com/bjo163/HBD-ALLAH.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1448295743",
+      "full_name": "bjo163/dx",
+      "owner": "bjo163",
+      "name": "dx",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 193,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/dx",
+      "clone_url": "https://github.com/bjo163/dx.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1264226749",
+      "full_name": "bjo163/openmed",
+      "owner": "bjo163",
+      "name": "openmed",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "master",
+      "size_kb": 22884,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/openmed",
+      "clone_url": "https://github.com/bjo163/openmed.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1380341610",
+      "full_name": "bjo163/moonwitness-II-q4q",
+      "owner": "bjo163",
+      "name": "moonwitness-II-q4q",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 125,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/moonwitness-II-q4q",
+      "clone_url": "https://github.com/bjo163/moonwitness-II-q4q.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1447805606",
+      "full_name": "bjo163/E-O-L",
+      "owner": "bjo163",
+      "name": "E-O-L",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 352829,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/E-O-L",
+      "clone_url": "https://github.com/bjo163/E-O-L.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1444061301",
+      "full_name": "bjo163/A-L-L-A-H.COM",
+      "owner": "bjo163",
+      "name": "A-L-L-A-H.COM",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 11132,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/A-L-L-A-H.COM",
+      "clone_url": "https://github.com/bjo163/A-L-L-A-H.COM.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "493908430",
+      "full_name": "bjo163/jona",
+      "owner": "bjo163",
+      "name": "jona",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 0,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/jona",
+      "clone_url": "https://github.com/bjo163/jona.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1016223956",
+      "full_name": "bjo163/graylog-docker",
+      "owner": "bjo163",
+      "name": "graylog-docker",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 47,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/graylog-docker",
+      "clone_url": "https://github.com/bjo163/graylog-docker.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1014052734",
+      "full_name": "bjo163/squidwerd",
+      "owner": "bjo163",
+      "name": "squidwerd",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "master",
+      "size_kb": 338,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/squidwerd",
+      "clone_url": "https://github.com/bjo163/squidwerd.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1008577518",
+      "full_name": "bjo163/cloud-fttx",
+      "owner": "bjo163",
+      "name": "cloud-fttx",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 15012,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/cloud-fttx",
+      "clone_url": "https://github.com/bjo163/cloud-fttx.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1137582556",
+      "full_name": "bjo163/viralcutterweb",
+      "owner": "bjo163",
+      "name": "viralcutterweb",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 656,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/viralcutterweb",
+      "clone_url": "https://github.com/bjo163/viralcutterweb.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "856038619",
+      "full_name": "bjo163/open-saas",
+      "owner": "bjo163",
+      "name": "open-saas",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 34571,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/open-saas",
+      "clone_url": "https://github.com/bjo163/open-saas.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1360698367",
+      "full_name": "bjo163/rocksoul-assets",
+      "owner": "bjo163",
+      "name": "rocksoul-assets",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 46990,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/rocksoul-assets",
+      "clone_url": "https://github.com/bjo163/rocksoul-assets.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "548721255",
+      "full_name": "bjo163/odas153",
+      "owner": "bjo163",
+      "name": "odas153",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "15.0",
+      "size_kb": 4960387,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/odas153",
+      "clone_url": "https://github.com/bjo163/odas153.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "992783355",
+      "full_name": "bjo163/librenmsdocker",
+      "owner": "bjo163",
+      "name": "librenmsdocker",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "master",
+      "size_kb": 655,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/librenmsdocker",
+      "clone_url": "https://github.com/bjo163/librenmsdocker.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1137647792",
+      "full_name": "bjo163/agilty",
+      "owner": "bjo163",
+      "name": "agilty",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 247542,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/agilty",
+      "clone_url": "https://github.com/bjo163/agilty.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "857590353",
+      "full_name": "bjo163/SuperCoder",
+      "owner": "bjo163",
+      "name": "SuperCoder",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 1680,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/SuperCoder",
+      "clone_url": "https://github.com/bjo163/SuperCoder.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1372830263",
+      "full_name": "bjo163/dev-mw-design",
+      "owner": "bjo163",
+      "name": "dev-mw-design",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 0,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/dev-mw-design",
+      "clone_url": "https://github.com/bjo163/dev-mw-design.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1360802381",
+      "full_name": "bjo163/rocksoul-correlation",
+      "owner": "bjo163",
+      "name": "rocksoul-correlation",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 97,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/rocksoul-correlation",
+      "clone_url": "https://github.com/bjo163/rocksoul-correlation.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1360790443",
+      "full_name": "bjo163/rocksoul-web",
+      "owner": "bjo163",
+      "name": "rocksoul-web",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 1027,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/rocksoul-web",
+      "clone_url": "https://github.com/bjo163/rocksoul-web.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1422648919",
+      "full_name": "bjo163/A-L-L-A-H",
+      "owner": "bjo163",
+      "name": "A-L-L-A-H",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 32224,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/A-L-L-A-H",
+      "clone_url": "https://github.com/bjo163/A-L-L-A-H.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "515506555",
+      "full_name": "bjo163/netbox-proxbox",
+      "owner": "bjo163",
+      "name": "netbox-proxbox",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "develop",
+      "size_kb": 269,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/netbox-proxbox",
+      "clone_url": "https://github.com/bjo163/netbox-proxbox.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1137587903",
+      "full_name": "bjo163/MoneyPrinterTurbo",
+      "owner": "bjo163",
+      "name": "MoneyPrinterTurbo",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 532071,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/MoneyPrinterTurbo",
+      "clone_url": "https://github.com/bjo163/MoneyPrinterTurbo.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "854088982",
+      "full_name": "bjo163/fastify-tasks",
+      "owner": "bjo163",
+      "name": "fastify-tasks",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 14,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/fastify-tasks",
+      "clone_url": "https://github.com/bjo163/fastify-tasks.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "856027332",
+      "full_name": "bjo163/supabase",
+      "owner": "bjo163",
+      "name": "supabase",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "master",
+      "size_kb": 1497760,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/supabase",
+      "clone_url": "https://github.com/bjo163/supabase.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "964571308",
+      "full_name": "bjo163/firecrawl",
+      "owner": "bjo163",
+      "name": "firecrawl",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 58648,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/firecrawl",
+      "clone_url": "https://github.com/bjo163/firecrawl.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1441425066",
+      "full_name": "bjo163/moonwitness-reborn",
+      "owner": "bjo163",
+      "name": "moonwitness-reborn",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 56006,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/moonwitness-reborn",
+      "clone_url": "https://github.com/bjo163/moonwitness-reborn.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1422679580",
+      "full_name": "bjo163/empire-of-the-light",
+      "owner": "bjo163",
+      "name": "empire-of-the-light",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 169,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/empire-of-the-light",
+      "clone_url": "https://github.com/bjo163/empire-of-the-light.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1347656544",
+      "full_name": "bjo163/moonwitness-corpus",
+      "owner": "bjo163",
+      "name": "moonwitness-corpus",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 43764,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/moonwitness-corpus",
+      "clone_url": "https://github.com/bjo163/moonwitness-corpus.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1035155330",
+      "full_name": "bjo163/isolir.mycocolink.com",
+      "owner": "bjo163",
+      "name": "isolir.mycocolink.com",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 102,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/isolir.mycocolink.com",
+      "clone_url": "https://github.com/bjo163/isolir.mycocolink.com.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "502429070",
+      "full_name": "bjo163/Google-Maps-API-Custom-Markers-using-MySQL-and-PHPMyAdmin-Database",
+      "owner": "bjo163",
+      "name": "Google-Maps-API-Custom-Markers-using-MySQL-and-PHPMyAdmin-Database",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 1024,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/Google-Maps-API-Custom-Markers-using-MySQL-and-PHPMyAdmin-Database",
+      "clone_url": "https://github.com/bjo163/Google-Maps-API-Custom-Markers-using-MySQL-and-PHPMyAdmin-Database.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "549016440",
+      "full_name": "bjo163/odasol",
+      "owner": "bjo163",
+      "name": "odasol",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "11.0",
+      "size_kb": 67426,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/odasol",
+      "clone_url": "https://github.com/bjo163/odasol.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "977301024",
+      "full_name": "bjo163/loki",
+      "owner": "bjo163",
+      "name": "loki",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 18,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/loki",
+      "clone_url": "https://github.com/bjo163/loki.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1369157210",
+      "full_name": "bjo163/universal-ontology-engine",
+      "owner": "bjo163",
+      "name": "universal-ontology-engine",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 1387,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/universal-ontology-engine",
+      "clone_url": "https://github.com/bjo163/universal-ontology-engine.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1030441420",
+      "full_name": "bjo163/iptv-source",
+      "owner": "bjo163",
+      "name": "iptv-source",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 119,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/iptv-source",
+      "clone_url": "https://github.com/bjo163/iptv-source.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1360724545",
+      "full_name": "bjo163/rocksoul-ui",
+      "owner": "bjo163",
+      "name": "rocksoul-ui",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 10312,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/rocksoul-ui",
+      "clone_url": "https://github.com/bjo163/rocksoul-ui.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1414273883",
+      "full_name": "bjo163/monwitness-xii",
+      "owner": "bjo163",
+      "name": "monwitness-xii",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 4518,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/monwitness-xii",
+      "clone_url": "https://github.com/bjo163/monwitness-xii.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1441015869",
+      "full_name": "bjo163/moonsky",
+      "owner": "bjo163",
+      "name": "moonsky",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 123,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/moonsky",
+      "clone_url": "https://github.com/bjo163/moonsky.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1448035553",
+      "full_name": "bjo163/galaxy-template",
+      "owner": "bjo163",
+      "name": "galaxy-template",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 15691,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/galaxy-template",
+      "clone_url": "https://github.com/bjo163/galaxy-template.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1020786277",
+      "full_name": "bjo163/windows",
+      "owner": "bjo163",
+      "name": "windows",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "master",
+      "size_kb": 1046,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/windows",
+      "clone_url": "https://github.com/bjo163/windows.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1366873126",
+      "full_name": "bjo163/boilerplate",
+      "owner": "bjo163",
+      "name": "boilerplate",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 69,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/boilerplate",
+      "clone_url": "https://github.com/bjo163/boilerplate.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1405837326",
+      "full_name": "bjo163/witness-semantic-engine",
+      "owner": "bjo163",
+      "name": "witness-semantic-engine",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 202,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/witness-semantic-engine",
+      "clone_url": "https://github.com/bjo163/witness-semantic-engine.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1360620519",
+      "full_name": "bjo163/rocksoul-legend",
+      "owner": "bjo163",
+      "name": "rocksoul-legend",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 183,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/rocksoul-legend",
+      "clone_url": "https://github.com/bjo163/rocksoul-legend.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1402784682",
+      "full_name": "bjo163/moonwitness-xiv",
+      "owner": "bjo163",
+      "name": "moonwitness-xiv",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 154842,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/moonwitness-xiv",
+      "clone_url": "https://github.com/bjo163/moonwitness-xiv.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "514796652",
+      "full_name": "bjo163/devicetype-library",
+      "owner": "bjo163",
+      "name": "devicetype-library",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "master",
+      "size_kb": 1359,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/devicetype-library",
+      "clone_url": "https://github.com/bjo163/devicetype-library.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1039417953",
+      "full_name": "bjo163/LeanStream",
+      "owner": "bjo163",
+      "name": "LeanStream",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 303,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/LeanStream",
+      "clone_url": "https://github.com/bjo163/LeanStream.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1035151398",
+      "full_name": "bjo163/trustpositif.mycocolink.com",
+      "owner": "bjo163",
+      "name": "trustpositif.mycocolink.com",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 140,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/trustpositif.mycocolink.com",
+      "clone_url": "https://github.com/bjo163/trustpositif.mycocolink.com.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1431945997",
+      "full_name": "bjo163/hermes-agent",
+      "owner": "bjo163",
+      "name": "hermes-agent",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 1314732,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/hermes-agent",
+      "clone_url": "https://github.com/bjo163/hermes-agent.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": false,
+        "triage": false
+      }
+    },
+    {
+      "github_id": "1451151011",
+      "full_name": "bjo163/arah-saas-development",
+      "owner": "bjo163",
+      "name": "arah-saas-development",
+      "visibility": "private",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 374,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/arah-saas-development",
+      "clone_url": "https://github.com/bjo163/arah-saas-development.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    }
+  ],
+  "bridge_allah_organization_repositories": [
+    {
+      "github_id": "1447675272",
+      "full_name": "BRIDGE-ALLAH/EMPIRE-OF-LIGHT",
+      "owner": "BRIDGE-ALLAH",
+      "name": "EMPIRE-OF-LIGHT",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 353702,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/EMPIRE-OF-LIGHT",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/EMPIRE-OF-LIGHT.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1450108167",
+      "full_name": "BRIDGE-ALLAH/ROCKSOUL-WX",
+      "owner": "BRIDGE-ALLAH",
+      "name": "ROCKSOUL-WX",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 172,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/ROCKSOUL-WX",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/ROCKSOUL-WX.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1447701500",
+      "full_name": "BRIDGE-ALLAH/MW-BOILERPLATE",
+      "owner": "BRIDGE-ALLAH",
+      "name": "MW-BOILERPLATE",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 335,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/MW-BOILERPLATE",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/MW-BOILERPLATE.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1447630023",
+      "full_name": "BRIDGE-ALLAH/MW-ORM",
+      "owner": "BRIDGE-ALLAH",
+      "name": "MW-ORM",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "master",
+      "size_kb": 20902,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/MW-ORM",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/MW-ORM.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1447662682",
+      "full_name": "BRIDGE-ALLAH/MW-ID",
+      "owner": "BRIDGE-ALLAH",
+      "name": "MW-ID",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "master",
+      "size_kb": 110974,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/MW-ID",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/MW-ID.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1448575077",
+      "full_name": "BRIDGE-ALLAH/A-R-S-Y",
+      "owner": "BRIDGE-ALLAH",
+      "name": "A-R-S-Y",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 55370,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/A-R-S-Y",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/A-R-S-Y.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1447623713",
+      "full_name": "BRIDGE-ALLAH/MW-IDE",
+      "owner": "BRIDGE-ALLAH",
+      "name": "MW-IDE",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 28624,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/MW-IDE",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/MW-IDE.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1450092023",
+      "full_name": "BRIDGE-ALLAH/ROCKSOUL-EX",
+      "owner": "BRIDGE-ALLAH",
+      "name": "ROCKSOUL-EX",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 213,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/ROCKSOUL-EX",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/ROCKSOUL-EX.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1447637321",
+      "full_name": "BRIDGE-ALLAH/MW-BAAS",
+      "owner": "BRIDGE-ALLAH",
+      "name": "MW-BAAS",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "master",
+      "size_kb": 16974,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/MW-BAAS",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/MW-BAAS.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1447605196",
+      "full_name": "BRIDGE-ALLAH/MW-GATEWAY",
+      "owner": "BRIDGE-ALLAH",
+      "name": "MW-GATEWAY",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 69259,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/MW-GATEWAY",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/MW-GATEWAY.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1449231943",
+      "full_name": "BRIDGE-ALLAH/MOONWITNESS",
+      "owner": "BRIDGE-ALLAH",
+      "name": "MOONWITNESS",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 4763,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/MOONWITNESS",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/MOONWITNESS.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1447668876",
+      "full_name": "BRIDGE-ALLAH/MW-STORAGE",
+      "owner": "BRIDGE-ALLAH",
+      "name": "MW-STORAGE",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 125816,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/MW-STORAGE",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/MW-STORAGE.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1447818432",
+      "full_name": "BRIDGE-ALLAH/AGILITY",
+      "owner": "BRIDGE-ALLAH",
+      "name": "AGILITY",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 247989,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/AGILITY",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/AGILITY.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1447604007",
+      "full_name": "BRIDGE-ALLAH/MOONWITNESS-GATEWAY",
+      "owner": "BRIDGE-ALLAH",
+      "name": "MOONWITNESS-GATEWAY",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 0,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/MOONWITNESS-GATEWAY",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/MOONWITNESS-GATEWAY.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1447897135",
+      "full_name": "BRIDGE-ALLAH/ARSY",
+      "owner": "BRIDGE-ALLAH",
+      "name": "ARSY",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 36,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/ARSY",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/ARSY.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1450352810",
+      "full_name": "BRIDGE-ALLAH/FS-BOILERPLATE",
+      "owner": "BRIDGE-ALLAH",
+      "name": "FS-BOILERPLATE",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 0,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/FS-BOILERPLATE",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/FS-BOILERPLATE.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1451029290",
+      "full_name": "BRIDGE-ALLAH/MW",
+      "owner": "BRIDGE-ALLAH",
+      "name": "MW",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 4027,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/MW",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/MW.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1448766513",
+      "full_name": "BRIDGE-ALLAH/wtagent",
+      "owner": "BRIDGE-ALLAH",
+      "name": "wtagent",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 4018,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/wtagent",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/wtagent.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1451037806",
+      "full_name": "BRIDGE-ALLAH/BOILERPLATE-INTELEGENT-ENTERPRISE-FULLSTACK",
+      "owner": "BRIDGE-ALLAH",
+      "name": "BOILERPLATE-INTELEGENT-ENTERPRISE-FULLSTACK",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "master",
+      "size_kb": 462028,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/BOILERPLATE-INTELEGENT-ENTERPRISE-FULLSTACK",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/BOILERPLATE-INTELEGENT-ENTERPRISE-FULLSTACK.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1447612845",
+      "full_name": "BRIDGE-ALLAH/MW-UI",
+      "owner": "BRIDGE-ALLAH",
+      "name": "MW-UI",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 71467,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/MW-UI",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/MW-UI.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    }
+  ],
+  "connected_account_repositories": [
+    {
+      "github_id": "1447604007",
+      "full_name": "BRIDGE-ALLAH/MOONWITNESS-GATEWAY",
+      "owner": "BRIDGE-ALLAH",
+      "name": "MOONWITNESS-GATEWAY",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 0,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/MOONWITNESS-GATEWAY",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/MOONWITNESS-GATEWAY.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1447605196",
+      "full_name": "BRIDGE-ALLAH/MW-GATEWAY",
+      "owner": "BRIDGE-ALLAH",
+      "name": "MW-GATEWAY",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 69259,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/MW-GATEWAY",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/MW-GATEWAY.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1447612845",
+      "full_name": "BRIDGE-ALLAH/MW-UI",
+      "owner": "BRIDGE-ALLAH",
+      "name": "MW-UI",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 71467,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/MW-UI",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/MW-UI.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1447623713",
+      "full_name": "BRIDGE-ALLAH/MW-IDE",
+      "owner": "BRIDGE-ALLAH",
+      "name": "MW-IDE",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 28624,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/MW-IDE",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/MW-IDE.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1447630023",
+      "full_name": "BRIDGE-ALLAH/MW-ORM",
+      "owner": "BRIDGE-ALLAH",
+      "name": "MW-ORM",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "master",
+      "size_kb": 20902,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/MW-ORM",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/MW-ORM.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1447637321",
+      "full_name": "BRIDGE-ALLAH/MW-BAAS",
+      "owner": "BRIDGE-ALLAH",
+      "name": "MW-BAAS",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "master",
+      "size_kb": 16974,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/MW-BAAS",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/MW-BAAS.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1447662682",
+      "full_name": "BRIDGE-ALLAH/MW-ID",
+      "owner": "BRIDGE-ALLAH",
+      "name": "MW-ID",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "master",
+      "size_kb": 110974,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/MW-ID",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/MW-ID.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1447668876",
+      "full_name": "BRIDGE-ALLAH/MW-STORAGE",
+      "owner": "BRIDGE-ALLAH",
+      "name": "MW-STORAGE",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 125816,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/MW-STORAGE",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/MW-STORAGE.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1447675272",
+      "full_name": "BRIDGE-ALLAH/EMPIRE-OF-LIGHT",
+      "owner": "BRIDGE-ALLAH",
+      "name": "EMPIRE-OF-LIGHT",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 353702,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/EMPIRE-OF-LIGHT",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/EMPIRE-OF-LIGHT.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1447701500",
+      "full_name": "BRIDGE-ALLAH/MW-BOILERPLATE",
+      "owner": "BRIDGE-ALLAH",
+      "name": "MW-BOILERPLATE",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 335,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/MW-BOILERPLATE",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/MW-BOILERPLATE.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1447818432",
+      "full_name": "BRIDGE-ALLAH/AGILITY",
+      "owner": "BRIDGE-ALLAH",
+      "name": "AGILITY",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 247989,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/AGILITY",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/AGILITY.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1447897135",
+      "full_name": "BRIDGE-ALLAH/ARSY",
+      "owner": "BRIDGE-ALLAH",
+      "name": "ARSY",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 36,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/ARSY",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/ARSY.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1448575077",
+      "full_name": "BRIDGE-ALLAH/A-R-S-Y",
+      "owner": "BRIDGE-ALLAH",
+      "name": "A-R-S-Y",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 55370,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/A-R-S-Y",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/A-R-S-Y.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1448766513",
+      "full_name": "BRIDGE-ALLAH/wtagent",
+      "owner": "BRIDGE-ALLAH",
+      "name": "wtagent",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 4018,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/wtagent",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/wtagent.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1449231943",
+      "full_name": "BRIDGE-ALLAH/MOONWITNESS",
+      "owner": "BRIDGE-ALLAH",
+      "name": "MOONWITNESS",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 4763,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/MOONWITNESS",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/MOONWITNESS.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1450092023",
+      "full_name": "BRIDGE-ALLAH/ROCKSOUL-EX",
+      "owner": "BRIDGE-ALLAH",
+      "name": "ROCKSOUL-EX",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 213,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/ROCKSOUL-EX",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/ROCKSOUL-EX.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1450108167",
+      "full_name": "BRIDGE-ALLAH/ROCKSOUL-WX",
+      "owner": "BRIDGE-ALLAH",
+      "name": "ROCKSOUL-WX",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 172,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/ROCKSOUL-WX",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/ROCKSOUL-WX.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1450352810",
+      "full_name": "BRIDGE-ALLAH/FS-BOILERPLATE",
+      "owner": "BRIDGE-ALLAH",
+      "name": "FS-BOILERPLATE",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 0,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/FS-BOILERPLATE",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/FS-BOILERPLATE.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1451029290",
+      "full_name": "BRIDGE-ALLAH/MW",
+      "owner": "BRIDGE-ALLAH",
+      "name": "MW",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 4027,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/MW",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/MW.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1451037806",
+      "full_name": "BRIDGE-ALLAH/BOILERPLATE-INTELEGENT-ENTERPRISE-FULLSTACK",
+      "owner": "BRIDGE-ALLAH",
+      "name": "BOILERPLATE-INTELEGENT-ENTERPRISE-FULLSTACK",
+      "visibility": "public",
+      "archived": false,
+      "default_branch": "master",
+      "size_kb": 462028,
+      "code_search_indexed": null,
+      "url": "https://github.com/BRIDGE-ALLAH/BOILERPLATE-INTELEGENT-ENTERPRISE-FULLSTACK",
+      "clone_url": "https://github.com/BRIDGE-ALLAH/BOILERPLATE-INTELEGENT-ENTERPRISE-FULLSTACK.git",
+      "permissions": {
+        "admin": true,
+        "maintain": true,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    },
+    {
+      "github_id": "1451151011",
+      "full_name": "bjo163/arah-saas-development",
+      "owner": "bjo163",
+      "name": "arah-saas-development",
+      "visibility": "private",
+      "archived": false,
+      "default_branch": "main",
+      "size_kb": 374,
+      "code_search_indexed": null,
+      "url": "https://github.com/bjo163/arah-saas-development",
+      "clone_url": "https://github.com/bjo163/arah-saas-development.git",
+      "permissions": {
+        "admin": false,
+        "maintain": false,
+        "pull": true,
+        "push": true,
+        "triage": true
+      }
+    }
+  ]
+}

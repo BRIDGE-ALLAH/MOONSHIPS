@@ -2521,6 +2521,7 @@ errors:
     owner_role_not_via_invitation: Owner role cannot be granted via invitation
     unknown_role: "unknown role: %{name}"
     only_owner_can_invite_admins: only Owner can invite new Admins
+    invitation_tenant_required: an active, unambiguous tenant membership is required to invite users
     active_invitation_exists: an active invitation already exists for this email
     use_account_endpoints: use /account endpoints to edit yourself
     user_not_found: user not found

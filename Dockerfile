@@ -10,6 +10,7 @@ COPY crates/pier-core/Cargo.toml crates/pier-core/Cargo.toml
 COPY crates/pier-agent/Cargo.toml crates/pier-agent/Cargo.toml
 COPY crates/pier-net-helper/Cargo.toml crates/pier-net-helper/Cargo.toml
 COPY crates/pier-tests/Cargo.toml crates/pier-tests/Cargo.toml
+COPY crates/arsy-contracts/Cargo.toml crates/arsy-contracts/Cargo.toml
 
 # Cargo resolves every workspace member even when building one package.
 # Supply minimal targets for all members so this dependency-cache layer is
@@ -19,11 +20,13 @@ RUN mkdir -p \
       crates/pier-agent/src \
       crates/pier-net-helper/src \
       crates/pier-tests/src \
+      crates/arsy-contracts/src \
     && for crate in pier-core pier-agent pier-net-helper pier-tests; do \
          printf 'fn main() {}\n' > "crates/$crate/src/main.rs"; \
        done \
+    && printf '// temporary workspace target\n' > crates/arsy-contracts/src/lib.rs \
     && cargo build --release --locked --package pier-core \
-    && rm -rf crates/pier-core/src crates/pier-agent/src crates/pier-net-helper/src crates/pier-tests/src
+    && rm -rf crates/pier-core/src crates/pier-agent/src crates/pier-net-helper/src crates/pier-tests/src crates/arsy-contracts/src
 
 # Copy real sources + assets
 COPY crates/ crates/

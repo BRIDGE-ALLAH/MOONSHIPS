@@ -83,21 +83,28 @@ pub async fn setup(
         // a SELECT COUNT and an INSERT, two concurrent setup calls could both
         // succeed. This single statement inserts only when the users table is
         // still empty; SQLite serialises it under the database write lock.
-        let n = db.execute(
+        let tx = db.unchecked_transaction()?;
+        let n = tx.execute(
             "INSERT INTO users (id, username, email, password, role, global_role)
              SELECT ?1, ?2, ?3, ?4, 'admin', 'owner'
              WHERE NOT EXISTS (SELECT 1 FROM users)",
             rusqlite::params![id, username, email, hash],
         )?;
         if n > 0 {
+            tx.execute(
+                "INSERT INTO tenant_members (tenant_id, user_id, tenant_role)
+                 VALUES ('legacy-default', ?1, 'owner')",
+                [&id],
+            )?;
             // Seed `proxy.acme_email` from the admin's email so Let's Encrypt has a
             // valid contact on first deploy and the UI shows it pre-filled. Skip if
             // the operator already set it explicitly (`INSERT OR IGNORE`).
-            db.execute(
+            tx.execute(
                 "INSERT OR IGNORE INTO settings (key, value) VALUES ('proxy.acme_email', ?1)",
                 [email],
             )?;
         }
+        tx.commit()?;
         n
     };
 

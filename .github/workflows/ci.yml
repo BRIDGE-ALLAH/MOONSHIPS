@@ -64,6 +64,9 @@ jobs:
       - name: Check workspace
         run: cargo check --workspace --locked
 
+      - name: Run ARSY contract tests
+        run: cargo test -p mw-arsy-contracts --locked
+
       - name: Run core binary tests
         run: cargo test -p pier-core --bin pier --locked
 
